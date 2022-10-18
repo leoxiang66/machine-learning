@@ -489,9 +489,12 @@ $$<blockquote>
 <h3 id="loss-function">Loss function</h3>
 <p>The most popular metric in linear regression is the <strong>sum of the squares</strong> of the fitting error: (<strong>least square cost function/MSE</strong>)
 $$
-\hat{R}(\boldsymbol{\theta})=\frac{1}{n} \sum_{i=1}^n\left(\left\langle\mathbf{x}_i, \boldsymbol{\theta}\right\rangle-y_i\right)^2 \=\frac{1}{n}|\mathbf{y}-\mathbf{X} \boldsymbol{\theta}|_2^2
+\hat{R}(\boldsymbol{\theta})=\frac{1}{n} \sum_{i=1}^n\left(\left\langle\mathbf{x}_i, \boldsymbol{\theta}\right\rangle-y_i\right)^2 
 $$
-The least squares cost function is convenient for a variety of reasons: 
+$$
+=\frac{1}{n}|\mathbf{y}-\mathbf{X} \boldsymbol{\theta}|_2^2
+$$</p>
+<p>The least squares cost function is convenient for a variety of reasons: 
 - it can be numerically minimized efficiently as it is convex (convexity is defined below)
 - it has intuitive geometric and probabilistic interpretations, as we will see later.</p>
 <p><strong>Least squares estimate:</strong> the parameter vector that minimizes this cost function:

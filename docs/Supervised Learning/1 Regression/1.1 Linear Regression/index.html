@@ -530,11 +530,15 @@ $$
 There are at least two proofs of this proposition.</p>
 <h2 id="analysis-of-the-least-squares-estimate-and-in-what-sense-co-linear-features-are-bad">Analysis of the least squares estimate and in what sense co-linear features are "bad"</h2>
 <p>Thus far, we have not commented on the features of the regression model. </p>
-<p><strong>Intuitively, if the features are very similar to each other, least squares estimation should be difficult.</strong> 
-- For example, suppose all the features (i.e., the entries of the <span class="arithmatex">\(\mathbf{x}_i\)</span> ) are linear functions of each other. Then the columns of <span class="arithmatex">\(\mathbf{X}\)</span> are linearly dependent and <span class="arithmatex">\(\hat{\boldsymbol{\theta}}_{\mathrm{LS}}\)</span> is not unique. 
-- In statistics it is common to refer to features with this property as <em>co-linear</em>. A set of variables is said to be <em>perfectly multi-colinear</em> if there is one or more exact linear relationship among some of the variables <span class="arithmatex">\(x_{i 1}, \ldots, x_{i d}\)</span>; 
-    - for example the first two variables are co-linear if <span class="arithmatex">\(x_{i 1}=-2 x_{i 2}\)</span> for all <span class="arithmatex">\(i\)</span>. 
-- In practice, features are usually not co-linear but can be highly correlated, which leads to instable least squares estimates.</p>
+<p><strong>Intuitively, if the features are very similar to each other, least squares estimation should be difficult.</strong> </p>
+<ul>
+<li>For example, suppose all the features (i.e., the entries of the <span class="arithmatex">\(\mathbf{x}_i\)</span> ) are linear functions of each other. Then the columns of <span class="arithmatex">\(\mathbf{X}\)</span> are linearly dependent and <span class="arithmatex">\(\hat{\boldsymbol{\theta}}_{\mathrm{LS}}\)</span> is not unique. </li>
+<li>In statistics it is common to refer to features with this property as <em>co-linear</em>. A set of variables is said to be <em>perfectly multi-colinear</em> if there is one or more exact linear relationship among some of the variables <span class="arithmatex">\(x_{i 1}, \ldots, x_{i d}\)</span>; <ul>
+<li>for example the first two variables are co-linear if <span class="arithmatex">\(x_{i 1}=-2 x_{i 2}\)</span> for all <span class="arithmatex">\(i\)</span>. </li>
+</ul>
+</li>
+<li>In practice, features are usually not co-linear but can be highly correlated, which leads to instable least squares estimates.</li>
+</ul>
 <p><strong>Case1.</strong> <span class="arithmatex">\(X\)</span> has full column rank and <span class="arithmatex">\(y\)</span> is generated according to a linear model with additive Gaussian noise:
 $$
 \mathbf{y}=\mathbf{X} \boldsymbol{\theta}^*+\mathbf{z}

@@ -1,0 +1,613 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.1, mkdocs-material-8.5.6">
+    
+    
+      
+        <title>Ridge Regression 岭回归 - Machine Learning Notes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.20d9efc8.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.cbb835fc.min.css">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ridge-regression" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Machine Learning Notes" class="md-header__button md-logo" aria-label="Machine Learning Notes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Machine Learning Notes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Ridge Regression 岭回归
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Machine Learning Notes" class="md-nav__button md-logo" aria-label="Machine Learning Notes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Machine Learning Notes
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        Welcome to My ML Notes
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Supervised Learning
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Supervised Learning" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Supervised Learning
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_1" type="checkbox" id="__nav_2_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_1">
+          1 Regression
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="1 Regression" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          1 Regression
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.1%20Linear%20Regression/" class="md-nav__link">
+        Linear Regression
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Ridge Regression 岭回归
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Ridge Regression 岭回归
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#motivation" class="md-nav__link">
+    Motivation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ridge-regression_1" class="md-nav__link">
+    Ridge regression
+  </a>
+  
+    <nav class="md-nav" aria-label="Ridge regression">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lambda-parameter" class="md-nav__link">
+    Lambda parameter
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ridge-regression-estimate" class="md-nav__link">
+    Ridge regression estimate
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bias-variance-tradeoff-of-the-ridge-regression-estimate" class="md-nav__link">
+    Bias-variance tradeoff of the ridge regression estimate
+  </a>
+  
+    <nav class="md-nav" aria-label="Bias-variance tradeoff of the ridge regression estimate">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#analysis" class="md-nav__link">
+    Analysis
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#motivation" class="md-nav__link">
+    Motivation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ridge-regression_1" class="md-nav__link">
+    Ridge regression
+  </a>
+  
+    <nav class="md-nav" aria-label="Ridge regression">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lambda-parameter" class="md-nav__link">
+    Lambda parameter
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ridge-regression-estimate" class="md-nav__link">
+    Ridge regression estimate
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bias-variance-tradeoff-of-the-ridge-regression-estimate" class="md-nav__link">
+    Bias-variance tradeoff of the ridge regression estimate
+  </a>
+  
+    <nav class="md-nav" aria-label="Bias-variance tradeoff of the ridge regression estimate">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#analysis" class="md-nav__link">
+    Analysis
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="ridge-regression">Ridge Regression 岭回归</h1>
+<h2 id="motivation">Motivation</h2>
+<p>上一节讲的线性回归中，expected error: <img alt="" src="https://i.imgur.com/pL3abV4.png" /></p>
+<p>如果</p>
+<ul>
+<li>Features of <span class="arithmatex">\(X\)</span> are (strongly) correlated<ul>
+<li>specifically if its smallest singular value, <span class="arithmatex">\(\sigma_{\min }^2(\mathbf{X})\)</span>, is close to zero. In this case, <span class="arithmatex">\(1 / \sigma_{\min }^2(\mathbf{X})\)</span> is large, and therefore the expected error above is large.</li>
+</ul>
+</li>
+</ul>
+<p>solution: ridge regression</p>
+<h2 id="ridge-regression_1">Ridge regression</h2>
+<p>Ridge regression: 最小二乘法 + l2 norm regularization
+<img alt="" src="https://i.imgur.com/AoMwZrp.png" /></p>
+<ul>
+<li>This additional term promotes solutions that yield a good fit</li>
+<li>while at the same time enforcing the coefficients of <span class="arithmatex">\(\theta\)</span> to be sufficiently small.</li>
+</ul>
+<p>Also known as:</p>
+<ol>
+<li>ridge regression (statistics)</li>
+<li>Tkhonov regularization/weight decay (machine learning)</li>
+</ol>
+<blockquote>
+<p><em>In order to avoid this, we can add a term penalizing the norm of the coefficient vector <span class="arithmatex">\(\boldsymbol{\theta}\)</span>. This additional term promotes solutions that yield a good fit while at the same time enforcing the coefficients of <span class="arithmatex">\(\theta\)</span> to be sufficiently small. Incorporating assumptions about the solution-in this case that the coefficients should not be too large - is called regularization. A least squares penalty combined with <span class="arithmatex">\(\ell2\)</span>-norm regularization is called ridge regression in statistics and is also known as Tikhonov regularization and weight decay in machine learning. The ridge regression estimate is:</em></p>
+</blockquote>
+<h3 id="lambda-parameter">Lambda parameter</h3>
+<p><span class="arithmatex">\(\lambda\)</span> is a fixed regularization parameter.</p>
+<ul>
+<li>different values of <span class="arithmatex">\(\lambda\)</span> give us different ridge regression estimates.</li>
+<li>Observe that for <span class="arithmatex">\(\lambda \rightarrow 0\)</span>, the ridge regression estimate converges to the least squares estimate, and for <span class="arithmatex">\(\lambda \rightarrow \infty\)</span>, the ridge regression estimate converges to zero.</li>
+</ul>
+<h2 id="ridge-regression-estimate">Ridge regression estimate</h2>
+<p>If <span class="arithmatex">\(\mathbf{X} \in \mathbb{R}^{n \times d}\)</span> has full column rank <span class="arithmatex">\(d\)</span>, the ridge regression estimate has a closed-form solution:
+<img alt="" src="https://i.imgur.com/t4wIFHI.png" /></p>
+<p><strong>Equation 5.</strong>
+<img alt="" src="https://i.imgur.com/5I8VcFM.png" /></p>
+<blockquote>
+<p>proof:
+Recall that <span class="arithmatex">\(\mathbf{X} \hat{\theta}_{\mathrm{LS}}\)</span> is the orthogonal projection of the data onto the column space of the feature matrix, i.e., <span class="arithmatex">\(\mathbf{X} \hat{\boldsymbol{\theta}}_{\mathrm{LS}}=\mathbf{U U}^T \mathbf{y}\)</span>, where <span class="arithmatex">\(\mathbf{U} \in \mathbb{R}^{n \times d}\)</span> is an orthogonal basis for the column space of <span class="arithmatex">\(\mathbf{X}\)</span>. The approximation <span class="arithmatex">\(\mathbf{X} \hat{\boldsymbol{\theta}}_{\text {ridge }}\)</span> can no longer be interpreted as the orthogonal projection of the data onto the column space of the feature matrix. However, it can be interpreted as a modified projection, where each component of the data in the direction of the left singular vector <span class="arithmatex">\(\mathbf{u}_i\)</span> of the feature matrix is shrunk by a factor of <span class="arithmatex">\(\sigma_i^2 /\left(\sigma_i^2+\lambda\right)\)</span>. Here, <span class="arithmatex">\(\sigma_i\)</span> is the singular value of the feature matrix corresponding to the singular vector <span class="arithmatex">\(\mathbf{u}_i\)</span>. In more detail, consider the singular value decomposition <span class="arithmatex">\(\mathbf{X}=\mathbf{U} \Sigma \mathbf{V}^T\)</span>, and let <span class="arithmatex">\(\mathbf{u}_i\)</span> be the <span class="arithmatex">\(i\)</span>-th column of <span class="arithmatex">\(\mathbf{U}\)</span>, i.e., <span class="arithmatex">\(\mathbf{U}=\left[\mathbf{u}_1, \ldots, \mathbf{u}_d\right]\)</span>. Then we have <strong>equation 5</strong>.</p>
+<p><img alt="" src="https://i.imgur.com/hAVrUYo.png" />
+where we used that for two square matrixes that are invertible, we have that <span class="arithmatex">\((\mathbf{A B})^{-1}=\mathbf{B}^{-1} \mathbf{A}^{-1}\)</span>. Next, note that <span class="arithmatex">\(\left(\Sigma^2+\lambda \mathbf{I}\right)\)</span> is a diagonal matrix with <span class="arithmatex">\(\sigma_i^2+\lambda, i=1, \ldots, d\)</span> on its diagonal, thus <span class="arithmatex">\(\left(\Sigma^2+\lambda \mathbf{I}\right)^{-1}\)</span> is a diagonal matrix with <span class="arithmatex">\(1 /\left(\sigma_i^2+\lambda\right), i=1, \ldots, d\)</span> on its diagonal. As a consequence, <img alt="" src="https://i.imgur.com/9e3MY1v.png" />
+This concludes the proof of equation (5)</p>
+</blockquote>
+<h2 id="bias-variance-tradeoff-of-the-ridge-regression-estimate">Bias-variance tradeoff of the ridge regression estimate</h2>
+<p>Assumption: the data indeed follows a linear model, i.e., <span class="arithmatex">\(\mathbf{y}=\mathbf{X} \boldsymbol{\theta}^*+\mathbf{z}\)</span></p>
+<p>the ride regression estimator can be decomposed into a signal and a noise term:
+<img alt="" src="https://i.imgur.com/3emx8N5.png" /></p>
+<h3 id="analysis">Analysis</h3>
+<ol>
+<li>suppose that the noise <span class="arithmatex">\(\mathbf{z}\)</span> is a zero-mean random variable. Then the expectation of <span class="arithmatex">\(\boldsymbol{\theta}_{\text {ridge }}\)</span> equals the first term <span class="arithmatex">\(\hat{\theta}_{\text {ridge }}^{\text {signal }}\)</span> which is deterministic. The second term, <span class="arithmatex">\(\hat{\theta}_{\text {ridge }}^{\text {noise }}\)</span>, is random and determines the variance of the ridge estimator.</li>
+<li>If <span class="arithmatex">\(\lambda=0\)</span>, the first term becomes <span class="arithmatex">\(\hat{\boldsymbol{\theta}}_{\text {ridge }}^{\text {signal }}=\boldsymbol{\theta}^*\)</span>, otherwise the first term is not equal to <span class="arithmatex">\(\boldsymbol{\theta}^*\)</span>. Thus, ridge regression is a biased estimator (for <span class="arithmatex">\(\lambda&gt;0\)</span> ).</li>
+<li>Increasing <span class="arithmatex">\(\lambda\)</span> moves the mean of the estimate <span class="arithmatex">\(\hat{\theta}_{\text {ridge }}\)</span> farther from the true model parameter <span class="arithmatex">\(\theta^*\)</span>, and thus increases the bias of the estimate, which is defined as <span class="arithmatex">\(\mathbb{E}\left[\hat{\boldsymbol{\theta}}_{\text {ridge }}\right]-\boldsymbol{\theta}^*=\hat{\boldsymbol{\theta}}_{\text {ridge }}^{\text {signal }}-\boldsymbol{\theta}^*\)</span><ul>
+<li><span class="arithmatex">\(\lambda\)</span>越大， <span class="arithmatex">\(\hat{\theta}_{\text{ridge}}\)</span>的绝对值越小 --&gt; 0 <img alt="" src="https://i.imgur.com/tZsxRv9.png" /></li>
+</ul>
+</li>
+<li>But in exchange, increasing <span class="arithmatex">\(\lambda\)</span> also shrinks the impact of the noise.</li>
+</ol>
+<p>Thus, choosing <span class="arithmatex">\(\lambda\)</span> appropriately enables us to adapt to the conditioning of the feature matrix and to the noise level for achieving a good tradeoff between the bias and the variance.</p>
+<blockquote>
+<p>因此，选择适当的λ使我们能够适应特征矩阵的条件和噪声水平，以在偏差和方差之间实现良好的折衷。</p>
+</blockquote>
+<p>Note that the optimal choice depends on</p>
+<ul>
+<li>the noise which is unknown to us,</li>
+<li>the conditioning of the feature matrix,</li>
+</ul>
+<p>thus we cannot simply compute the optimal choice based on the data.</p>
+<p>Later in the course we will discuss methods that enable us to determine a good choice of <span class="arithmatex">\(\lambda\)</span> based on the data.</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../1.1%20Linear%20Regression/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Linear Regression" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Linear Regression
+            </div>
+          </div>
+        </a>
+      
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": [], "search": "../../../assets/javascripts/workers/search.5bf1dace.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.078830c0.min.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

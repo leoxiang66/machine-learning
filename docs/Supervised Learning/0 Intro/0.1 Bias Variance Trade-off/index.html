@@ -8,19 +8,19 @@
       
       
       
-      <link rel="icon" href="assets/images/favicon.png">
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.0, mkdocs-material-8.5.7">
     
     
       
-        <title>Machine Learning Notes</title>
+        <title>Bias-Variance tradeoff - Machine Learning Notes</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.20d9efc8.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.20d9efc8.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.cbb835fc.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.cbb835fc.min.css">
         
       
       
@@ -37,7 +37,7 @@
       
     
     
-    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -62,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#welcome-to-my-ml-notes" class="md-skip">
+        <a href="#bias-variance-tradeoff" class="md-skip">
           Skip to content
         </a>
       
@@ -76,7 +76,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="Machine Learning Notes" class="md-header__button md-logo" aria-label="Machine Learning Notes" data-md-component="logo">
+    <a href="../../.." title="Machine Learning Notes" class="md-header__button md-logo" aria-label="Machine Learning Notes" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -95,7 +95,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Welcome to My ML Notes
+              Bias-Variance tradeoff
             
           </span>
         </div>
@@ -162,7 +162,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="Machine Learning Notes" class="md-nav__button md-logo" aria-label="Machine Learning Notes" data-md-component="logo">
+    <a href="../../.." title="Machine Learning Notes" class="md-nav__button md-logo" aria-label="Machine Learning Notes" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -179,21 +179,11 @@
 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="." class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
         Welcome to My ML Notes
       </a>
-      
     </li>
   
 
@@ -204,12 +194,14 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
       
       
       
@@ -230,12 +222,14 @@
               
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_1" type="checkbox" id="__nav_2_1" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_1" type="checkbox" id="__nav_2_1" checked>
       
       
       
@@ -256,11 +250,21 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="Supervised%20Learning/0%20Intro/0.1%20Bias%20Variance%20Trade-off/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Bias-Variance tradeoff
       </a>
+      
     </li>
   
 
@@ -305,7 +309,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Supervised%20Learning/1%20Regression/1.1%20Linear%20Regression/" class="md-nav__link">
+      <a href="../../1%20Regression/1.1%20Linear%20Regression/" class="md-nav__link">
         Linear Regression
       </a>
     </li>
@@ -319,7 +323,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Supervised%20Learning/1%20Regression/1.2%20Ridge%20Regression/" class="md-nav__link">
+      <a href="../../1%20Regression/1.2%20Ridge%20Regression/" class="md-nav__link">
         Ridge Regression 岭回归
       </a>
     </li>
@@ -373,7 +377,40 @@
                   
 
 
-<h1 id="welcome-to-my-ml-notes">Welcome to My ML Notes</h1>
+<h1 id="bias-variance-tradeoff">Bias-Variance tradeoff</h1>
+<p>Our primary goal is finding a model that has high prediction performance on previously unseen examples.  In this section, we discuss the bias-variance tradeoff for predicting <span class="arithmatex">\(y\)</span> based on <span class="arithmatex">\(\mathbf{x}\)</span> and our learned model.</p>
+<p>To start, we ask the question: How can we measure the effectiveness of a learning algorithm? To address this question in the context of learning, let us again consider the regression model
+$$
+y=h(\mathbf{x})+z,
+$$
+but now we assume that both the feature vector <span class="arithmatex">\(\mathbf{x}\)</span> and the noise <span class="arithmatex">\(z\)</span> are drawn from some distribution. Then <span class="arithmatex">\(y\)</span> is a random variable and its distribution is fully determined by <span class="arithmatex">\(h\)</span> and the distributions of <span class="arithmatex">\(z\)</span> and <span class="arithmatex">\(\mathbf{x}\)</span>. Stated differently, <span class="arithmatex">\(y\)</span> and <span class="arithmatex">\(\mathbf{x}\)</span> are drawn from a joint distribution that is determined by the feature and noise distributions as well as <span class="arithmatex">\(h\)</span>.</p>
+<p>In this context, the learning problem is as follows: We obtain a dataset <span class="arithmatex">\(\mathcal{D}=\left\{\left(y_1, \mathbf{x}_1\right), \ldots,\left(y_n, \mathbf{x}_n\right)\right\}\)</span> by drawing <span class="arithmatex">\(n\)</span> examples from the joint distribution. The learning algorithm takes the dataset and returns an estimate of the regression function <span class="arithmatex">\(\hat{h}\)</span>. As a concrete example of learning a regression function, we can compute the ridge regression estimate <span class="arithmatex">\(\hat{\boldsymbol{\theta}}_{\text {ridge }}\)</span> which then yields the following estimate of the regression function:
+$$
+\hat{h}(\mathbf{x})=\left\langle\mathbf{x}, \hat{\boldsymbol{\theta}}_{\text {ridge }}\right\rangle .
+$$
+Note that the <span class="arithmatex">\(\hat{h}\)</span> is a function of the data, <span class="arithmatex">\(\mathcal{D}\)</span>.
+It is natural to measure performance of the learned estimate <span class="arithmatex">\(\hat{h}\)</span> by measuring its performance on an new example, drawn from the joint distribution, and then averaging over many of such examples. Thus, we consider the expectation:</p>
+<p>$$
+R(\hat{h})=\mathbb{E}_{\mathbf{x}, y}\left[(\hat{h}(\mathbf{x})-y)^2\right] .
+$$
+Here, expectation is with respect to the newly drawn sample.
+Recall that the estimate <span class="arithmatex">\(\hat{h}\)</span> is a function of the dataset, to make this dependency explicit, we write <span class="arithmatex">\(\hat{h}=\hat{h}_{\mathcal{D}}\)</span> in what follows. Since we are interested in the performance of a learning algorithm that selects <span class="arithmatex">\(\hat{h}\)</span> based on the randomly chosen dataset <span class="arithmatex">\(\mathcal{D}\)</span>, we consider the expectation over the dataset:
+<img alt="" src="https://i.imgur.com/Oj5cYos.png" /></p>
+<p>This error corresponds to the performance of the learner's prediction averaged over examples, and averaged over many data sets <span class="arithmatex">\(\mathcal{D}\)</span>.</p>
+<p>With the relation <span class="arithmatex">\(y=h(\mathbf{x})+z\)</span>, we can decompose the error as follows:</p>
+<p><img alt="" src="https://i.imgur.com/H1PaP2m.png" /></p>
+<p>where the last equality follows from <span class="arithmatex">\(z\)</span> being independent of <span class="arithmatex">\(\mathbf{x}\)</span> and <span class="arithmatex">\(\mathcal{D}\)</span> and having zero mean. We next decompose the first term further. Towards this end, we condition on <span class="arithmatex">\(\mathbf{x}\)</span> (think about <span class="arithmatex">\(\mathbf{x}\)</span> as a fixed vector, not a random variable for the calculations below). Then the first term above becomes (all expectations below are with respect to the random dataset <span class="arithmatex">\(\mathcal{D}\)</span> ):</p>
+<p><img alt="" src="https://i.imgur.com/TnDRSuV.png" /></p>
+<p>where the middle cross term is equal to zero. Thus we have</p>
+<div class="arithmatex">\[
+\mathbb{E}_{\mathcal{D}}[R(\hat{h})]=\mathbb{E}_{\mathbf{x}}\left[\left(h(\mathbf{x})-\mathbb{E}_{\mathcal{D}}\left[\hat{h}_{\mathcal{D}}(\mathbf{x})\right]\right)^2\right]+\mathbb{E}_{\mathcal{D}, \mathbf{x}}\left[\left(\hat{h}_{\mathcal{D}}(\mathbf{x})-\mathbb{E}\left[\hat{h}_{\mathcal{D}}(\mathbf{x})\right]\right)^2\right]+\operatorname{Var}[z] .
+\]</div>
+<p>This is called a <strong>bias-variance decomposition</strong>.</p>
+<ul>
+<li>The first term is the bias of the method. It measures how well the average hypothesis can estimate the true underlying function <span class="arithmatex">\(h\)</span>. A low bias means that <span class="arithmatex">\(\hat{h}\)</span> accurately estimates the underlying hypothesis <span class="arithmatex">\(h\)</span>.</li>
+<li>The second term is the variance of the method. The variance of the method measures the variance of the hypothesis over the training sets.</li>
+<li>The third term is the variance of <span class="arithmatex">\(z\)</span>, which is the irreducible error. The irreducible error term is the error that we cannot control or eliminate.</li>
+</ul>
 
 
 
@@ -393,15 +430,30 @@
     
     <nav class="md-footer__inner md-grid" aria-label="Footer" >
       
+        
+        <a href="../../.." class="md-footer__link md-footer__link--prev" aria-label="Previous: Welcome to My ML Notes" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Welcome to My ML Notes
+            </div>
+          </div>
+        </a>
+      
       
         
-        <a href="Supervised%20Learning/0%20Intro/0.1%20Bias%20Variance%20Trade-off/" class="md-footer__link md-footer__link--next" aria-label="Next: Bias-Variance tradeoff" rel="next">
+        <a href="../../1%20Regression/1.1%20Linear%20Regression/" class="md-footer__link md-footer__link--next" aria-label="Next: Linear Regression" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Bias-Variance tradeoff
+              Linear Regression
             </div>
           </div>
           <div class="md-footer__button md-icon">
@@ -432,12 +484,12 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": ".", "features": [], "search": "assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": [], "search": "../../../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
-      <script src="assets/javascripts/bundle.8492ddcf.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.8492ddcf.min.js"></script>
       
-        <script src="javascripts/mathjax.js"></script>
+        <script src="../../../javascripts/mathjax.js"></script>
       
         <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
       

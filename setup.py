@@ -7,7 +7,7 @@ requirements = ["torch",'numpy','matplotlib']
 
 setup(
     name="ml_algos",
-    version="0.1.0",
+    version="0.2.0",
     author="Tao Xiang",
     author_email="tao.xiang@tum.de",
     description="A package of RL algorithms",

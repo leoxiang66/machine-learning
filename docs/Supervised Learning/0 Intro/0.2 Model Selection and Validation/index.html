@@ -1,0 +1,673 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.1, mkdocs-material-8.5.6">
+    
+    
+      
+        <title>Model selection and validation - Machine Learning Notes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.20d9efc8.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.cbb835fc.min.css">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#model-selection-and-validation" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Machine Learning Notes" class="md-header__button md-logo" aria-label="Machine Learning Notes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Machine Learning Notes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Model selection and validation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Machine Learning Notes" class="md-nav__button md-logo" aria-label="Machine Learning Notes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Machine Learning Notes
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        Welcome to My ML Notes
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Supervised Learning
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Supervised Learning" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Supervised Learning
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_1" type="checkbox" id="__nav_2_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_1">
+          0 Intro
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="0 Intro" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          0 Intro
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0.1%20Bias%20Variance%20Trade-off/" class="md-nav__link">
+        Bias-Variance tradeoff
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Model selection and validation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Model selection and validation
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-statistical-learning-setup" class="md-nav__link">
+    The statistical learning setup
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#training-validation-and-test-errors" class="md-nav__link">
+    Training, validation and test errors
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#k-fold-cross-validation" class="md-nav__link">
+    k-fold cross validation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bootstrap" class="md-nav__link">
+    Bootstrap
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_2" type="checkbox" id="__nav_2_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2">
+          1 Regression
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="1 Regression" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          1 Regression
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1%20Regression/1.1%20Linear%20Regression/" class="md-nav__link">
+        Linear Regression
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1%20Regression/1.2%20Ridge%20Regression/" class="md-nav__link">
+        Ridge Regression 岭回归
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-statistical-learning-setup" class="md-nav__link">
+    The statistical learning setup
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#training-validation-and-test-errors" class="md-nav__link">
+    Training, validation and test errors
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#k-fold-cross-validation" class="md-nav__link">
+    k-fold cross validation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bootstrap" class="md-nav__link">
+    Bootstrap
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="model-selection-and-validation">Model selection and validation</h1>
+<p>In a previous lecture, we discussed the ridge regression estimate</p>
+<div class="arithmatex">\[
+\hat{\boldsymbol{\theta}}_{\text {ridge }}=\arg \min _{\boldsymbol{\theta}}\|\mathbf{y}-\mathbf{X} \boldsymbol{\theta}\|_2^2+\lambda\|\boldsymbol{\theta}\|_2^2,
+\]</div>
+<p>and found that the regularization parameter <span class="arithmatex">\(\lambda\)</span> enables trading off the bias and variance of the estimator. Note that the estimate <span class="arithmatex">\(\hat{\boldsymbol{\theta}}_{\text {ridge }}\)</span> is parameterized by <span class="arithmatex">\(\lambda\)</span>, and when computing <span class="arithmatex">\(\hat{\boldsymbol{\theta}}_{\text {ridge }}\)</span>, we do not optimize over <span class="arithmatex">\(\lambda\)</span>. For this reason, it is called a <strong>hyperparamete</strong>r. Almost all machine learning method have hyperparameters. Besides obvious hyperparameters like the regularization parameter in ridge regression, the following can also be regarded as hyperparameters that we wish to choose well:</p>
+<ul>
+<li>Which model to choose, for example a linear model.</li>
+<li>For a fixed model, their parameters. For example, the number of layers of a deep neural network, its activations functions etc.</li>
+<li>Which features to include or exclude.</li>
+</ul>
+<p>The performance of our method often critically depends on the choice of the hyperparameters. This raises the question: <u>How can we choose the hyperparameters in a principled manner, and assess the performance of the resulting model?</u></p>
+<h2 id="the-statistical-learning-setup">The statistical learning setup</h2>
+<p>In order to fit a model, we typically minimize a quantity that captures how well the model predicts past data, but we actually care about how well the model predicts unseen data. <u>In order to asses how well a model predicts unseen data it is useful to consider the statistical learning setup.</u></p>
+<p>Suppose that examples <span class="arithmatex">\((\mathbf{x}, y)\)</span> are drawn i.i.d. from some (unknown) distribution. For example, this distribution could be determined by <span class="arithmatex">\(y=h^*(\mathbf{x})+z\)</span>, where <span class="arithmatex">\(h^*\)</span> is a fixed regression function (say <span class="arithmatex">\(h^*(\mathbf{x})=\left\langle\mathbf{x}, \boldsymbol{\theta}^*\right\rangle\)</span>, and <span class="arithmatex">\(\mathbf{x}\)</span> and <span class="arithmatex">\(z\)</span> are drawn i.i.d. from Gaussian distributions. Given a function <span class="arithmatex">\(h\)</span>, we measure the error between the observation <span class="arithmatex">\(y\)</span> and the estimate <span class="arithmatex">\(\hat{y}=h(\mathbf{x})\)</span> with a loss function</p>
+<div class="arithmatex">\[
+\text { loss: } \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}
+\]</div>
+<p>For example, <span class="arithmatex">\(\operatorname{loss}(z, y)=(z-y)^2\)</span> is the quadratic loss popular in regression. Consider a class of functions <span class="arithmatex">\(\mathcal{H}\)</span>. The (true or population) risk of a function <span class="arithmatex">\(h \in \mathcal{H}\)</span> in this class is defined as</p>
+<div class="arithmatex">\[
+R(h)=\mathbb{E}[\operatorname{loss}(h(\mathbf{x}), y)],
+\]</div>
+<p>where the expectation is over the distribution of the data. Ideally, we would like to find the function in our hypothesis class that minimizes the risk:</p>
+<div class="arithmatex">\[
+h^*=\arg \min _{h \in \mathcal{H}} R(h) .
+\]</div>
+<p>Unfortunately, it is impossible to compute the expectation because we don't know the joint distribution of <span class="arithmatex">\((\mathbf{x}, y)\)</span>.</p>
+<h2 id="training-validation-and-test-errors">Training, validation and test errors</h2>
+<p>We do, however, have access to a set of examples <span class="arithmatex">\(\mathcal{D}=\left\{\left(\mathbf{x}_1, y_1\right), \ldots,\left(\mathbf{x}_n, y_n\right)\right\}\)</span>.</p>
+<p><strong><u>Training and testing:</u></strong> First, suppose our goal is to train a model that does not have hyperparameters and then predict how well it performs on new examples. Towards this goal, we first split our dataset into two non-overlapping sets <span class="arithmatex">\(\mathcal{D}_{\text {train }}\)</span> and <span class="arithmatex">\(\mathcal{D}_{\text {test }}\)</span> called the training set and the test set.
+The estimate
+<img alt="" src="https://i.imgur.com/ly3SU9c.png" /></p>
+<p>is called the training error. Here, <span class="arithmatex">\(\left|\mathcal{D}_{\text {train }}\right|\)</span> stands for the cardinality of the set <span class="arithmatex">\(\left|\mathcal{D}_{\text {train }}\right|\)</span>, i.e., the number of examples in the training set.</p>
+<p>Almost exclusively, we fit a model by minimizing the training error, or a regularized version thereof. For example, linear regression fits a model by minimizing the training error and ridge regression fits a model by minimizing the training error regularized with the penalty <span class="arithmatex">\(\lambda\|\boldsymbol{\theta}\|_2^2\)</span>. Note that the training error <span class="arithmatex">\(\hat{R}\left(h, \mathcal{D}_{\text {train }}\right)\)</span> can be viewed as an estimate of the true risk computed based on the training set.</p>
+<p>Given a model trained on the training set, we cannot use the training error to estimate the population risk <span class="arithmatex">\(R(\hat{h})\)</span> of a function <span class="arithmatex">\(\hat{h}\)</span> trained on the training set. The reason is that <span class="arithmatex">\(\hat{h}\)</span> is a function of <span class="arithmatex">\(\mathcal{D}_{\text {train }}\)</span>. We can, however, use the test error to estimate the expected risk:</p>
+<div class="arithmatex">\[
+\hat{R}\left(h, \mathcal{D}_{\text {test }}\right)=\frac{1}{\left|\mathcal{D}_{\text {test }}\right|} \sum_{(\mathbf{x}, y) \in \mathcal{D}_{\text {test }}} \operatorname{loss}(h(\mathbf{x}), y)
+\]</div>
+<p>The test error <span class="arithmatex">\(\hat{R}\left(\hat{h}, \mathcal{D}_{\text {test }}\right)\)</span> is an unbiased estimate of the population risk, because <span class="arithmatex">\(\hat{h}\)</span> is independent of the test set.</p>
+<p>The question that remains is: How large does the test set need to be? It needs to be sufficiently large so that the test error is a good estimate of the population risk. More formally, under mild assumptions on the risk and estimator (specifically, that it is bounded), we have by Hoeffding's inequality for a set <span class="arithmatex">\(\mathcal{D}\)</span> with <span class="arithmatex">\(n\)</span> i.i.d. examples for any <span class="arithmatex">\(\delta&gt;0\)</span> that</p>
+<div class="arithmatex">\[
+\mathrm{P}\left[|\hat{R}(h, \mathcal{D})-R(h)| \leq O\left(\sqrt{\frac{\log (1 / \delta)}{n}}\right)\right] \geq 1-\delta .
+\]</div>
+<p><strong>In words, the larger our test set, the better our estimate of the true risk.</strong> 
+<strong>Moreover, doubling the size of the test set improves the estimate by a factor of <span class="arithmatex">\(\sqrt{1 / 2}\)</span>.</strong></p>
+<p>The parameter <span class="arithmatex">\(\delta\)</span> is the probability that the estimate is far from its mean, think about this as a very small number, say <span class="arithmatex">\(10^{-8}\)</span>.</p>
+<p><strong><u>Training, model selection, and testing:</u></strong> Next, suppose we want to train a method with a number of hyperparameter configurations <span class="arithmatex">\(i=1, \ldots, K\)</span>. For example, we wish to train a ridge regression estimate for <span class="arithmatex">\(K\)</span> different choices of the hyperparameter <span class="arithmatex">\(\lambda\)</span>, determine which one performs the best, and then determine the performance we expect (i.e., estimate the risk).</p>
+<p>Towards this goal, we split the set of examples into three disjoint sets: a training set <span class="arithmatex">\(\mathcal{D}_{\text {train }}\)</span>, a validation set <span class="arithmatex">\(\mathcal{D}_{\text {val }}\)</span>, and a test set <span class="arithmatex">\(\mathcal{D}_{\text {test }}\)</span>. We then perform the following procedure:</p>
+<ul>
+<li>For all choices of hyperparameter configurations <span class="arithmatex">\(i=1, \ldots, K\)</span> :<ul>
+<li>Train model <span class="arithmatex">\(\hat{\boldsymbol{\theta}}_i\)</span> on <span class="arithmatex">\(\mathcal{D}_{\text {train }}\)</span></li>
+<li>Compute validation error for model <span class="arithmatex">\(\hat{\boldsymbol{\theta}}_i\)</span> on <span class="arithmatex">\(\mathcal{D}_{\text {val }}\)</span></li>
+</ul>
+</li>
+<li>Select model <span class="arithmatex">\(\hat{\boldsymbol{\theta}}_i\)</span> with the smallest validation error <span class="arithmatex">\(\hat{R}\left(\hat{\boldsymbol{\theta}}_i, \mathcal{D}_{\text {val }}\right)\)</span> as the estimate for the best performing model</li>
+<li>Report the final performance as <span class="arithmatex">\(\hat{R}\left(\mathcal{D}_{\text {test }}, \hat{\boldsymbol{\theta}}_i\right)\)</span></li>
+</ul>
+<p>With this procedure, we do have to be mindful of the fact that we are re-using the validation set many times. This has to be taken into account when choosing the size of the validation set. This procedure can go wrong: </p>
+<ul>
+<li>If the validation set is too small, then just by chance a hyperparameter configuration works well. </li>
+<li>If the number of hyperparameter configurations is extremely large, specifically exponential in the size of the validation set, this will happen and would be an issue.</li>
+</ul>
+<h2 id="k-fold-cross-validation">k-fold cross validation</h2>
+<p>Cross validation is a method for estimating the risk of a model trained on a training set based on a finite and potentially small pool of examples <span class="arithmatex">\(\mathcal{D}\)</span>. <strong>The idea is to repeatedly split the set <span class="arithmatex">\(\mathcal{D}\)</span> into test and training sets.</strong> The most popular variant of this idea is <span class="arithmatex">\(k\)</span>-fold cross validation, which consists of the following steps:</p>
+<ul>
+<li>Shuffle the data and partition it into <span class="arithmatex">\(k\)</span> equally sized or near equally sized subsets <span class="arithmatex">\(\mathcal{D}_1, \ldots, \mathcal{D}_k\)</span>. If the data is drawn i.i.d., shuffling would not be necessary, but remember that assuming the data is drawn i.i.d. is just a modeling assumption not necessarily true in practice.</li>
+<li>For each subset <span class="arithmatex">\(i\)</span>, train the model on the union of all subsets but <span class="arithmatex">\(\mathcal{D}_i\)</span>, i.e., on <span class="arithmatex">\(\mathcal{D} \backslash \mathcal{D}_i\)</span>, and evaluate the model using block <span class="arithmatex">\(i\)</span> by computing the validation error. This gives the <span class="arithmatex">\(i\)</span>-th estimate of the risk. <strong>每次选择<span class="arithmatex">\(D_{i}\)</span>作为验证集</strong></li>
+<li>Obtain a final estimate of the risk as the average of the so-obtained <span class="arithmatex">\(k\)</span> estimates.</li>
+</ul>
+<p>Using this methodology, the model is always evaluated on a different set of points than it is trained out. So how do we choose <span class="arithmatex">\(k\)</span> ? Larger values of <span class="arithmatex">\(k\)</span> provide a better estimate of the true error that we expect when training on a training set with <span class="arithmatex">\(n\)</span> points, but also requires more computation. To see this suppose we set <span class="arithmatex">\(k=n\)</span>, then we train on <span class="arithmatex">\(n-1\)</span> points, but also need to fit our model <span class="arithmatex">\(n\)</span> many times, which can be very costly. How to choose <span class="arithmatex">\(k\)</span> in practice depends on how one want to balance this tradeoff; <strong>a common value for <span class="arithmatex">\(k\)</span> in practice is 10</strong> .</p>
+<p>Let's look at an example following Hastie et al. [HTF09], section 7.10.2. Consider a classification or regression problem with a large number of features. Suppose we perform the following steps:</p>
+<ul>
+<li>Select a number of relevant features by correlating them with the observations, and select the features that are highly correlated.</li>
+<li>Use only this subset of features, and train a classification or regression model, for example ridge regression.</li>
+<li>Use cross-validation to estimate the unknown hyperparameters (e.g., the regularization parameter of ridge regression) and to estimate the prediction error of the final model.</li>
+</ul>
+<p><em>Is this a correct application of cross-validation, and if not, what can go wrong?？</em></p>
+<p>Suppose there are <span class="arithmatex">\(n=50\)</span> examples and originally there are 5000 features that are independent of the labels. Assume both class labels are equally likely, then the true error rate of any classifier is at least <span class="arithmatex">\(50 \%\)</span>. Hastie et al. [HTF09] carried out the above steps and the average cross-validation error was 3\%, a significant underestimation of the error rate. What happened here is that just by chance, features are highly correlated with the data. The right way to apply cross validation in the example above is the following:</p>
+<ul>
+<li>Divide the examples into <span class="arithmatex">\(k\)</span> equally sized sets at random.</li>
+<li>For each set <span class="arithmatex">\(i\)</span>, using all examples but those in set <span class="arithmatex">\(i\)</span>, i) find a set of good predictor that are strongly correlated with the labels, ii) use only this set of predictors to build a model, and iii) use the classifier to predict the class labels in fold <span class="arithmatex">\(i\)</span>.</li>
+<li>Accumulate the error estimates from each fold to produce the cross-validation estimate of the prediction error.</li>
+</ul>
+<h2 id="bootstrap">Bootstrap</h2>
+<p>Suppose we are interested in associating a confidence interval, standard error, or variance estimate with our learning algorithms. As a concrete example, suppose we are interested in estimating the variance of a learning algorithm <span class="arithmatex">\(\hat{h}\)</span> for a given example <span class="arithmatex">\(\mathbf{x}\)</span>:</p>
+<div class="arithmatex">\[
+\text{Var}[\hat{h}(\mathbf{x})]=\mathbb{E}_{\mathcal{D}}\left[\left(\hat{h}_{\mathcal{D}}-\mathbb{E}\left[\hat{h}_{\mathcal{D}}(\mathbf{x})\right]\right)^2\right] .
+\]</div>
+<p>Suppose, as before that the examples <span class="arithmatex">\((y, \mathbf{x})\)</span> in <span class="arithmatex">\(\mathcal{D}\)</span> are drawn from some joint distribution. In order to estimate this quantity, we can sample datasets <span class="arithmatex">\(\mathcal{D}_1, \ldots, \mathcal{D}_b\)</span>, each containing <span class="arithmatex">\(n\)</span> examples drawn uniformly at random from the joint distribution, and apply the learning algorithm to those datasets. That yields hypothesis <span class="arithmatex">\(\hat{h}_1, \ldots, \hat{h}_b\)</span>. Based on those, we can estimate the mean at a point <span class="arithmatex">\(\mathbf{x}\)</span> as
+<img alt="" src="https://i.imgur.com/5zdnw0O.png" /></p>
+<p>and the variance as
+$$
+\text{Var}[\hat{h}(\mathbf{x})]=\frac{1}{b} \sum_{i=1}^b\left(h_{\mathcal{D}_i}(\mathbf{x})-\hat{\mu}(\mathbf{x})\right)^2 .
+$$
+While statistically sound, this method for estimating the variance of the estimator is not practically, we would need to sample a large number of examples.</p>
+<p>The bootstrap, proposed by Efron in 1979 offers a more practical approach. The basic idea of bootstrapping is that in absence of any other information about the unknown distribution, all the information about the distribution we have is contained in the observed sample <span class="arithmatex">\(\mathcal{D}\)</span>. Hence resampling from <span class="arithmatex">\(\mathcal{D}\)</span> is a good guide to see what can be expected if we would resample from the original distribution.</p>
+<p>For the concrete example above, we would sample a dataset <span class="arithmatex">\(\mathcal{D}\)</span> from the original, joint distribution, and then resample <span class="arithmatex">\(b\)</span> many datasets <span class="arithmatex">\(\mathcal{D}_1, \ldots, \mathcal{D}_b\)</span>, all containing <span class="arithmatex">\(n\)</span> samples, by drawing <span class="arithmatex">\(n\)</span> examples each uniformly at random with replacement from <span class="arithmatex">\(\mathcal{D}\)</span>. Then, we would estimate the variance as above.</p>
+<blockquote>
+<p>Efron 在 1979 年提出的 bootstrap 提供了一种更实用的方法。 自举的基本思想是，在没有关于未知分布的任何其他信息的情况下，我们所拥有的关于分布的所有信息都包含在观察到的样本 <span class="arithmatex">\(\mathcal{D}\)</span> 中。 因此，从 <span class="arithmatex">\(\mathcal{D}\)</span> 重新采样是一个很好的指南，可以很好地了解如果我们从原始分布重新采样会发生什么。
+对于上面的具体示例，我们将从原始联合分布中采样数据集 <span class="arithmatex">\(\mathcal{D}\)</span>，然后通过从 <span class="arithmatex">\(\mathcal{D}\)</span> 中随机均匀抽取 <span class="arithmatex">\(n\)</span> 个样本(若采集到相同的样本则替换)（重复<span class="arithmatex">\(b\)</span>次）
+重新采样 <span class="arithmatex">\(b\)</span> 多个数据集 <span class="arithmatex">\(\mathcal{D}_1,\ldots,\mathcal{D}_b\)</span>，每个包含 <span class="arithmatex">\(n\)</span> 个样本，。 然后，我们将如上所述估计方差。</p>
+</blockquote>
+<p>Reading: Chapter 7 in [HTF09].</p>
+<h1 id="references">References</h1>
+<p>[HTF09] T. J. Hastie, R. J. Tibshirani, and J. J. H. Friedman. The elements of statistical learning. Springer, 2009.</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../0.1%20Bias%20Variance%20Trade-off/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Bias-Variance tradeoff" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Bias-Variance tradeoff
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../../1%20Regression/1.1%20Linear%20Regression/" class="md-footer__link md-footer__link--next" aria-label="Next: Linear Regression" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Linear Regression
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": [], "search": "../../../assets/javascripts/workers/search.5bf1dace.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.078830c0.min.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

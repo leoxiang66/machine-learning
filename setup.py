@@ -3,11 +3,18 @@ from setuptools import setup, find_packages
 with open("README.md", "r") as readme_file:
     readme = readme_file.read()
 
-requirements = ["torch",'numpy','matplotlib']
+requirements = [
+    "torch",
+    'numpy',
+    'matplotlib',
+    'sklearn'
+]
+
+
 
 setup(
-    name="ml_algos",
-    version="0.2.0",
+    name="ml_leoxiang66",
+    version="0.1.0",
     author="Tao Xiang",
     author_email="tao.xiang@tum.de",
     description="A package of RL algorithms",

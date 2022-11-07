@@ -1,0 +1,781 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Advanced topics</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="78db2814-c38a-4624-b719-0408ca8b9555" class="page sans"><header><h1 class="page-title">Advanced topics</h1></header><div class="page-body"><nav id="c37825ea-ba0f-471d-a27c-37fa3717902d" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#e2839a48-f101-46f5-919a-25c972c6c3d3">Intro</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#8405f922-c5e9-4f56-a667-92d6806b1307">Overview</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#617783c0-3ace-49f0-931a-3ef1df92ea3c">Beyond accuracy we have to consider</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#9f515627-b8c2-42d4-8bcb-965625af57f9">Impact of AI/ML more broadly</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#87c8a957-d8e9-467a-9fa3-82690645eb28">Disclaimer</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#0681b0c4-7b43-4827-b8cf-6428fc64f536">Differential Privacy</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#88e47a98-3715-4101-98f8-873b95ce7804">Anonymization is hard</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#27f6f6a8-e046-4b75-a83c-7317613c8ce3">Sensitive information in the model</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#fea6746e-d60e-4622-84e2-8d1edffd24f9">Warmup: Randomized Response</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#5ce6f52f-a2da-4ed8-9893-adfb96a6d7d1">Beyond Randomized Response</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#2c7ea15f-c6dd-4490-9cc6-00a080af4ee4">Diffferential Privacy</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#c8bf51ef-2b37-465d-9213-4111f1007dca">Differential Privacy Intuition</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#3928dc9b-7486-4696-b81e-fa58474b45ec">Laplace Mechanism (Output Perturbation)</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#0345bba0-8dbd-4a4f-a972-9d03bc6480e0">Example: Laplace Mechanism for the Mean</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#eb1ddd42-b1a0-4a8a-be21-af226a8ba9be">DP for machine learning</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#a81d5251-523a-4793-898a-eb2e153cbb51">Differential Privacy techniques for ML models</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#335d23e6-8498-4231-9aa2-8491467c385d">Fundamental properties of DP</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#f009c3a6-3591-49b4-bdca-715999a8dc1b">Federated learning</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#47c72b6f-5a6b-4ecd-8128-3cafe91a2d59">Differential Privacy Summary</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#b302b91d-a2bc-4cea-b01e-79d089a3a235">Algorithmic Fairness</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#f9a2c430-4727-4845-9743-0a8439e4cc7f">Motivation: ALgorithms influence our lives in many ways</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#1a15a34d-1fc4-4bf3-901c-459def10ec8a">Biased algorithms influence our lives in many ways</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#89921f0d-d8ac-4658-984f-a4b313b2072a">What causes the bias?</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#51475369-ee85-475e-b02e-b08547cadbeb">Why fairness is hard</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#391180af-4d9b-4220-9ce2-9b698076020c">An illustrating example</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#50fd1722-b580-4b1d-aa79-e21975f42796">Definitions of Fairness</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#748efe3b-1d23-4edf-b2a5-801a86103d7b">Setup - Group Fairness</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#9544a4a3-fe43-49f7-9e7c-740f3095714d">Naive Approach: Fairness through Unawareness</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#4e16c120-84c0-4bdc-82b0-b5e8caa86580">First Criterion: Demographic Parity</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#85ea18bb-b37c-4462-a324-99c3a6f8f663">How to achieve Demographic Parity?</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#ee1d161f-498c-4431-866f-d60afc39b716">Representation learning approach</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#2d899fc5-d5c4-43fa-a57a-ca79f1efb615">Demographic Parity</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#13b768be-fa5f-4a51-9566-babbc1775d8f">Second Criterion: Equalized Odds</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#069536b1-be63-429d-b244-ef6d2e882417">Equalized Odds / Equality of Opportunity</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#69a77a12-12e3-449b-b4d5-9bfbd3359d10">Third Criterion: Predictive Rate Parity</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#dadb47a2-d756-482f-82cf-ecad0f205b43">Predictive Rate Parity</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#a1dd9ee7-19ae-4a10-8718-8bc164e4dacb">Fairness Summary: A growing list of fairness criteria</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#a9a2c7a0-0f98-41e9-8e06-79b8abcdb9d1">Visualizing the trade-offs: research.google.com/bigpicture</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#5d96a86d-0952-47a5-aa1c-387b1d6949a3">Adversarial Examples / Robustness</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#7b1c433a-b2d9-438d-8b28-69d7f4b30476">Adversarial Examples</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#1c5a4941-d6cd-43db-9045-184574a28f81">Definition of an adversarial example</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#3cdad3b4-ad48-428d-95ae-6f2c2b83a21c">How to generater an attack</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#a12121e0-86b6-42b4-8515-b371e260d54b">Targeted vs. Non-targeted Evasion vsa. Ponsoning</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#de3bfff3-3b6d-4f68-a9d6-9dd59204a947">How to defend against adversarial examples?</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#cff69bf4-b6eb-4a0f-b86d-3a6d63809ea9">Adversarial Examples Summary</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#3fc69108-862e-4e7a-ac18-4ca7337e47fc">Summary</a></div></nav><p id="6069cc5d-97c0-4ee7-8087-4e508b96f36e" class="">
+</p><h1 id="e2839a48-f101-46f5-919a-25c972c6c3d3" class="">Intro</h1><h2 id="8405f922-c5e9-4f56-a667-92d6806b1307" class="">Overview</h2><ul id="a3c8133f-6d72-4bca-a86b-8ade576fd3fb" class="bulleted-list"><li style="list-style-type:disc">In the previous lectures we were focusing on models and algorithms and we were optimizing for simple metrics (e.g. misclassification rate, reconstruction error, etc.)</li></ul><ul id="5e17d794-da3f-46da-a121-d5e616db845d" class="bulleted-list"><li style="list-style-type:disc">As <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">M</mi><mi mathvariant="normal">L</mi></mrow><mi mathvariant="normal">/</mi><mrow><mi mathvariant="normal">A</mi><mi mathvariant="normal">l</mi></mrow></mrow><annotation encoding="application/x-tex">\mathrm{ML} / \mathrm{Al}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathrm">ML</span></span><span class="mord">/</span><span class="mord"><span class="mord mathrm">Al</span></span></span></span></span></span><span>﻿</span></span> is becoming more widespread and is used in critical applications (e.g. algorithmic decision-making involving humans) we have to consider societal impacts</li></ul><ul id="1a2cfdc1-dfe5-49ed-8a37-0677f2264581" class="bulleted-list"><li style="list-style-type:disc">As ML models get deployed in the real-world they create feedback loops which can have potentially unintended consequences</li></ul><ul id="d6180557-dd81-4ef5-892b-f35829f93db1" class="bulleted-list"><li style="list-style-type:disc">We should always ask: &quot;Are we optimizing for the right thing?&quot;</li></ul><p id="e071f299-21fc-48e6-86b4-d1e988b51049" class="">
+</p><p id="a6558996-cd6f-45ec-8f53-7280f4e8594c" class="">
+</p><h2 id="617783c0-3ace-49f0-931a-3ef1df92ea3c" class="">Beyond accuracy we have to consider</h2><ul id="9169ae65-7bb3-440d-87c9-a044b871d852" class="bulleted-list"><li style="list-style-type:disc">Privacy: how to avoid revealing (sensitive) information about the individuals in the training set (e.g. medical diagnosis)</li></ul><ul id="e6e229c5-5d04-4a6a-aff1-5a2cda6f48b4" class="bulleted-list"><li style="list-style-type:disc">Security: what if an attacker can &quot;fool&quot; the system with malicious (恶意的) input, poison the training data, &quot;steal&quot; the model, etc.?</li></ul><ul id="cca943dc-637a-4466-a7af-4f8834e24d9f" class="bulleted-list"><li style="list-style-type:disc">Fairness: how can we ensure that the system does not disadvantage particular individuals or (marginalized) groups</li></ul><ul id="c2ededc6-3180-4a49-af96-30f85d774342" class="bulleted-list"><li style="list-style-type:disc">Explainability: people should be able to understand why and how a decision was made about them (GDPR)</li></ul><ul id="52277814-80c9-4642-a508-7528761a9b33" class="bulleted-list"><li style="list-style-type:disc">Accountability: an outside auditor should be able to verify that the system is functioning as intended</li></ul><p id="2b951288-b822-441b-ab4d-65a18db41f34" class="">
+</p><h2 id="9f515627-b8c2-42d4-8bcb-965625af57f9" class="">Impact of AI/ML more broadly</h2><ul id="3560b941-40e1-4f12-bea2-4a445bcbef3a" class="bulleted-list"><li style="list-style-type:disc">How should self-driving cars trade off the safety of passengers, pedestrians, etc.? (Trolley problems)</li></ul><ul id="4bcbe37d-3153-4387-a65a-ef674e956873" class="bulleted-list"><li style="list-style-type:disc">Face recognition and other surveillance-enabling technologies</li></ul><ul id="2ba0e8a0-a9a1-4404-882c-a6d6440f5921" class="bulleted-list"><li style="list-style-type:disc">Autonomous weapons</li></ul><ul id="deffea7b-8027-401d-bde0-a27a52cc0113" class="bulleted-list"><li style="list-style-type:disc">Risk of international AI arms races</li></ul><ul id="520ee093-9961-4c20-a97b-52e650e7456d" class="bulleted-list"><li style="list-style-type:disc">Long-term risks of superintelligent Al</li></ul><ul id="9ef8fd12-dfa0-453e-ba37-65d12a2c166e" class="bulleted-list"><li style="list-style-type:disc">Unemployment due to automation</li></ul><ul id="e59d01fb-332a-47b4-8b7d-3b12a620b086" class="bulleted-list"><li style="list-style-type:disc">Bad side effects of optimizing for click-through</li></ul><p id="29d48b9e-8afc-4824-88d1-39203df6df9b" class="">
+</p><h2 id="87c8a957-d8e9-467a-9fa3-82690645eb28" class="">Disclaimer</h2><ul id="1ff428c0-7a91-47be-9ad5-24bb7cc49d8c" class="bulleted-list"><li style="list-style-type:disc">These concepts sound &quot;vague&quot; (不明确的) and properly formalizing them is half the challenge</li></ul><ul id="b64b4199-a802-42b7-9eb3-1f6a6b8e4f5d" class="bulleted-list"><li style="list-style-type:disc">Any &quot;solution&quot; can only be partly technical and tackling these issues must always involve social/legal/political aspects and must be an interdisciplinary effort</li></ul><ul id="0fa3ce0c-6b88-4279-8985-0b0f0c84dbd8" class="bulleted-list"><li style="list-style-type:disc">Given the above we will focus on three topics: privacy, fairness, and security/reliability, since they have well-established technical principles and techniques that address part of the problem</li></ul><h1 id="0681b0c4-7b43-4827-b8cf-6428fc64f536" class="">Differential Privacy</h1><h2 id="88e47a98-3715-4101-98f8-873b95ce7804" class="">Anonymization is hard</h2><figure id="39cc4ff2-6d97-46a9-837c-b314fbbe6f17" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled.png"><img style="width:654px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled.png"/></a></figure><p id="d7409739-3cce-4680-bf6f-fd6319bfee25" class="">
+</p><figure id="8713248a-1a08-44b3-9f66-0216c556183a" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%201.png"><img style="width:664px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%201.png"/></a></figure><p id="b93fe03e-9b3d-48b7-8a8b-402df6484132" class="">
+</p><h2 id="27f6f6a8-e046-4b75-a83c-7317613c8ce3" class="">Sensitive information in the model</h2><figure id="8e7bdd29-4846-4ed8-9d57-a2fbfcb3c12b" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%202.png"><img style="width:646px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%202.png"/></a></figure><p id="ff71551a-1f61-4963-bba5-a42276f287a4" class="">
+</p><p id="216aaeb9-f71b-4d81-857a-d7946767db0b" class="">
+</p><blockquote id="2bd83871-8556-4e31-ab95-6442d1f52b1b" class="">How can we compute (statistical) queries and train ML models without leaking (too much) (sensitive) information about any individual?</blockquote><p id="bacafb5c-ce43-40ae-98b5-b20689ebdcd4" class="">
+</p><p id="5ff6c616-9076-4ee7-967b-455c3954f5de" class="">
+</p><h2 id="fea6746e-d60e-4622-84e2-8d1edffd24f9" class="">Warmup: Randomized Response</h2><figure id="2130fe08-505a-484b-b9fc-a85485432b7a" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%203.png"><img style="width:601px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%203.png"/></a></figure><p id="3657a071-8b14-42e0-8539-280b108f5905" class="">
+</p><ul id="c80eb6f4-6517-4cb7-9721-575ef3c098cf" class="bulleted-list"><li style="list-style-type:disc">plausible deniability: 合理的否认</li></ul><ul id="2e83e691-67cd-4c5e-8fe7-86259db1b450" class="bulleted-list"><li style="list-style-type:disc">incriminating 定罪</li></ul><p id="0f6ca5ca-a2c8-4160-adc4-59e68dbd1330" class="">
+</p><p id="62e82b03-8ac6-4e24-bb30-f3af89715258" class="">
+</p><p id="eacabef6-dab3-4dd4-beb1-d0e81fe4e93a" class="">
+</p><figure id="2e87b34b-462e-45c8-8f3b-1018e45ca616" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%204.png"><img style="width:629px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%204.png"/></a></figure><p id="d292d1fe-e1cb-431e-a6c2-518e10a1d6f4" class="">
+</p><p id="2f2e2e18-d14f-4c9b-b52d-e337788fed1e" class="">
+</p><p id="7a53ec1b-adc6-4526-90f6-2a29b78f4c29" class="">
+</p><h2 id="5ce6f52f-a2da-4ed8-9893-adfb96a6d7d1" class="">Beyond Randomized Response</h2><figure id="c42aa12e-05e4-4f78-9e50-19fa135331e4" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%205.png"><img style="width:648px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%205.png"/></a></figure><p id="11df6f32-a151-407f-aeb7-eb695c2674dd" class="">
+</p><h2 id="2c7ea15f-c6dd-4490-9cc6-00a080af4ee4" class="">Diffferential Privacy</h2><figure id="5178233f-c286-44ea-a110-3dd63a26a607" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%206.png"><img style="width:626px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%206.png"/></a></figure><ul id="c9d19413-29cb-4cb0-96b6-80f4ec71afe9" class="bulleted-list"><li style="list-style-type:disc">curator: 馆长</li></ul><p id="ca2e9867-cfcd-4454-99d2-5cbfbb7c7581" class="">
+</p><p id="07022385-b8cf-4b93-883a-7a1d4a1dc09d" class="">
+</p><figure id="a7b19d1f-6e7f-484a-8fd5-957c159b4efd" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%207.png"><img style="width:657px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%207.png"/></a></figure><p id="78f65426-abf2-403d-9dbf-53f8914f6106" class="">
+</p><p id="87a6043e-3ed1-46fe-86e9-0791fbc79a95" class="">
+</p><h2 id="c8bf51ef-2b37-465d-9213-4111f1007dca" class="">Differential Privacy Intuition</h2><figure id="7b229bdf-afec-4b64-981b-4e2816bdfbb2" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%208.png"><img style="width:656px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%208.png"/></a></figure><p id="6612c93a-ea75-4d45-a4b3-07be8ca8a34a" class="">
+</p><p id="8a1e9b7d-fac7-4f61-88c6-391cd6b8729e" class="">
+</p><h2 id="3928dc9b-7486-4696-b81e-fa58474b45ec" class="">Laplace Mechanism (Output Perturbation)</h2><figure id="e96165fe-aa68-40d5-a62f-2c143b880d84" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%209.png"><img style="width:630px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%209.png"/></a></figure><p id="5bd6df39-3965-47d8-9934-b09f8007c311" class="">
+</p><p id="90fa143d-621a-48b0-a076-52ac1104819e" class="">
+</p><h2 id="0345bba0-8dbd-4a4f-a972-9d03bc6480e0" class="">Example: Laplace Mechanism for the Mean</h2><figure id="b77a3a2b-bfd0-4e4a-926b-35b5023cf12b" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2010.png"><img style="width:631px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2010.png"/></a></figure><p id="59414474-758b-49f2-86b6-96b65694079b" class="">
+</p><h2 id="eb1ddd42-b1a0-4a8a-be21-af226a8ba9be" class="">DP for machine learning</h2><figure id="1801a74c-a867-42cf-82ab-5540694efce3" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2011.png"><img style="width:646px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2011.png"/></a></figure><p id="3054e29d-2aec-45ad-9bdf-ce11ba1afba9" class="">
+</p><h2 id="a81d5251-523a-4793-898a-eb2e153cbb51" class="">Differential Privacy techniques for ML models</h2><figure id="d0bfcc8b-87b8-496a-ae1c-025124a551f9" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2012.png"><img style="width:655px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2012.png"/></a></figure><p id="96aa7faa-559f-469f-9666-b7212671b7a4" class="">
+</p><h2 id="335d23e6-8498-4231-9aa2-8491467c385d" class="">Fundamental properties of DP</h2><figure id="19cc36e7-ca07-4151-b773-a944006f7c87" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2013.png"><img style="width:646px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2013.png"/></a></figure><p id="2aafbe51-9fc1-426c-a742-07d0c7bb30c5" class="">
+</p><p id="67f555b6-e299-41fd-986c-0e0e39bc36d0" class="">
+</p><p id="604a6c05-1462-455b-97d7-b9bb9657816e" class="">
+</p><h2 id="f009c3a6-3591-49b4-bdca-715999a8dc1b" class="">Federated learning</h2><figure id="56aac8e7-c2eb-499a-bb01-da4dc4832972" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2014.png"><img style="width:651px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2014.png"/></a></figure><p id="dcac92a4-90eb-40a8-b26c-3b46192b6627" class="">
+</p><p id="d693a998-17f7-47bb-8e97-c2dffab4ee57" class="">
+</p><h2 id="47c72b6f-5a6b-4ecd-8128-3cafe91a2d59" class="">Differential Privacy Summary</h2><figure id="ec673220-83bb-4c63-b3ea-6d6914f7b2a7" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2015.png"><img style="width:627px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2015.png"/></a></figure><p id="c49c908a-770f-4151-b7cb-c35112ec60c1" class="">
+</p><h1 id="b302b91d-a2bc-4cea-b01e-79d089a3a235" class="">Algorithmic Fairness</h1><h2 id="f9a2c430-4727-4845-9743-0a8439e4cc7f" class="">Motivation: ALgorithms influence our lives in many ways</h2><ul id="1c32ad52-a6ca-4ed0-8213-a5a7189b520e" class="bulleted-list"><li style="list-style-type:disc">Machine Learning based systems have been used (to automate complex decision) for:<ul id="6fe56503-e9aa-44be-97e4-be7f6b1cb3e3" class="bulleted-list"><li style="list-style-type:circle">Selecting job applicants</li></ul><ul id="e077f94f-c49d-4bb2-84ab-35e210421d69" class="bulleted-list"><li style="list-style-type:circle">Recidivism prediction and predictive policing</li></ul><ul id="f45f2e53-fe60-48e0-ad96-1a7f175af49f" class="bulleted-list"><li style="list-style-type:circle">Credit scoring and loans</li></ul><ul id="2b56f030-28ab-4423-b0b9-8c6330b464cb" class="bulleted-list"><li style="list-style-type:circle">Facial recognition</li></ul><ul id="e4a53e5c-1070-4c03-b39f-8c3f2221e9aa" class="bulleted-list"><li style="list-style-type:circle">Search and recommendations</li></ul><ul id="6bec1433-78f6-4ad8-a10a-dc06ccd6ffaf" class="bulleted-list"><li style="list-style-type:circle">Machine Translation</li></ul><ul id="ea01e679-f82d-447c-b08a-2d2f3147e4c9" class="bulleted-list"><li style="list-style-type:circle">... and many other critical applications (involving humans)</li></ul></li></ul><ul id="1b9f2790-28ff-4d7f-8b5c-19b70e33c6f2" class="bulleted-list"><li style="list-style-type:disc">Unfortunately it has been repeatedly shown that these systems are (often significantly) biased</li></ul><p id="3fd327d2-5d16-44b3-b3ca-0614aafca4ef" class="">
+</p><p id="509498e9-8497-460f-9683-0733ed0600e8" class="">
+</p><p id="89df209f-e143-458e-8a3f-3fb494e313e1" class="">
+</p><p id="b86d8e15-d0bd-47f0-ac65-fe0cea81619a" class="">
+</p><h2 id="1a15a34d-1fc4-4bf3-901c-459def10ec8a" class="">Biased algorithms influence our lives in many ways</h2><figure id="7d1e5984-a956-4c9f-9a58-ad2415750b19" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2016.png"><img style="width:644px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2016.png"/></a></figure><p id="bce04ff5-f0f2-4e4f-a83c-a32294969dec" class="">
+</p><p id="84ff6feb-d711-46b9-9546-a9e36d1577a3" class="">
+</p><h2 id="89921f0d-d8ac-4658-984f-a4b313b2072a" class="">What causes the bias?</h2><figure id="97e562da-3742-4970-a6f9-43fecfa5010f" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2017.png"><img style="width:639px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2017.png"/></a></figure><p id="516ee1b6-c545-47f1-bcbd-fb95dae21d71" class="">
+</p><h2 id="51475369-ee85-475e-b02e-b08547cadbeb" class="">Why fairness is hard</h2><figure id="cba6fc62-0cb4-4053-a79e-476abaf4e64b" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2018.png"><img style="width:659px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2018.png"/></a></figure><p id="4a2f9f94-8bb6-4d52-b77e-920d7f871107" class="">
+</p><p id="4d161929-3358-4ddc-9cb5-e3e34542a80b" class="">
+</p><p id="7c7ef12a-901b-49f6-8b14-cfee68b2096c" class="">
+</p><h2 id="391180af-4d9b-4220-9ce2-9b698076020c" class="">An illustrating example</h2><figure id="c7665294-f4c7-44c2-8560-8c3a3fe8ecc2" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2019.png"><img style="width:670px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2019.png"/></a></figure><p id="5cd27230-e2a8-41d0-8af5-ac5891098438" class="">
+</p><p id="e2d1ed26-b8f6-4792-a4f5-fd3d777015fc" class="">
+</p><p id="10b56a94-2865-4425-8cf1-7778674ea6bb" class="">
+</p><p id="6e834006-dd83-4ab0-b3d4-5ce133ba3e32" class="">
+</p><h2 id="50fd1722-b580-4b1d-aa79-e21975f42796" class="">Definitions of Fairness</h2><figure id="6cfa0e56-4ba5-4132-a346-c5e42e3da077" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2020.png"><img style="width:637px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2020.png"/></a></figure><p id="2922910c-70f3-424a-8998-124e89b22378" class="">
+</p><p id="a138d2f8-7afb-4c35-941e-567b2b10350a" class="">
+</p><p id="1a56c4a8-7cd0-4318-b80a-4d28caf30173" class="">
+</p><p id="f48f04be-f752-4a8a-b6c0-8e2dced72fca" class="">
+</p><p id="ed540bb1-fd32-4055-85f7-5045e6f9b4e6" class="">
+</p><h2 id="748efe3b-1d23-4edf-b2a5-801a86103d7b" class="">Setup - Group Fairness</h2><figure id="a6b421fb-d358-4ad1-ac78-a7114bbf730e" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2021.png"><img style="width:659px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2021.png"/></a></figure><p id="336d8b7f-dff1-4a3a-a576-63cf4f5dd92c" class="">
+</p><p id="771050ef-40fd-4a94-9c69-1dadce29e8ef" class="">
+</p><p id="da24b371-083e-4fe2-b15f-5cff1d6e082d" class="">
+</p><h2 id="9544a4a3-fe43-49f7-9e7c-740f3095714d" class="">Naive Approach: Fairness through Unawareness</h2><figure id="9ff70048-75d7-4c26-9269-b54a21740c11" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2022.png"><img style="width:657px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2022.png"/></a></figure><p id="d4a684c6-2f74-417e-9585-941df6c054d4" class="">
+</p><p id="96fb2b1b-9520-4bcb-8207-26c4702642a9" class="">
+</p><p id="6e0b4fca-0bc5-4478-b762-7c8e667c2d64" class="">
+</p><h2 id="4e16c120-84c0-4bdc-82b0-b5e8caa86580" class="">First Criterion: Demographic Parity</h2><figure id="05423b82-3b85-400c-8cc4-5c8876f14679" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2023.png"><img style="width:635px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2023.png"/></a></figure><p id="109627b8-c584-4251-97ba-400e8305886d" class="">
+</p><p id="97180ffe-414a-4c70-80f0-ec0e1f84998c" class="">
+</p><h2 id="85ea18bb-b37c-4462-a324-99c3a6f8f663" class="">How to achieve Demographic Parity?</h2><figure id="13083387-5939-45c9-bd72-b565c630e5ae" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2024.png"><img style="width:586px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2024.png"/></a></figure><p id="8d120104-9c99-4a56-9015-6a58bade749d" class="">
+</p><p id="2e23dc15-84e2-404f-88ca-972c8e4b386d" class="">
+</p><p id="e79e2d6c-50de-461f-8b0b-3f92d301dffe" class="">
+</p><h2 id="ee1d161f-498c-4431-866f-d60afc39b716" class="">Representation learning approach</h2><figure id="6b5e14b7-488b-4136-86b9-58cccbe538d1" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2025.png"><img style="width:626px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2025.png"/></a></figure><p id="b3aa9a8e-9674-477b-92f2-bc13ca9e02a1" class="">
+</p><p id="f8a6fc67-7ded-4126-8d1d-53029e58e956" class="">
+</p><p id="cedb0bf7-1b92-4400-a369-7bb3ef53c027" class="">
+</p><h2 id="2d899fc5-d5c4-43fa-a57a-ca79f1efb615" class="">Demographic Parity</h2><figure id="92681e33-fbf0-4d84-a912-b7758f9ccaca" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2026.png"><img style="width:647px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2026.png"/></a></figure><p id="00f3f9b4-e9f9-44f5-b9c0-569ff78a0667" class="">
+</p><p id="cbb1d612-892b-43a2-a88a-80176ad0f92e" class="">
+</p><p id="1ca09f94-3495-4e76-80c5-b79783207181" class="">
+</p><h2 id="13b768be-fa5f-4a51-9566-babbc1775d8f" class="">Second Criterion: Equalized Odds</h2><figure id="82610088-9c16-49e1-a148-f3ee19965256" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2027.png"><img style="width:659px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2027.png"/></a></figure><p id="4d638b42-298b-47c0-8344-5bc06875f327" class="">
+</p><p id="9e75cb26-617e-4619-b9d1-2ca311ab70b1" class="">
+</p><h2 id="069536b1-be63-429d-b244-ef6d2e882417" class="">Equalized Odds / Equality of Opportunity</h2><figure id="d56f1c47-d06a-4c62-b9a7-f47c8a2901e2" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2028.png"><img style="width:653px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2028.png"/></a></figure><p id="0222c7fa-049b-43c9-b66c-7fa307dc0bea" class="">
+</p><p id="a2b0f790-3db6-497c-8062-aff375af9fa5" class="">
+</p><h2 id="69a77a12-12e3-449b-b4d5-9bfbd3359d10" class="">Third Criterion: Predictive Rate Parity</h2><figure id="4701eb3e-86a0-4066-af51-1982c7fd7236" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2029.png"><img style="width:646px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2029.png"/></a></figure><p id="151a2e3f-7a8c-4ab7-a113-47b2681ef575" class="">
+</p><p id="b9f40b04-7b2e-493a-8dbd-4225f4e3ef65" class="">
+</p><p id="18f5db55-644c-4bcb-a012-a3ba66aeacf0" class="">
+</p><h2 id="dadb47a2-d756-482f-82cf-ecad0f205b43" class="">Predictive Rate Parity</h2><figure id="a06a2f8b-a654-40ba-be5f-e82bc9c78cca" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2030.png"><img style="width:675px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2030.png"/></a></figure><p id="06584f76-fdbc-4a01-9518-7036634d656a" class="">
+</p><p id="67e0fbb8-497e-484d-9bd7-4406f81ca86c" class="">
+</p><p id="2a9966b2-b0a1-466c-a7ee-a13083dcf348" class="">
+</p><p id="edd32db1-9ea6-489c-b50e-df66f1e0d61d" class="">
+</p><h2 id="a1dd9ee7-19ae-4a10-8718-8bc164e4dacb" class="">Fairness Summary: A growing list of fairness criteria</h2><figure id="a947b795-7831-4233-bfe5-ae816d180bea" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2031.png"><img style="width:654px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2031.png"/></a></figure><p id="5a7dabb5-f81c-4834-9f4b-9c7014f8dd0a" class="">
+</p><p id="82964e0b-6aaf-4ac4-932b-795648daa90b" class="">
+</p><p id="3b8c3430-bedf-49ec-99ff-e879f0e6982a" class="">
+</p><h2 id="a9a2c7a0-0f98-41e9-8e06-79b8abcdb9d1" class="">Visualizing the trade-offs: research.google.com/bigpicture</h2><figure id="7104ff1c-1625-4d04-8236-e5f498fb9b80" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2032.png"><img style="width:619px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2032.png"/></a></figure><p id="4cd7a1d9-f2a6-4965-aee0-a20042cb9f0b" class="">
+</p><p id="9abedfce-02ad-4908-a942-235d2d358a15" class="">
+</p><p id="740aa3f6-a347-458f-aa47-439050f92667" class="">
+</p><p id="6f1420c1-e284-4484-ad40-7fd812b269c8" class="">
+</p><p id="3489062c-80c2-44b2-b2d3-047a9a78048b" class="">
+</p><p id="81d51beb-3412-4107-acab-6ca038740b79" class="">
+</p><p id="73b07716-030b-4f5b-beff-0855700959cb" class="">
+</p><p id="d129eaf4-8d83-4d18-80f7-36b0ccf005bc" class="">
+</p><h1 id="5d96a86d-0952-47a5-aa1c-387b1d6949a3" class="">Adversarial Examples / Robustness</h1><h2 id="7b1c433a-b2d9-438d-8b28-69d7f4b30476" class="">Adversarial Examples</h2><figure id="5f5a4cdf-b0f2-47b0-9d50-fcf6e105d658" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2033.png"><img style="width:660px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2033.png"/></a></figure><p id="915e8eb2-f6f3-41a2-ad71-645b38909ccd" class="">
+</p><figure id="e95f81fb-8c05-4601-9fd3-f82b04a128db" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2034.png"><img style="width:706px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2034.png"/></a></figure><p id="a9e4040a-4982-4ff1-992e-585f739ae8fc" class="">
+</p><p id="6425a9f6-c75b-4f07-b8c2-4c6af7ccff97" class="">
+</p><figure id="41b17f17-0fc7-4d92-aaf5-ed640414be8a" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2035.png"><img style="width:693px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2035.png"/></a></figure><p id="15619ec8-d346-41e9-a66a-8d37c552fba8" class="">
+</p><h2 id="1c5a4941-d6cd-43db-9045-184574a28f81" class="">Definition of an adversarial example</h2><figure id="c3a844cd-430b-4b06-95ff-4431483ccd90" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2036.png"><img style="width:638px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2036.png"/></a></figure><p id="3cceffff-bcf9-4f55-a6aa-63ce9162575d" class="">
+</p><p id="9ede87ae-4f01-40f2-a190-3f1a3b93c56f" class="">
+</p><p id="40a257c1-5d62-431a-9b10-476778c7bead" class="">
+</p><h2 id="3cdad3b4-ad48-428d-95ae-6f2c2b83a21c" class="">How to generater an attack</h2><figure id="c3de8c53-fc9a-4258-86fc-8684f9963dc1" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2037.png"><img style="width:635px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2037.png"/></a></figure><p id="e090de93-c073-42bc-a2f8-b79bd72eaefa" class="">
+</p><p id="00ad3b07-4a88-424e-ad9f-f1b549c4ad34" class="">
+</p><h2 id="a12121e0-86b6-42b4-8515-b371e260d54b" class="">Targeted vs. Non-targeted Evasion vsa. Ponsoning</h2><figure id="97d597dc-a19c-4c03-b2a6-57bd5807c23a" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2038.png"><img style="width:640px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2038.png"/></a></figure><p id="5d84b926-f90d-41b4-a5e5-8b89445a834f" class="">
+</p><p id="ef145f26-e9b8-4edd-a5cd-07d1bf5227c2" class="">
+</p><p id="527bf3be-2a2a-4860-88ff-2e5e149b8992" class="">
+</p><h2 id="de3bfff3-3b6d-4f68-a9d6-9dd59204a947" class="">How to defend against adversarial examples?</h2><figure id="c1724e13-7225-45c6-8fcc-4465df2b8c86" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2039.png"><img style="width:648px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2039.png"/></a></figure><p id="99be9921-2ba9-4ce6-932c-fd80f7eab660" class="">
+</p><p id="5b18d7bd-1307-45b1-b196-05980769217e" class="">
+</p><figure id="d9de58fb-205c-4ac5-8f2e-e2f9f04ea37b" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2040.png"><img style="width:642px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2040.png"/></a></figure><p id="3cfcfd1e-5251-4791-b34b-e7263b2b8380" class="">
+</p><h2 id="cff69bf4-b6eb-4a0f-b86d-3a6d63809ea9" class="">Adversarial Examples Summary</h2><figure id="20b47eb0-e4b2-4ae5-831b-e5335e8cf4e3" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2041.png"><img style="width:633px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2041.png"/></a></figure><p id="5a72c49f-8d00-4661-8b15-844d34942f4f" class="">
+</p><p id="35739365-0678-4341-9b4d-96a8ecae5952" class="">
+</p><h2 id="3fc69108-862e-4e7a-ac18-4ca7337e47fc" class="">Summary</h2><figure id="f3c74bfc-197f-4f0e-af87-b56b7c33c326" class="image"><a href="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2042.png"><img style="width:625px" src="Advanced%20topics%2078db2814c38a4624b7190408ca8b9555/Untitled%2042.png"/></a></figure><p id="a84ac079-f73f-45b8-ad98-674a3ca49fce" class="">
+</p></div></article></body></html>

@@ -1,0 +1,800 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Dimensionality reduction &amp; matrix factorization</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="7e24d129-2639-45c0-a602-9c44df742da1" class="page sans"><header><h1 class="page-title">Dimensionality reduction &amp; matrix factorization</h1></header><div class="page-body"><nav id="3b16066d-d5d8-40cd-943d-8780462bda41" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#4d855552-6355-4925-a02c-1f7b9181e70e">Intro</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#cdca741f-5760-4337-882e-9d8e83770b99">Unsupervised learning</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#07e15c56-f3be-40e9-8e2c-d3d3bbf8f16d">Dimensionality reduction: Motivation</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#817ad8bb-7bbf-46eb-b6e5-d9ebacac7c1d">Feature (sub-) selection</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#d9060497-0be1-4e67-87ab-7bf5a342518d">Beyond feature (sub-)selection</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#ca47047e-6d94-4f58-a993-7a4b3b438fba">Dim. reduction via linear transformations</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#d0eadc32-71b1-492c-a01a-c0bda77146d9">Discussion: linear transformations</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#57c309f5-54dd-404c-8c4a-c0cc9e787014">Principal Component Analysis (PCA)</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#6fb12902-d9d8-4cd2-b1c4-a56f79ae6759">PCA: motivation</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#7c42b0b4-35f7-4db5-a7bc-e150918d0e8e">Determine the principal components</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#f3cc3326-5322-4af5-9f76-2d3cbdaf4e0b">PCA summary</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#6d822ebc-7100-466e-be86-45fabc183253">How to compute eigenvectors?</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#1110b155-a1fe-421e-aa3c-9b9c411e4cf9">Probabilistic PCA (PPCA)</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#69f3faf3-f5d0-4edd-83af-6fada971c0a1">PPCA: Formal definition</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#38612ce2-479c-4472-bc27-b70ffbb6aa9e">Generative view of PPCA</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#06df6424-dcad-470f-b892-a20068c4b8fb">PPCA: Integrating out z</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#271bc4af-93ac-4e03-9d5a-ebc97dbaf911">MLE for PPCA</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#cbc5d406-7752-4f85-9855-022c97ab2e00">Closed form MLE estimates for <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold-italic">W</mi><mtext> and </mtext><msup><mi>σ</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">\boldsymbol{W} \text { and } \sigma^{2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord"><span class="mord boldsymbol" style="margin-right:0.15972em;">W</span></span></span><span class="mord text"><span class="mord"> and </span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#59934e4e-b950-4f1c-84a2-8c2cf208071c">Dimensionality Reduction</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#887376fc-3af4-4e62-b166-95922ec751ab">Relation to PCA and advantages</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#f06bb80f-dc0e-4ec3-b399-9cc65775f044">Singular Value Decomposition (SVD)</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#4264ce43-ff3d-44d9-aad7-0c0f81652720">Idea: low rank approximation</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#eb58fa26-2f2e-4d0d-adf7-eadb17db50f9">Low-dimensional manifold</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#99c31593-fea4-4735-88c9-dece439cba7a">Rank of a matrix</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#cd94c347-6f9a-4b6c-9346-c04e0f152671">Rank is &quot;Dimensionality&quot;</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#12f38c8e-61ac-4136-b554-c8d14ebeee2e">Low rank approximation</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#acf240b5-8797-4e8b-932f-0f79c994cafd">SVD &amp; Latent factors</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#5416354f-c188-4f5d-b2fa-a48eb9e6b291">Singular Value Decomposition (SVD): Definition</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#9d179091-ca38-4aac-af98-fcb21fe03e64">SVD Example: Users-to-Movies</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#70c08cd6-04a4-4adc-8c2d-3e61e3f32f32">SVD Example: Latent Factors</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#8bc391fa-0255-4441-87ab-11c855143d3d">SVD Example: Beyond Blocks</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#3e011f11-8926-41c8-b70d-3f1e661ccb3b">SVD： Interpretation</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#76fa3f97-9b9b-448d-aa9d-04adad6d641e">SVD: Interpretation</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#d3c85332-98dd-41ac-bc0f-afb327c0f79f">Dimensionality reduction</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#9c77bfc7-055e-4667-8e78-17879bfccaaf">Recap: Dim. Reduction by Low Rank Approx.</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#55e10641-074a-4e7c-bcbe-8fecfe6424bf">SVD: Alternative Interpretation</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#4524321e-f76a-42fb-b32c-ac708c084dd8">SVD: Best approximation</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#2487231a-b5b1-4cc9-84ed-479776acdfbf">SVD: Best low rank approximation</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#6a93b2cd-5742-471c-9d5a-775008d6f949">SVD: Projection</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#99d504bd-9d43-47d2-af03-0b4c491e3df0">Best approximation - intuitive explanation</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#a92f5481-bd05-4aa4-83c3-b4bda5f8825d">SVD: Best low rank approximation - proof</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#62608df4-235a-4c0a-9d2a-e5cdcdeceeb0">SVD: Complexity</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#5242c3c7-5d8e-409e-95aa-0dc99f8a56e6">SVD &amp; PCA: Comparison</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#7857a2d9-5f34-4144-837c-e8351f045a3c">Remark: Computation of SVD</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#827f7c6a-aacc-46dd-a542-1a7ed230faeb">Matrix Factorization</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#88517318-f5d4-4292-a3d5-f8eecc6e5855">Motivation &amp; Approach</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#36d15d2b-38ac-45ae-af2b-ca7b67727f9c">Motivation: The Netflix Prize</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#ca709670-44cc-4e72-b6ee-47be8cb1e077">Utility matrix R: evaluation</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#93a12d94-7192-4ef0-858c-f4a77cb43730">&quot;SVD&quot; on rating data</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#3fc8de10-6f9d-4995-8692-ef76ae701470">Discussion: SVD/PCA</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#ce1f6d3f-6c2e-4777-a495-0c47dbe21033">Latent fasctor models</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#0a3f97e7-eb6d-4b9c-8fa2-50c728a0e26c">Finding the latent factors (1)</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#edcfc90a-9c64-4def-bd7d-349dc3dee284">Finding the latent factors (2)</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#0fb2fc5d-65de-44ab-ad14-1a2c1f31e3a4">Finding the latent factors (3)</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#a5b21798-af3f-44b6-a973-04d465b422ab">Alternating optimization: Discussion</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#e520136f-bbb3-41e8-a204-2f03fdf2428e">Rating prediction</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#7485c1d1-269e-49eb-81e9-65e453e659f7">Regularization &amp; Sparsity</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#4b340ade-00b4-4b99-8d15-b2802025ab5e">Challenge: Overfitting</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#a8182801-b3aa-4061-8779-c7ab18f2a288">Regularization</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#a13f6e36-79c8-4324-9828-da29da35ce51">The effect of regularization</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#9d6182dd-cf6c-4efd-9bd5-0b67f3c314d3">Regularization in out use case</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#2c4608c6-a1e4-4c02-b466-f69e156d2610">L2 vs. L1 Regularization</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#01f34a85-49b3-4a41-9c02-33afb442b3c7">Further Factorization Models</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#e43839e6-ceb4-441f-ac92-8dfe6777b35d">Non-Negative matrix Factorization</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#abd3ef10-12b9-4f81-8428-634e1501269c">NNMF example: Olivetti Faces Data</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#68423d32-a6cf-4c45-ad70-51c01d1ad4f9">Boolean Matrix Factorization</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#c19b456c-3dc7-4dbf-bc47-b850c597ef0d">Boolean Matrix Factorization</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#366f6c9f-ea52-4b33-b7ac-72022c77cbd6">Autoencoders (Non-linear Dimensionality Reduction)</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#b520d392-a21b-4ee6-ba6e-766d37bb6e39">Motivation</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#c0f2b3d4-ce8d-445a-af65-8669f5b1d8c3">Autoencoders</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#223e21da-bc35-4c03-b17b-05a44ae9e8d2">Autoencoders: example</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#4d92f7d1-60c8-4e0c-a53a-9e429f2df601">(Linear) Autoencoders &amp; PCA: Comparison</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#5065ba69-c850-4eaf-a09a-ef9ead85ea0a">Summary</a></div></nav><h1 id="4d855552-6355-4925-a02c-1f7b9181e70e" class="">Intro</h1><h2 id="cdca741f-5760-4337-882e-9d8e83770b99" class="">Unsupervised learning</h2><figure id="77100df7-8c45-4a9d-8bcf-efb5f2ec2e73" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled.png"><img style="width:869px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled.png"/></a></figure><p id="10ffa1ac-0d58-4a96-a479-7b98c1191eae" class="">    </p><figure id="91240d78-fc09-4b58-9273-76207f0bc9f1" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%201.png"><img style="width:805px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%201.png"/></a></figure><p id="f793270e-f645-4269-a3ac-b2bd8263cd06" class="">
+</p><p id="560dee5b-1ec5-4f97-9c0c-800b3aa3f98a" class="">
+</p><h2 id="07e15c56-f3be-40e9-8e2c-d3d3bbf8f16d" class="">Dimensionality reduction: Motivation</h2><figure id="71332d1c-05d9-4ca8-a605-0b68fd676d32" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%202.png"><img style="width:830px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%202.png"/></a></figure><p id="afce3f3c-397a-47ff-a5f3-625380114352" class="">
+</p><h2 id="817ad8bb-7bbf-46eb-b6e5-d9ebacac7c1d" class="">Feature (sub-) selection</h2><figure id="a80ab6bd-cf8f-448f-bff9-aa50cd36c96e" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%203.png"><img style="width:854px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%203.png"/></a></figure><p id="b988a589-662a-4578-a75f-f6f7da9a98e3" class="">
+</p><p id="9caeb228-c264-4047-b5d6-37d9be235145" class="">
+</p><h2 id="d9060497-0be1-4e67-87ab-7bf5a342518d" class="">Beyond feature (sub-)selection</h2><figure id="3602a418-e205-436f-82d2-ca9ea00fd81c" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%204.png"><img style="width:866px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%204.png"/></a></figure><p id="cfdb5ac2-f4e8-45f7-abde-a8693608c97f" class="">
+</p><p id="8d35203a-9ab1-4bf0-8087-8abe774ee552" class="">
+</p><h2 id="ca47047e-6d94-4f58-a993-7a4b3b438fba" class="">Dim. reduction via linear transformations</h2><figure id="85141b55-c031-4b67-8165-5362e22d2c07" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%205.png"><img style="width:890px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%205.png"/></a></figure><p id="581c0de5-d758-4337-91e3-c5d3e26cf832" class="">
+</p><h2 id="d0eadc32-71b1-492c-a01a-c0bda77146d9" class="">Discussion: linear transformations</h2><figure id="c736699e-f966-4931-b353-c8988909ef32" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%206.png"><img style="width:839px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%206.png"/></a></figure><p id="2e99dbf4-dece-4bd4-8983-0014dfb42545" class="">
+</p><p id="16b168cd-1a9c-4522-9169-b6e0905b1021" class="">
+</p><p id="3d94c838-9f6b-4476-b5a8-f6eb84eee1cf" class="">
+</p><p id="27c34c23-eb52-41ab-8d1b-9f3336971803" class="">
+</p><h1 id="57c309f5-54dd-404c-8c4a-c0cc9e787014" class="">Principal Component Analysis (PCA)</h1><h2 id="6fb12902-d9d8-4cd2-b1c4-a56f79ae6759" class="">PCA: motivation</h2><figure id="7f19f102-3555-4e03-b4fc-c237b96b025c" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%207.png"><img style="width:852px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%207.png"/></a></figure><figure id="b41523fd-c142-4d30-bdfb-8347e455dd28" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%208.png"><img style="width:815px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%208.png"/></a></figure><p id="30d2c7bb-19cc-4741-a4df-105816ffefdd" class="">
+</p><p id="360c2962-c685-4f03-95a7-cb1ab7c9982e" class="">
+</p><h2 id="7c42b0b4-35f7-4db5-a7bc-e150918d0e8e" class="">Determine the principal components</h2><figure id="093ff6aa-87b6-4baf-a5af-fb61f3ff40ee" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%209.png"><img style="width:881px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%209.png"/></a></figure><p id="02a1506c-4fec-4dae-af7e-c5cd1af41a7d" class="">
+</p><ul id="325f7b24-6321-4f34-b95d-697504e17cc6" class="bulleted-list"><li style="list-style-type:disc">General approach<ol type="1" id="c9dbc7a1-ded7-4cc9-ab76-92cfa5b5bfed" class="numbered-list" start="1"><li>Center the data<ul id="127525ea-0700-41ae-ace1-c1ad9be79ac5" class="toggle"><li><details open=""><summary></summary><figure id="e3ef8753-67bd-4bde-be70-9795f39a1f27" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2010.png"><img style="width:870px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2010.png"/></a></figure></details></li></ul></li></ol><ol type="1" id="0d889380-5656-4153-9464-449171fb3a26" class="numbered-list" start="2"><li>Compute the covariance matrix<ul id="e3d5bdd7-7f45-4a5b-8f62-2c16a2c5f970" class="toggle"><li><details open=""><summary></summary><figure id="2a023362-05a6-4ef6-918a-a4ee53b69e08" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2011.png"><img style="width:871px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2011.png"/></a></figure><figure id="02f1b6ff-23c6-49cc-a017-ccb02f626133" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2012.png"><img style="width:833px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2012.png"/></a></figure></details></li></ul></li></ol><ol type="1" id="82e3c662-61b8-4353-bfab-89a4b99ca26e" class="numbered-list" start="3"><li>Use the Eigenvector decomposition to transform the coordinate system</li></ol><figure id="ef112a30-047d-45ff-af83-c9f4b3ee5089" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2013.png"><img style="width:495px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2013.png"/></a></figure><ul id="7b348336-b7cb-49fc-912f-50951c010206" class="toggle"><li><details open=""><summary></summary><figure id="5665a8e9-12ad-43dc-a453-2ac3322c8fb6" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2014.png"><img style="width:892px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2014.png"/></a></figure><figure id="93a8b488-1587-4575-8a1a-3add3ac161e2" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2015.png"><img style="width:817px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2015.png"/></a></figure></details></li></ul></li></ul><h2 id="f3cc3326-5322-4af5-9f76-2d3cbdaf4e0b" class="">PCA summary</h2><figure id="f9c902b9-a6c6-48d6-9571-004138021676" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2016.png"><img style="width:818px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2016.png"/></a></figure><figure id="b5d25876-29a9-4582-8501-cbee42e6ebbe" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2017.png"><img style="width:780px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2017.png"/></a></figure><p id="a278a3ff-83d9-4adc-8899-97813021c899" class="">
+</p><figure id="3f9f6b19-4373-40df-a1ca-23cf31bd0a6c" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2018.png"><img style="width:870px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2018.png"/></a></figure><p id="8c9b0db0-8c57-42ac-af34-e4520d9d2ebe" class="">
+</p><p id="b296904e-852c-4c9d-8aeb-0b1812142fcb" class="">
+</p><p id="c037f673-0ecc-48e7-80e0-0c42dd907657" class="">
+</p><h2 id="6d822ebc-7100-466e-be86-45fabc183253" class="">How to compute eigenvectors?</h2><figure id="ac12cbb1-92ba-4b0c-9d36-e50bd554302e" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2019.png"><img style="width:817px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2019.png"/></a></figure><figure id="6d6d8cea-4605-46bc-94f1-e5a9e98e659d" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2020.png"><img style="width:768px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2020.png"/></a></figure><p id="5724ffd1-b211-40ea-b3d3-e35d0bf66179" class="">
+</p><p id="ccaca822-b842-40c4-b00c-2e4cb7a32a3d" class="">
+</p><p id="544ddd7c-6bcc-4807-9156-a65ce03ba9ef" class="">
+</p><p id="11c5f5ee-3249-4015-aeb4-6f97511bb289" class="">
+</p><h1 id="1110b155-a1fe-421e-aa3c-9b9c411e4cf9" class="">Probabilistic PCA (PPCA)</h1><figure id="fcf89370-33cc-4bb7-a415-44158ec2e39c" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2021.png"><img style="width:769px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2021.png"/></a></figure><ul id="75eee9c7-a494-4466-96cd-73cc877bc059" class="bulleted-list"><li style="list-style-type:disc">latent: 潜在的</li></ul><p id="ddbd7602-e378-4ba1-beab-3b61097c69e3" class="">
+</p><h2 id="69f3faf3-f5d0-4edd-83af-6fada971c0a1" class="">PPCA: Formal definition</h2><figure id="08003d42-5a7d-4454-95b2-f6a2b8d37650" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2022.png"><img style="width:696px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2022.png"/></a></figure><p id="fbff1a98-a824-42be-a874-fced993bcfa6" class="">
+</p><p id="963392b4-e220-4cd3-a912-6a2e046c7e78" class="">
+</p><h2 id="38612ce2-479c-4472-bc27-b70ffbb6aa9e" class="">Generative view of PPCA</h2><figure id="66aac749-8c14-4b75-9597-63419171b7a2" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2023.png"><img style="width:909px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2023.png"/></a></figure><p id="7cf7e7a2-e165-4618-862d-3bb8d8175819" class="">
+</p><p id="41e408e0-b8a2-474e-b514-a80d2424d147" class="">
+</p><h2 id="06df6424-dcad-470f-b892-a20068c4b8fb" class="">PPCA: Integrating out z</h2><figure id="904fd05c-c319-4c8e-b5d6-706d8b7334f6" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2024.png"><img style="width:509px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2024.png"/></a></figure><p id="5a818d7c-9f54-442c-990a-1af21aa025f6" class="">
+</p><p id="0ca80e44-3345-4e1b-a74e-aaadf00f52c5" class="">
+</p><p id="8e2451fd-4125-4fec-8bf3-f286068950ea" class="">
+</p><h2 id="271bc4af-93ac-4e03-9d5a-ebc97dbaf911" class="">MLE for PPCA</h2><figure id="4777b6d5-5024-4aa7-aebb-fe8a0512d5d3" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2025.png"><img style="width:859px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2025.png"/></a></figure><p id="b2e4c968-241c-4b4a-974d-f13e8a84846b" class="">
+</p><h2 id="cbc5d406-7752-4f85-9855-022c97ab2e00" class="">Closed form MLE estimates for <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold-italic">W</mi><mtext> and </mtext><msup><mi>σ</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">\boldsymbol{W} \text { and } \sigma^{2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord"><span class="mord boldsymbol" style="margin-right:0.15972em;">W</span></span></span><span class="mord text"><span class="mord"> and </span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span></h2><figure id="40251f51-8128-4219-9d4e-3cf7ad2452bc" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2026.png"><img style="width:822px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2026.png"/></a></figure><p id="76aba911-418e-4f88-a489-b69fc18697a6" class="">
+</p><h2 id="59934e4e-b950-4f1c-84a2-8c2cf208071c" class="">Dimensionality Reduction</h2><figure id="a036f18c-e459-466e-be1d-501210b76340" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2027.png"><img style="width:830px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2027.png"/></a></figure><p id="1cde7d31-2a8d-4a2e-be43-c2a10b01ae0d" class="">
+</p><h2 id="887376fc-3af4-4e62-b166-95922ec751ab" class="">Relation to PCA and advantages</h2><figure id="cb96ae84-3425-4d1f-a0b7-105136d098b6" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2028.png"><img style="width:825px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2028.png"/></a></figure><p id="537ce89a-e61d-4098-b6de-b9ff5d718732" class="">
+</p><p id="7dc60a8e-449d-41d0-aa11-08a57b826cde" class="">
+</p><p id="71f14521-996b-4657-bf67-0804351441cb" class="">
+</p><p id="2f266198-86e8-4aa2-8e72-8a27fee42d5c" class="">
+</p><h1 id="f06bb80f-dc0e-4ec3-b399-9cc65775f044" class="">Singular Value Decomposition (SVD)</h1><h2 id="4264ce43-ff3d-44d9-aad7-0c0f81652720" class="">Idea: low rank approximation</h2><p id="190cff1d-d8bc-4764-a5f5-0bb1289f919e" class="">
+</p><h2 id="eb58fa26-2f2e-4d0d-adf7-eadb17db50f9" class="">Low-dimensional manifold</h2><figure id="a55fd6a6-ecf5-4100-8f7e-10c2263644ef" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2029.png"><img style="width:755px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2029.png"/></a></figure><p id="b740ab85-a641-4e1c-997b-bf2c0038da88" class="">
+</p><h2 id="99c31593-fea4-4735-88c9-dece439cba7a" class="">Rank of a matrix</h2><figure id="ba2293bf-1d3d-462d-b094-0055e733f2cb" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2030.png"><img style="width:826px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2030.png"/></a></figure><p id="468fa96f-c0d4-4371-842a-4327891bd618" class="">
+</p><h2 id="cd94c347-6f9a-4b6c-9346-c04e0f152671" class="">Rank is &quot;Dimensionality&quot;</h2><figure id="4a913d24-a796-41bd-b172-c39d6514871d" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2031.png"><img style="width:874px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2031.png"/></a></figure><p id="29b3ec68-edd1-4f12-b9b6-2f4e8ae1c24f" class="">
+</p><p id="a2579720-b62c-47db-be90-e10108696751" class="">
+</p><h2 id="12f38c8e-61ac-4136-b554-c8d14ebeee2e" class="">Low rank approximation</h2><figure id="fefe6216-3929-4b6e-8b88-6392d21294a4" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2032.png"><img style="width:795px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2032.png"/></a></figure><figure id="a803332f-dc85-4124-a1a5-fd0721cb6017" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2033.png"><img style="width:809px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2033.png"/></a></figure><p id="506a0204-af29-473d-bc05-76a414e492bc" class="">
+</p><p id="c765836e-e32a-41b4-a6ea-89fb88429034" class="">
+</p><p id="ec773b2a-c58e-4f2a-81bd-2105f2f501ae" class="">
+</p><h2 id="acf240b5-8797-4e8b-932f-0f79c994cafd" class="">SVD &amp; Latent factors</h2><h2 id="5416354f-c188-4f5d-b2fa-a48eb9e6b291" class="">Singular Value Decomposition (SVD): Definition</h2><figure id="0f3b76a5-4acf-45c4-a656-f223fea35003" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2034.png"><img style="width:769px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2034.png"/></a></figure><p id="454966ce-8d69-49cd-a4bc-66817d185ff0" class="">
+</p><figure id="039cd49f-9791-4f31-83f1-8d1173b4dc35" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2035.png"><img style="width:764px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2035.png"/></a></figure><p id="364a5ae3-6074-448f-a755-6960b5f2e193" class="">
+</p><figure id="75c4c1fe-d909-456b-a18f-d3673b8239fb" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2036.png"><img style="width:736px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2036.png"/></a></figure><p id="53e25587-527d-487d-acec-60a0a807d33d" class="">
+</p><p id="ef97cea2-1646-4481-9ae2-8fab61d346da" class="">
+</p><h2 id="9d179091-ca38-4aac-af98-fcb21fe03e64" class="">SVD Example: Users-to-Movies</h2><figure id="94946f81-5dbb-423c-bcfd-d519337f3058" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2037.png"><img style="width:887px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2037.png"/></a></figure><p id="b3ec885b-d5f7-482f-ab91-e44ea4adad91" class="">
+</p><figure id="87032ae0-fc74-4ce5-8366-bdc90d79b157" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2038.png"><img style="width:882px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2038.png"/></a></figure><p id="d98b317e-a461-4980-8904-b5390f568435" class="">
+</p><h2 id="70c08cd6-04a4-4adc-8c2d-3e61e3f32f32" class="">SVD Example: Latent Factors</h2><figure id="9d3ab250-cf22-4f53-afcf-ce8c8b586b1a" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2039.png"><img style="width:889px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2039.png"/></a></figure><p id="cd6b2c20-2ee3-44cd-8ff9-229262d1a97c" class="">
+</p><h2 id="8bc391fa-0255-4441-87ab-11c855143d3d" class="">SVD Example: Beyond Blocks</h2><figure id="9b8f1c33-327a-49e7-944f-34d9930ea658" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2040.png"><img style="width:888px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2040.png"/></a></figure><figure id="19a52f4a-f7ae-4203-b948-230d2aecb2b1" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2041.png"><img style="width:877px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2041.png"/></a></figure><p id="f26c0088-d74e-4dea-92dc-2ed821194b6a" class="">
+</p><figure id="80bd6868-b4ea-48f4-9749-f045c2afcdcd" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2042.png"><img style="width:861px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2042.png"/></a></figure><figure id="0d19fae3-4801-4bb9-9e91-610b956d10da" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2043.png"><img style="width:864px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2043.png"/></a></figure><p id="e543c5a8-3db1-4756-9662-cefd632ea77b" class="">
+</p><p id="fb1fd6b9-61be-43ac-a493-ca82567abd50" class="">
+</p><figure id="df28036b-1a14-45e0-9d91-f11b88232b0b" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2044.png"><img style="width:863px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2044.png"/></a></figure><p id="f49f196f-6f0e-4f80-92c3-0569f87b3748" class="">
+</p><p id="0d15f113-ef5f-4cd9-82b8-4f45a5fef983" class="">
+</p><h2 id="3e011f11-8926-41c8-b70d-3f1e661ccb3b" class="">SVD： Interpretation</h2><figure id="0d66be1e-26e0-4b5d-8ad8-ba487445b1a3" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2045.png"><img style="width:739px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2045.png"/></a></figure><p id="12a8ee15-2d4c-45a6-9d88-7c49d69f8b2d" class="">
+</p><h2 id="76fa3f97-9b9b-448d-aa9d-04adad6d641e" class="">SVD: Interpretation</h2><figure id="644c5b75-ab5a-4f1c-9091-8c9b9daa7c81" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2046.png"><img style="width:728px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2046.png"/></a></figure><p id="1d8c063d-06bd-445c-8fc6-93cb73fefc60" class="">
+</p><p id="2736a2ef-2137-4795-914d-13bda24f8b91" class="">
+</p><h2 id="d3c85332-98dd-41ac-bc0f-afb327c0f79f" class="">Dimensionality reduction</h2><h2 id="9c77bfc7-055e-4667-8e78-17879bfccaaf" class="">Recap: Dim. Reduction by Low Rank Approx.</h2><figure id="5162f69f-8c05-44ca-b54f-32aac9085a35" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2047.png"><img style="width:793px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2047.png"/></a></figure><p id="67db791c-8758-4c50-8e32-3801bd34c875" class="">
+</p><h2 id="55e10641-074a-4e7c-bcbe-8fecfe6424bf" class="">SVD: Alternative Interpretation</h2><figure id="ede8a19b-60a1-496e-ab9f-5a6362c63b96" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2048.png"><img style="width:922px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2048.png"/></a></figure><figure id="5d342916-d5ab-4f12-a7d2-336a3ed4258f" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2049.png"><img style="width:910px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2049.png"/></a></figure><p id="3604b86d-a4f3-442c-a71b-b37c3aba3d64" class="">
+</p><figure id="a2a4a7de-1b12-491d-b29b-0fc2ecfca024" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2050.png"><img style="width:917px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2050.png"/></a></figure><p id="db50bf3b-7f6f-45e5-9d2f-1103129ac38e" class="">
+</p><p id="39f3b77c-644e-4bb6-a7ea-91059500fbf2" class="">
+</p><h2 id="4524321e-f76a-42fb-b32c-ac708c084dd8" class="">SVD: Best approximation</h2><figure id="63ba3464-a85c-43d6-93bf-8f19fe223964" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2051.png"><img style="width:921px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2051.png"/></a></figure><figure id="a43b1f62-ceff-4c14-82cd-42434f9ca18a" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2052.png"><img style="width:915px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2052.png"/></a></figure><p id="ebd21d9c-f353-43e4-b1ce-928d7579cd1e" class="">
+</p><figure id="8d5d21e0-ebcc-42c5-a695-b558b662f616" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2053.png"><img style="width:921px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2053.png"/></a></figure><figure id="561d53a1-4f9d-471c-badd-b42cbd1f4ce5" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2054.png"><img style="width:915px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2054.png"/></a></figure><figure id="2109995a-c123-4d67-be39-edcb089e2da9" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2055.png"><img style="width:829px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2055.png"/></a></figure><p id="346fa806-1549-46d5-ac7a-53b96f61d5c5" class="">
+</p><h2 id="2487231a-b5b1-4cc9-84ed-479776acdfbf" class="">SVD: Best low rank approximation</h2><figure id="6d38eb47-9968-4eed-8733-01474a0cda84" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2056.png"><img style="width:809px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2056.png"/></a></figure><p id="a4a3f097-907e-413b-b2ec-de460e80739c" class="">
+</p><h2 id="6a93b2cd-5742-471c-9d5a-775008d6f949" class="">SVD: Projection</h2><figure id="f00ddfb8-7b36-4de3-bb02-d594413614a8" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2057.png"><img style="width:817px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2057.png"/></a></figure><p id="09d7e1c2-086e-49b8-a5d3-7a11bb416104" class="">
+</p><p id="c0fd7393-e8f9-4fa7-8534-52c6b76c2dc2" class="">
+</p><h2 id="99d504bd-9d43-47d2-af03-0b4c491e3df0" class="">Best approximation - intuitive explanation</h2><figure id="492f519d-bf12-4045-8dc7-ae9e6bd0db5a" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2058.png"><img style="width:863px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2058.png"/></a></figure><p id="246b42d3-6683-4473-a94e-18dfe3c3bb54" class="">
+</p><figure id="9328fcb3-73ed-4840-93ad-5e79839bc834" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2059.png"><img style="width:845px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2059.png"/></a></figure><p id="117f2331-f781-4eb7-9ea3-3bc4fd4a3d58" class="">
+</p><p id="48c73ba2-fef2-498e-82f8-a55e3c55e8c0" class="">
+</p><h2 id="a92f5481-bd05-4aa4-83c3-b4bda5f8825d" class="">SVD: Best low rank approximation - proof</h2><figure id="bf9c566c-0f71-4cbf-9fee-22669127f3f4" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2060.png"><img style="width:848px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2060.png"/></a></figure><p id="4e8559ba-8879-45cf-9cf1-70abb8dd3f95" class="">
+</p><figure id="d944c89e-0e16-45b5-ad8b-861e44a5b3cd" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2061.png"><img style="width:804px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2061.png"/></a></figure><p id="a69cb1fa-b762-40b9-bc81-5429a8f0f704" class="">
+</p><p id="9c835bfa-0fed-48cd-b68d-d2017e21d971" class="">
+</p><p id="157a90b5-aedb-4396-b02e-8e406541b124" class="">
+</p><h2 id="62608df4-235a-4c0a-9d2a-e5cdcdeceeb0" class="">SVD: Complexity</h2><figure id="a4f29900-5b3a-4805-96da-a9c7d2265a13" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2062.png"><img style="width:657px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2062.png"/></a></figure><p id="c0a883e6-a23b-4ec5-9f50-425183585cf1" class="">
+</p><p id="e6d052d2-25e6-40df-b265-482dc87baddb" class="">
+</p><p id="f9b56210-ad65-4f50-bc11-821bdfa24746" class="">
+</p><h2 id="5242c3c7-5d8e-409e-95aa-0dc99f8a56e6" class="">SVD &amp; PCA: Comparison</h2><figure id="3c93df6a-a956-406b-ac71-caee74626fbd" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2063.png"><img style="width:797px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2063.png"/></a></figure><figure id="da3ea1f4-a056-4afc-82ad-545b1b2b679c" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2064.png"><img style="width:773px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2064.png"/></a></figure><p id="7062fddf-5c53-4cfa-937c-5bac94bf8e82" class="">
+</p><h2 id="7857a2d9-5f34-4144-837c-e8351f045a3c" class="">Remark: Computation of SVD</h2><figure id="15223df8-052c-4ad7-8820-e966a7834dd4" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2065.png"><img style="width:806px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2065.png"/></a></figure><p id="aef89278-92b1-4b34-81f3-4ea53eb93b3f" class="">
+</p><p id="0b96e1eb-435d-412c-a721-46d4d3a6de7e" class="">
+</p><p id="e1623561-66b7-4836-a5d2-ea986939af38" class="">
+</p><h1 id="827f7c6a-aacc-46dd-a542-1a7ed230faeb" class="">Matrix Factorization</h1><h2 id="88517318-f5d4-4292-a3d5-f8eecc6e5855" class="">Motivation &amp; Approach</h2><h2 id="36d15d2b-38ac-45ae-af2b-ca7b67727f9c" class="">Motivation: The Netflix Prize</h2><figure id="19f9036b-b463-444c-ba0d-284db1bee241" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2066.png"><img style="width:880px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2066.png"/></a></figure><p id="0eec148a-4ff6-42ab-8c3f-3accdd6f5a58" class="">
+</p><h2 id="ca709670-44cc-4e72-b6ee-47be8cb1e077" class="">Utility matrix R: evaluation</h2><figure id="4b562e40-6f8a-49ae-adc9-a8518c07369f" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2067.png"><img style="width:914px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2067.png"/></a></figure><h2 id="93a12d94-7192-4ef0-858c-f4a77cb43730" class="">&quot;SVD&quot; on rating data</h2><figure id="6958feed-5f1e-419b-92f9-4a0db597f3b0" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2068.png"><img style="width:926px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2068.png"/></a></figure><p id="a410e2ed-ced2-410c-ab74-a621c5486b18" class="">
+</p><p id="0f0da210-7ea8-4fc2-8657-ef70e70026ae" class="">
+</p><p id="054acd4a-90c7-4ce4-8f4d-87e179a60bb1" class="">
+</p><p id="99ba7d2a-4454-4334-86f0-bdcc95b93390" class="">
+</p><figure id="ccd3e0ef-d016-41e1-9187-ba211e44ee1e" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2069.png"><img style="width:879px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2069.png"/></a></figure><p id="48a77ccb-d0dc-4573-b6cf-aad72c294106" class="">
+</p><h2 id="3fc8de10-6f9d-4995-8692-ef76ae701470" class="">Discussion: SVD/PCA</h2><figure id="426f8993-5f0a-47cd-a934-b495f7e593ed" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2070.png"><img style="width:887px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2070.png"/></a></figure><p id="fbd3f7ff-68b6-4068-88c0-a3807ee31115" class="">
+</p><h2 id="ce1f6d3f-6c2e-4777-a495-0c47dbe21033" class="">Latent fasctor models</h2><figure id="15780324-8bbf-4978-bfd3-49514e86a14a" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2071.png"><img style="width:926px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2071.png"/></a></figure><p id="69448109-e4e0-48b2-9d77-67d28ce4bcaf" class="">
+</p><p id="d548a4f7-a094-4118-b43c-3dd43fdcfae9" class="">
+</p><p id="78de7257-ec38-4540-ab70-19b00d7df15b" class="">
+</p><h2 id="0a3f97e7-eb6d-4b9c-8fa2-50c728a0e26c" class="">Finding the latent factors (1)</h2><figure id="ef2744fe-d5b5-4321-9584-47ca4529a463" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2072.png"><img style="width:842px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2072.png"/></a></figure><p id="cf500b5a-f98c-4812-ad49-f0a49b46164f" class="">
+</p><h2 id="edcfc90a-9c64-4def-bd7d-349dc3dee284" class="">Finding the latent factors (2)</h2><figure id="577efb43-60fc-460f-b4f1-50936e2faafc" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2073.png"><img style="width:830px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2073.png"/></a></figure><p id="18e731e2-94cf-44b1-a799-5072d2520f5a" class="">
+</p><h2 id="0fb2fc5d-65de-44ab-ad14-1a2c1f31e3a4" class="">Finding the latent factors (3)</h2><figure id="9166614e-c5ed-42fc-836d-23eb3184a586" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2074.png"><img style="width:800px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2074.png"/></a></figure><p id="601b64c1-502c-482f-8d72-b4e413abacd1" class="">
+</p><h2 id="a5b21798-af3f-44b6-a973-04d465b422ab" class="">Alternating optimization: Discussion</h2><figure id="10304350-656a-4968-a41f-e4392b900b3f" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2075.png"><img style="width:825px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2075.png"/></a></figure><p id="074c549f-ff38-4259-a590-4bb69c7f9a6e" class="">
+</p><p id="782f10af-8dc2-4cc2-b267-9d315a559b30" class="">
+</p><p id="289558a9-a2d5-4031-8afa-c189ddb5d92e" class="">
+</p><h2 id="e520136f-bbb3-41e8-a204-2f03fdf2428e" class="">Rating prediction</h2><figure id="65f2ae8b-789e-44df-a4ce-5da631cba263" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2076.png"><img style="width:878px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2076.png"/></a></figure><p id="0214922b-e383-473d-b90a-d522c70191ed" class="">
+</p><p id="4f995559-35ca-480e-a2a9-df777e99b201" class="">
+</p><figure id="319f5710-e8a1-4735-9571-5624046530e5" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2077.png"><img style="width:883px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2077.png"/></a></figure><p id="839143ea-678b-4c8d-aaff-048f095ceb0b" class="">
+</p><p id="be0d2d35-2be5-435c-a558-ec2ce6025486" class="">
+</p><figure id="48b2d1a7-ad10-485b-a354-b02e67ffe94f" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2078.png"><img style="width:880px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2078.png"/></a></figure><p id="b305bbf1-53ce-4268-ba17-514b44de1c93" class="">
+</p><h2 id="7485c1d1-269e-49eb-81e9-65e453e659f7" class="">Regularization &amp; Sparsity</h2><h2 id="4b340ade-00b4-4b99-8d15-b2802025ab5e" class="">Challenge: Overfitting</h2><figure id="38be1d74-438a-4b0c-8e73-45717bfaaaf9" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2079.png"><img style="width:856px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2079.png"/></a></figure><figure id="d76b074b-886a-4838-9ce5-0631add0003e" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2080.png"><img style="width:815px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2080.png"/></a></figure><p id="dab4dd42-9702-4954-9a89-db2693b13960" class="">
+</p><h2 id="a8182801-b3aa-4061-8779-c7ab18f2a288" class="">Regularization</h2><figure id="355c5238-d7a1-497a-942b-af22b004cd2d" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2081.png"><img style="width:837px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2081.png"/></a></figure><h2 id="a13f6e36-79c8-4324-9828-da29da35ce51" class="">The effect of regularization</h2><figure id="695298aa-0d21-4424-a6e0-19b56e1fee83" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2082.png"><img style="width:911px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2082.png"/></a></figure><figure id="5fd48dea-0316-40c9-b0e7-43c6dd06e6b2" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2083.png"><img style="width:871px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2083.png"/></a></figure><p id="20a49847-fdcf-45b7-b5b1-9317af18b446" class="">
+</p><figure id="40c9e52e-a809-4857-9041-0aa63f0a3644" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2084.png"><img style="width:865px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2084.png"/></a></figure><figure id="dc62a233-cf79-41fd-a278-29737fe839d2" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2085.png"><img style="width:892px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2085.png"/></a></figure><p id="59b203ea-f594-446c-b29d-9b68d9aa38a7" class="">
+</p><p id="35bc1679-8cea-46c8-9d1c-b6e5b392cefa" class="">
+</p><p id="249e4838-05a5-4256-95ae-99a5d441c56d" class="">
+</p><p id="e2a8faa6-1e07-496a-9053-9321dfd53267" class="">
+</p><h2 id="9d6182dd-cf6c-4efd-9bd5-0b67f3c314d3" class="">Regularization in out use case</h2><figure id="2ddae1c9-9026-451b-9275-41ea408e07f6" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2086.png"><img style="width:777px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2086.png"/></a></figure><p id="db273b3c-5f9e-465a-93e3-798080c265f6" class="">
+</p><p id="02a67517-02df-4a3f-a8e3-d04226b981e7" class="">
+</p><p id="3a8b0c0c-af81-4b51-afa5-f8b5c793fa03" class="">
+</p><h2 id="2c4608c6-a1e4-4c02-b466-f69e156d2610" class="">L2 vs. L1 Regularization</h2><figure id="83c50f57-a68e-43df-b384-a77af082bd5f" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2087.png"><img style="width:888px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2087.png"/></a></figure><p id="f353a86b-7494-4300-9963-2afd44d8e7fd" class="">
+</p><p id="48912e14-cc84-4f84-8f3f-6f94be7f42db" class="">
+</p><h2 id="01f34a85-49b3-4a41-9c02-33afb442b3c7" class="">Further Factorization Models</h2><figure id="ace545a1-5f1f-4776-8d62-60f1b07642e7" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2088.png"><img style="width:809px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2088.png"/></a></figure><p id="b72ed386-ef14-4c8b-b7ef-bc4a35ba9e95" class="">
+</p><p id="43567ae5-bbe1-47d3-8621-45dabad343bf" class="">
+</p><h2 id="e43839e6-ceb4-441f-ac92-8dfe6777b35d" class="">Non-Negative matrix Factorization</h2><figure id="4e4b18d9-d9bf-4d35-8b5f-c4a506097c2f" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2089.png"><img style="width:857px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2089.png"/></a></figure><figure id="dd432953-dc7f-4b91-89de-b83376f2034a" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2090.png"><img style="width:858px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2090.png"/></a></figure><p id="5163368f-f331-4b8a-b74c-02b7505c4b20" class="">
+</p><h2 id="abd3ef10-12b9-4f81-8428-634e1501269c" class="">NNMF example: Olivetti Faces Data</h2><figure id="09d2da05-417e-4429-ad06-4b61c2ba21ae" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2091.png"><img style="width:837px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2091.png"/></a></figure><p id="b69b8131-adc6-4ec4-bad5-1a18725187f8" class="">
+</p><h2 id="68423d32-a6cf-4c45-ad70-51c01d1ad4f9" class="">Boolean Matrix Factorization</h2><figure id="f5e984f6-4f5f-4146-a385-4648bf480e0b" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2092.png"><img style="width:872px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2092.png"/></a></figure><p id="c967c128-88d1-4176-beff-a651039f4f59" class="">
+</p><h2 id="c19b456c-3dc7-4dbf-bc47-b850c597ef0d" class="">Boolean Matrix Factorization</h2><figure id="90b5e600-b75d-4e0c-8497-50dfbbd18571" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2093.png"><img style="width:834px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2093.png"/></a></figure><p id="bfffa11e-4552-465e-8229-a9d5afa2e1ea" class="">
+</p><p id="4a9de49a-8125-44b6-9c0c-b3e012446917" class="">
+</p><h1 id="366f6c9f-ea52-4b33-b7ac-72022c77cbd6" class="">Autoencoders (Non-linear Dimensionality Reduction)</h1><h2 id="b520d392-a21b-4ee6-ba6e-766d37bb6e39" class="">Motivation</h2><figure id="273d9c13-ff21-4a95-b071-78304790d1cb" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2094.png"><img style="width:820px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2094.png"/></a></figure><p id="9c0b2eef-8086-49ff-bbc2-2a56746659e8" class="">
+</p><p id="1010ed52-6281-462e-a479-5454c8b32db3" class="">
+</p><h2 id="c0f2b3d4-ce8d-445a-af65-8669f5b1d8c3" class="">Autoencoders</h2><figure id="1ec53380-a559-4768-be35-7ef26a864dc1" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2095.png"><img style="width:823px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2095.png"/></a></figure><p id="dc198600-7f19-425a-a137-2d221f8bd3c5" class="">
+</p><figure id="7e737b9d-1276-46f6-99ba-ebf4ce4409a9" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2096.png"><img style="width:834px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2096.png"/></a></figure><p id="1e302d9b-6ccb-4651-b581-8d1858ce682b" class="">
+</p><figure id="3648089e-c9a9-4378-9264-17206f488112" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2097.png"><img style="width:870px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2097.png"/></a></figure><p id="24c3444e-f0f9-4300-8397-9423f5e56c41" class="">
+</p><h2 id="223e21da-bc35-4c03-b17b-05a44ae9e8d2" class="">Autoencoders: example</h2><figure id="d74af1fe-7998-45f1-b876-5e11b0469604" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2098.png"><img style="width:915px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2098.png"/></a></figure><p id="81001399-1878-4698-a691-fcfd18410725" class="">
+</p><p id="c04dc72a-62f6-4ee4-8833-a7c85d53e507" class="">
+</p><h2 id="4d92f7d1-60c8-4e0c-a53a-9e429f2df601" class="">(Linear) Autoencoders &amp; PCA: Comparison</h2><figure id="790f7d57-f37f-4a67-a749-8e6a8cef62c6" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2099.png"><img style="width:898px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%2099.png"/></a></figure><p id="a5a3989b-6adc-4a74-a407-dbbc71113c72" class="">
+</p><h1 id="5065ba69-c850-4eaf-a09a-ef9ead85ea0a" class="">Summary</h1><figure id="61eeeded-a34c-4bbc-9f28-1f5138119853" class="image"><a href="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%20100.png"><img style="width:869px" src="Dimensionality%20reduction%20&amp;%20matrix%20factorization%207e24d129263945c0a6029c44df742da1/Untitled%20100.png"/></a></figure></div></article></body></html>

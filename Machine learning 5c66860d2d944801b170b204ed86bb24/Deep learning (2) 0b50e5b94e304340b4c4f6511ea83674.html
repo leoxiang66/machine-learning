@@ -1,0 +1,755 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Deep learning (2)</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="0b50e5b9-4e30-4340-b4c4-f6511ea83674" class="page sans"><header><h1 class="page-title">Deep learning (2)</h1></header><div class="page-body"><nav id="51232757-18b7-44d7-8e50-7b3429c48b55" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#366e7f44-a774-4887-b022-8c701b5c806c">Structured Data</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#565a5ce8-7430-4bf3-9ab2-cb599d6046d3">Different layers</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#56c5179b-50c7-4ee3-aee8-5d4eea85ddc3">NNs for images</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#906db175-d6be-4334-8811-7cd6731a2e48">CNN: Convolution</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#f96db2d3-3ef5-4b5d-b7c1-203c84af18d8">CNN: Padding</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#c8054914-478c-4bae-8a77-a6a3442a3dda">CNN: Strides</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#d98096de-f1b6-49b0-bce6-9889f6d8b4f4">CNN: Pooling</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#1e5b69a3-dd5f-4659-aa25-b9a13a6fd66d">CNN: Convolutional Neural Network</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#f44c46c8-6c2d-4c46-9ed7-b93f97092d68">Architectures for other types of structured data</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#cefae92b-0755-47a6-bcf2-c15075e8a3ae">Training deep NNs</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#4a54199e-3964-4a33-8ae9-a50018bbd842">Weight symmetry</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#ed843843-077d-458a-8259-d49339a2561a">Weight scale</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#c5edeb1e-69ae-4c0c-b158-673faddf1a45">Xavier Glorot initialization</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#0d3bda91-9037-41a3-a234-89554030af8e">Vanishing and exploding gradients</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#650e69f6-842e-40b5-8084-55609c2cec41">Regularization</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#1dfe8e43-ef22-44b0-b5f2-5e7a4f485265">Dropout</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#77a35cd0-6a04-4e40-8dae-853a7363e621">Hyperparameter optimization</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#098a22f9-f8e0-447c-bb15-c0e6d358b196">Side note: gradient-based hyperparameter optimization</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#9c21a796-111b-4022-b9db-08770fd007aa">DL frameworks</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#3c7b89a5-7672-4adb-bb27-a308c8e0a451">Static vs. dynamic computation graphs</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#245f1b2a-7e7c-4116-9a37-d466a9457dac">Modern architecture &amp; tricks</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#9525750c-ac8b-4a92-ad16-2dcc22a67f3e">Batch normalization</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#6b821239-e6d1-4e24-bd09-dcab42684fbc">Batch normalization: Why does it work?</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#40842baf-a0ea-4bc1-8436-f38efaa9ca5a">Skip connections</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#6153f631-cbcf-490e-8c53-a3067a0bf12a">Tips and tricks</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#f8a7bcb5-8fde-47b6-ab98-931f0fcfbdb4">Summary</a></div></nav><h1 id="366e7f44-a774-4887-b022-8c701b5c806c" class="">Structured Data</h1><h2 id="565a5ce8-7430-4bf3-9ab2-cb599d6046d3" class="">Different layers</h2><p id="e219b73c-eae3-4de8-9b5f-b4244a89f84c" class="">So far we&#x27;ve seen only fully-connected feed-forward layers and our (deep) NNs were obtained by stacking them.
+There are many more types of layers for specific tasks/data:</p><ul id="7cef6180-c141-4608-b16b-05e3b77acfae" class="bulleted-list"><li style="list-style-type:disc">Convolution layer (typically used for images)</li></ul><ul id="a5e218f8-0655-4a5f-8146-2ae1717a9d2a" class="bulleted-list"><li style="list-style-type:disc">Recurrent layer (typically used for sequences, discussed in-depth in our MLGS lecture)</li></ul><ul id="8a75f95f-ef86-4120-a403-135754adcd82" class="bulleted-list"><li style="list-style-type:disc">Graph convolutional layers (covered in our MLGS lecture)</li></ul><ul id="a992b765-d978-483e-92e0-4224b1fd8bfe" class="bulleted-list"><li style="list-style-type:disc">etc.
+These layers leverage the known structure of data and provide an inductive bias.
+Think of them as building blocks (i.e. lego pieces) that you can compose.</li></ul><p id="e691a44c-6e67-4f6c-a313-b72b5bbdb9df" class="">
+</p><h2 id="56c5179b-50c7-4ee3-aee8-5d4eea85ddc3" class="">NNs for images</h2><figure id="e771d34c-4432-4251-8704-32c36a063bc7" class="image"><a href="Deep%20learning%20(2)%200b50e5b94e304340b4c4f6511ea83674/Untitled.png"><img style="width:278px" src="Deep%20learning%20(2)%200b50e5b94e304340b4c4f6511ea83674/Untitled.png"/></a></figure><p id="930bc772-6eaa-4d32-afbf-725a98cee922" class="">
+</p><p id="870aa703-0be5-4bb7-b2bf-2a758bfa5ea1" class="">Suppose we have an image with <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>100</mn><mo>×</mo><mn>100</mn></mrow><annotation encoding="application/x-tex">100 \times 100</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">100</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">100</span></span></span></span></span><span>﻿</span></span> pixels and want to process it with a neural network with a single hidden layer with 1,000 units.
+</p><p id="9b9c57fe-8bdd-43a2-9790-5aaf04bba4d4" class="">In a feed-forward neural network, this results in 10 million parameters (weights)!
+We can solve this problem by using the convolution operation to build neural
+networks. This exploits the high local correlation of pixel values in natural
+images.</p><p id="c258551b-56aa-4c27-bc69-4bbf6460bdaf" class="">
+For example, 1,000 (learnable) <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mo>×</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">5 \times 5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">5</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">5</span></span></span></span></span><span>﻿</span></span> convolutional filters only require 25,000
+parameters.</p><p id="8661db73-35dd-4239-862e-7c66dd4eb744" class="">
+</p><p id="62c051b2-cc5c-40a9-a834-f5d72f26a981" class="">
+</p><h2 id="906db175-d6be-4334-8811-7cd6731a2e48" class="">CNN: Convolution</h2><p id="41374bca-5590-4b28-8695-4c22066f1a2b" class="">Continuous convolution is defined as</p><figure id="39c2cafb-3044-4878-b09e-e63bc07c1a87" class="equation"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mo stretchy="false">(</mo><mi>x</mi><mo>∗</mo><mi>k</mi><mo stretchy="false">)</mo><mo stretchy="false">(</mo><mi>t</mi><mo stretchy="false">)</mo><mo>=</mo><msubsup><mo>∫</mo><mrow><mo>−</mo><mi mathvariant="normal">∞</mi></mrow><mi mathvariant="normal">∞</mi></msubsup><mi>x</mi><mo stretchy="false">(</mo><mi>τ</mi><mo stretchy="false">)</mo><mi>k</mi><mo stretchy="false">(</mo><mi>t</mi><mo>−</mo><mi>τ</mi><mo stretchy="false">)</mo><mi mathvariant="normal">d</mi><mi>τ</mi></mrow><annotation encoding="application/x-tex">(x * k)(t)=\int_{-\infty}^{\infty} x(\tau) k(t-\tau) \mathrm{d} \tau</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mclose">)</span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.384573em;vertical-align:-0.970281em;"></span><span class="mop"><span class="mop op-symbol large-op" style="margin-right:0.44445em;position:relative;top:-0.0011249999999999316em;">∫</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.414292em;"><span style="top:-1.7880500000000001em;margin-left:-0.44445em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">∞</span></span></span></span><span style="top:-3.8129000000000004em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">∞</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.970281em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">x</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.1132em;">τ</span><span class="mclose">)</span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.1132em;">τ</span><span class="mclose">)</span><span class="mord mathrm">d</span><span class="mord mathnormal" style="margin-right:0.1132em;">τ</span></span></span></span></span></div></figure><p id="6190bbc2-194f-403c-ba04-0eeca7901465" class="">
+</p><p id="da2d698c-0899-4e29-9eae-d0b08cc42293" class="">This can be intuitively described as a weighted average of the input signal <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">x</span></span></span></span></span><span>﻿</span></span> using the weights (or kernel, filter) <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span></span><span>﻿</span></span> at each point in time <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi></mrow><annotation encoding="application/x-tex">t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61508em;vertical-align:0em;"></span><span class="mord mathnormal">t</span></span></span></span></span><span>﻿</span></span>.</p><p id="9a466a3d-5bf3-472b-88a8-e751a805367b" class="">
+CNNs use the discrete variant</p><figure id="702c0578-182b-4671-81e7-b0d64292423c" class="equation"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mo stretchy="false">(</mo><mi>x</mi><mo>∗</mo><mi>k</mi><mo stretchy="false">)</mo><mo stretchy="false">(</mo><mi>t</mi><mo stretchy="false">)</mo><mo>=</mo><munderover><mo>∑</mo><mrow><mi>τ</mi><mo>=</mo><mo>−</mo><mi mathvariant="normal">∞</mi></mrow><mi mathvariant="normal">∞</mi></munderover><mi>x</mi><mo stretchy="false">(</mo><mi>τ</mi><mo stretchy="false">)</mo><mi>k</mi><mo stretchy="false">(</mo><mi>t</mi><mo>−</mo><mi>τ</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(x * k)(t)=\sum_{\tau=-\infty}^{\infty} x(\tau) k(t-\tau)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mclose">)</span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.959733em;vertical-align:-1.308336em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.6513970000000002em;"><span style="top:-1.8999949999999999em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.1132em;">τ</span><span class="mrel mtight">=</span><span class="mord mtight">−</span><span class="mord mtight">∞</span></span></span></span><span style="top:-3.050005em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span><span style="top:-4.3000050000000005em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">∞</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.308336em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">x</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.1132em;">τ</span><span class="mclose">)</span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.1132em;">τ</span><span class="mclose">)</span></span></span></span></span></div></figure><figure id="96f054a2-5c6e-40af-8a4f-afd1632e540e" class="image"><a href="Deep%20learning%20(2)%200b50e5b94e304340b4c4f6511ea83674/Untitled%201.png"><img style="width:613px" src="Deep%20learning%20(2)%200b50e5b94e304340b4c4f6511ea83674/Untitled%201.png"/></a></figure><p id="48af9d76-9fa5-4407-af94-74fb4afcf012" class="">
+</p><p id="29ce51f7-9097-4761-92a9-8951a040df4f" class="">
+</p><figure id="2959e9f7-2231-4508-b539-9602184ed182" class="image"><a href="Deep%20learning%20(2)%200b50e5b94e304340b4c4f6511ea83674/Untitled%202.png"><img style="width:452px" src="Deep%20learning%20(2)%200b50e5b94e304340b4c4f6511ea83674/Untitled%202.png"/></a></figure><ul id="d2611fc9-d459-417c-95c6-c402cb39176e" class="bulleted-list"><li style="list-style-type:disc">Weights of the sliding window (kernel) are shared for every patch.</li></ul><p id="da12b7cb-0ca2-4bdc-a9b4-5050969758e4" class="">
+</p><p id="9fefea30-4950-4ff5-9499-3b939a0db268" class="">
+</p><h2 id="f96db2d3-3ef5-4b5d-b7c1-203c84af18d8" class="">CNN: Padding</h2><figure id="828fb2dd-f1c4-4ebd-8638-0e77d93e7d43" class="image"><a href="Deep%20learning%20(2)%200b50e5b94e304340b4c4f6511ea83674/Untitled%203.png"><img style="width:661px" src="Deep%20learning%20(2)%200b50e5b94e304340b4c4f6511ea83674/Untitled%203.png"/></a></figure><p id="a09b5d04-de51-45a1-a63c-1c70f17de822" class="">
+</p><h2 id="c8054914-478c-4bae-8a77-a6a3442a3dda" class="">CNN: Strides</h2><figure id="c258efe7-5bd8-429e-ba33-6e5894485b35" class="image"><a href="Deep%20learning%20(2)%200b50e5b94e304340b4c4f6511ea83674/Untitled%204.png"><img style="width:573px" src="Deep%20learning%20(2)%200b50e5b94e304340b4c4f6511ea83674/Untitled%204.png"/></a></figure><p id="67439276-f116-4d50-8e9f-f342b946e454" class="">
+</p><p id="89374174-0c1f-4e9f-92cf-e58bb52f1cb7" class="">
+</p><p id="776b82ce-68bb-4379-869e-8dbfada92d6c" class="">
+</p><p id="513a074e-71b2-4000-995c-78efc466be57" class="">
+</p><h2 id="d98096de-f1b6-49b0-bce6-9889f6d8b4f4" class="">CNN: Pooling</h2><figure id="e34da7dc-9c42-4032-8fc9-af2973d8aae2" class="image"><a href="Deep%20learning%20(2)%200b50e5b94e304340b4c4f6511ea83674/Untitled%205.png"><img style="width:629px" src="Deep%20learning%20(2)%200b50e5b94e304340b4c4f6511ea83674/Untitled%205.png"/></a></figure><p id="aaf0ccdf-f1c8-4b5d-9144-09ed500ebf9c" class="">
+</p><p id="288a82b4-ca8f-4974-b5af-88f2d2a81351" class="">
+</p><p id="e2b9b39c-cb69-46e9-baac-85f3be6b198a" class="">
+</p><p id="6118145c-c7da-41b7-a79c-1df303b28efc" class="">
+</p><h2 id="1e5b69a3-dd5f-4659-aa25-b9a13a6fd66d" class="">CNN: Convolutional Neural Network</h2><figure id="32b65a90-f438-4537-bf24-cda8071503ce" class="image"><a href="Deep%20learning%20(2)%200b50e5b94e304340b4c4f6511ea83674/Untitled%206.png"><img style="width:643px" src="Deep%20learning%20(2)%200b50e5b94e304340b4c4f6511ea83674/Untitled%206.png"/></a></figure><p id="f4992a4a-3aea-4426-aa53-f2a4999dc103" class="">
+</p><p id="4f1b4611-2645-40bf-883f-1def0ab9ab58" class="">
+</p><p id="b332e3dc-080d-4744-820e-00cbf176cd24" class="">
+</p><h2 id="f44c46c8-6c2d-4c46-9ed7-b93f97092d68" class="">Architectures for other types of structured data</h2><p id="ef87ea17-8dd8-420f-ba8c-645c6e73ce8a" class="">Sequential data (e.g., text, time series)</p><ul id="94a5c311-3c5b-4253-a12c-03f34139a7cb" class="bulleted-list"><li style="list-style-type:disc">Recurrent neural networks (RNN)</li></ul><ul id="fa9ba1d9-569d-4501-96ac-8b58cc100dd7" class="bulleted-list"><li style="list-style-type:disc">Transformers
+Graph data (e.g., social networks, molecules)</li></ul><ul id="45225980-00c1-4e89-8ea1-d7c0bc743a2a" class="bulleted-list"><li style="list-style-type:disc">Graph neural networks (GNN)
+More about these topics in IN 2323 in the Summer semester!</li></ul><p id="c2c7cd47-9a75-4276-af82-ad28a833148b" class="">
+</p><p id="641c230e-9c2b-4904-8116-3cba71bb91b7" class="">
+</p><p id="d979ba1f-bbb7-4da7-8245-3c2ec074183a" class="">
+</p><p id="9754074c-d207-44ef-8bd4-fe8f3dc3ba3b" class="">
+</p><p id="57b7ede1-8a4d-4111-a1b4-2b3d0a004a8a" class="">
+</p><p id="70f80308-80e3-4e9b-b6e5-494c61dbf2e1" class="">
+</p><h1 id="cefae92b-0755-47a6-bcf2-c15075e8a3ae" class="">Training deep NNs</h1><p id="e5b66a9b-a821-4414-874d-814e8cffe74b" class="">Training a neural network means optimizing the loss with SGD, Adam, AMSgrad, or some other optimizer.</p><p id="1d3a89ba-357f-4dfb-b6a0-fa2137f717bc" class="">From which point do we start optimizing? Weight initialization can be crucial for successful training.
+There are 2 essential issues with naïve weight initialization:</p><ol type="1" id="5f7a7c3d-b215-47e5-b10e-4c47afdb63eb" class="numbered-list" start="1"><li>Weight symmetry</li></ol><ol type="1" id="62d8a3d9-9143-4aba-8434-cc203a9936a4" class="numbered-list" start="2"><li>Weight scale</li></ol><p id="4e2eb055-6266-437d-8f85-6632cfad2d78" class="">
+</p><p id="f3e3716a-1ca6-4d7b-b47e-7c3fd1ca69f6" class="">
+</p><h2 id="4a54199e-3964-4a33-8ae9-a50018bbd842" class="">Weight symmetry</h2><p id="14689318-9f28-4fe6-a1da-638039ee808b" class="">If two hidden units have exactly the same bias and exactly the same incoming and outgoing weights, they will always get exactly the same gradient.</p><ul id="f8689cb0-26c1-49f4-a5ea-99d6ba0f05e6" class="bulleted-list"><li style="list-style-type:disc">So they can never learn to extract different features.</li></ul><ul id="4efcac38-2030-4f05-8fed-7f39d256b44d" class="bulleted-list"><li style="list-style-type:disc">We break symmetry by initializing the weights to <strong>have small random values.</strong></li></ul><p id="aa10ccb6-6cb9-4a16-821a-febe164b6898" class="">
+</p><p id="5a43d18c-1daf-48a8-b618-2f2b74c47229" class="">
+</p><h2 id="ed843843-077d-458a-8259-d49339a2561a" class="">Weight scale</h2><ul id="dae30c51-6179-4ed1-acc5-02c63eae86fe" class="bulleted-list"><li style="list-style-type:disc">If a hidden unit has a big fan-in, small changes on many of its incoming weights can cause learning to overshoot (take a huge update step).</li></ul><ul id="8bc71dac-840e-4854-8001-c41ffd40c96d" class="bulleted-list"><li style="list-style-type:disc">If it has a large fan-out, the same thing can happen during the backward pass.</li></ul><ul id="d3d2befc-fc6d-4a02-979b-8e50b546f9dc" class="bulleted-list"><li style="list-style-type:disc">Wrong weight scales (mean and variance) can therefore lead to vanishing or exploding gradients.</li></ul><p id="9ada5b0c-8490-4837-b9df-ba0a5db8b8ad" class="">
+</p><h2 id="c5edeb1e-69ae-4c0c-b158-673faddf1a45" class="">Xavier Glorot initialization</h2><figure id="e7a602f3-159e-4142-bb77-7e10d2d23620" class="image"><a href="Deep%20learning%20(2)%200b50e5b94e304340b4c4f6511ea83674/Untitled%207.png"><img style="width:714px" src="Deep%20learning%20(2)%200b50e5b94e304340b4c4f6511ea83674/Untitled%207.png"/></a></figure><p id="d68dd9dc-cf1e-4d34-a587-2c683f80e268" class="">
+</p><figure id="9fff620a-ebca-47a6-9045-0f7e48e6912a" class="image"><a href="Deep%20learning%20(2)%200b50e5b94e304340b4c4f6511ea83674/Untitled%208.png"><img style="width:647px" src="Deep%20learning%20(2)%200b50e5b94e304340b4c4f6511ea83674/Untitled%208.png"/></a></figure><p id="6927a7cd-4e8d-479d-a5d8-06f9e3a1769f" class="">
+</p><h2 id="0d3bda91-9037-41a3-a234-89554030af8e" class="">Vanishing and exploding gradients</h2><figure id="29eb5d05-d97d-49a9-9999-4d5dbbea136a" class="image"><a href="Deep%20learning%20(2)%200b50e5b94e304340b4c4f6511ea83674/Untitled%209.png"><img style="width:661px" src="Deep%20learning%20(2)%200b50e5b94e304340b4c4f6511ea83674/Untitled%209.png"/></a></figure><p id="ea9e6cd7-0065-4574-ad93-069b138a46c8" class="">
+</p><p id="42e6b038-e6f5-45c1-98f3-2eefc5596933" class="">
+</p><p id="be852131-6e4d-4bb8-9456-21a8bf4661e4" class="">
+</p><h2 id="650e69f6-842e-40b5-8084-55609c2cec41" class="">Regularization</h2><p id="9e8b493d-6716-4ecc-9522-e5c03fb607fe" class="">Recall that models with high capacity (like NNs) are prone to overfitting. We need regularization to prevent this.
+Typically, we use the familiar <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>L</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">L_{2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> parameter norm penalty (or weight decay, which is mostly equivalent). Sometimes we also use <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>L</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">L_{1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> norm to e.g. promote sparsity.
+We can combine it with other regularization methods:</p><ul id="528c1d13-8e00-4183-a96b-1ddbb42943f7" class="bulleted-list"><li style="list-style-type:disc">Dataset augmentation: e.g. rotate/translate/skew/change lighting of images</li></ul><ul id="a929f1d5-3450-4328-aca5-1e286441601d" class="bulleted-list"><li style="list-style-type:disc">Injecting noise</li></ul><ul id="61e33716-0686-4b76-9138-b38d62687932" class="bulleted-list"><li style="list-style-type:disc">Parameter tying and sharing</li></ul><ul id="c7cda31a-c815-407d-b4f9-a777aa7c819d" class="bulleted-list"><li style="list-style-type:disc">Dropout</li></ul><p id="19a5b091-f44f-42d9-9412-3cb62e50583e" class="">
+</p><p id="d507d543-6b15-43f1-b1d9-ff7fb2f31968" class="">
+</p><p id="f71e10fc-4130-4078-8196-a23a23d0e512" class="">
+</p><h2 id="1dfe8e43-ef22-44b0-b5f2-5e7a4f485265" class="">Dropout</h2><figure id="0f08950c-0249-48ca-8600-e66f50f66a93" class="image"><a href="Deep%20learning%20(2)%200b50e5b94e304340b4c4f6511ea83674/Untitled%2010.png"><img style="width:669px" src="Deep%20learning%20(2)%200b50e5b94e304340b4c4f6511ea83674/Untitled%2010.png"/></a></figure><p id="8c475c1f-1248-49aa-8094-acb09b2d443a" class="">
+</p><p id="559b15a1-d2a9-4a71-9355-dee5c2e95ce1" class="">
+</p><h2 id="77a35cd0-6a04-4e40-8dae-853a7363e621" class="">Hyperparameter optimization</h2><p id="00f14281-0bde-47e7-a027-c7e064b94246" class="">To squeeze every bit of performance out of your NN, you need to tune:</p><ul id="8c96d0fd-4233-431c-8ee2-f9c5dca53de6" class="bulleted-list"><li style="list-style-type:disc">number of hidden layers <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mn>1</mn><mo separator="true">,</mo><mn>2</mn><mo separator="true">,</mo><mn>3</mn><mo separator="true">,</mo><mo>…</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(1,2,3, \ldots)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">3</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">…</span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span></li></ul><ul id="db0b75df-4d02-4ec4-8d02-6fe995f2033c" class="bulleted-list"><li style="list-style-type:disc">number of hidden units <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mn>50</mn><mo separator="true">,</mo><mn>100</mn><mo separator="true">,</mo><mn>200</mn><mo separator="true">,</mo><mo>…</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(50,100,200, \ldots)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">50</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">100</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">200</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">…</span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span></li></ul><ul id="3a14e4aa-978f-40f3-90a3-a86a6d7253ef" class="bulleted-list"><li style="list-style-type:disc">type of activation function (sigmoid, ReLU, Swish, ...)</li></ul><ul id="d32c989f-2e79-4a9d-beee-991030f86baf" class="bulleted-list"><li style="list-style-type:disc">optimizer (SGD, Adam, ADADELTA, Rprop, ...)</li></ul><ul id="a659d477-72b4-40ee-9ab6-98c9b00354cc" class="bulleted-list"><li style="list-style-type:disc">learning rate schedule (warmup, decay, cyclic)</li></ul><ul id="3d5e7c70-8f84-4c8b-88eb-6fcb2107e470" class="bulleted-list"><li style="list-style-type:disc">data preprocessing/augmentation</li></ul><ul id="2a4f3743-9bf9-4f4b-b204-a11b9fecec08" class="bulleted-list"><li style="list-style-type:disc">...
+</li></ul><p id="11f4c51b-b1e4-4101-a7ec-2658e36acfcd" class="">We often start by finding these by &quot;playing around&quot; with some reasonable estimates. A better way of finding a good set is by using hyperparameter optimization. Random search or Bayesian Optimisation are both viable candidates.</p><p id="59cb4818-3d22-4c87-b9b2-2fb82c9633dd" class="">
+</p><h2 id="098a22f9-f8e0-447c-bb15-c0e6d358b196" class="">Side note: gradient-based hyperparameter optimization</h2><figure id="f31cbcae-6c93-4312-878b-7f1a57c65397" class="image"><a href="Deep%20learning%20(2)%200b50e5b94e304340b4c4f6511ea83674/Untitled%2011.png"><img style="width:689px" src="Deep%20learning%20(2)%200b50e5b94e304340b4c4f6511ea83674/Untitled%2011.png"/></a></figure><p id="1979b406-29fb-4dd8-bb9e-b27b40671771" class="">
+</p><p id="f70ab552-e47a-440f-a4bd-a23007404b81" class="">
+</p><p id="58497d07-1345-4829-9775-27324a54b86b" class="">
+</p><h1 id="9c21a796-111b-4022-b9db-08770fd007aa" class="">DL frameworks</h1><p id="714fd5bd-39e8-415c-8ff6-e8bb84779840" class="">Programming your own NN in Python is quite simple, but not efficient. For efficient code, use one of many open source libraries, e.g.</p><ul id="c80752db-95d4-4200-945b-77e92464b427" class="bulleted-list"><li style="list-style-type:disc">TensorFlow</li></ul><ul id="42a8a5e7-7b3a-4f3f-917a-030c994cb779" class="bulleted-list"><li style="list-style-type:disc">PyTorch</li></ul><ul id="a4858c5f-a588-4bd5-8118-a1f38479c2f6" class="bulleted-list"><li style="list-style-type:disc">MXNet</li></ul><ul id="c092cdc0-a16d-4b4d-bc7e-37abec6d1907" class="bulleted-list"><li style="list-style-type:disc">...
+You will then find a number of implementations based on such libraries.</li></ul><p id="0744de59-2683-4042-8007-80308f4126c5" class="">
+</p><h2 id="3c7b89a5-7672-4adb-bb27-a308c8e0a451" class="">Static vs. dynamic computation graphs</h2><figure id="d670e0ee-ca2a-4a2b-8284-363e2377552d" class="image"><a href="Deep%20learning%20(2)%200b50e5b94e304340b4c4f6511ea83674/Untitled%2012.png"><img style="width:641px" src="Deep%20learning%20(2)%200b50e5b94e304340b4c4f6511ea83674/Untitled%2012.png"/></a></figure><p id="084db1da-70fe-4b2e-b2e7-2d5de224e6a6" class="">Deep learning frameworks build a computation graph, primarily for calculating gradients.</p><p id="e7231d56-cc1f-4642-8acd-7e23500ee56e" class="">In the static variant, we first define the computational graph to later execute it with actual data (&quot;Define-and-Run&quot;).</p><p id="4a710499-dca9-444d-820b-50b5738b1e45" class="">
+</p><p id="09386cea-3775-4371-9c6e-cb88e91234ae" class="">
+In the dynamic variant, the graph is defined by executing the desired operations (&quot;Define-by-Run&quot;).
+Static computation graphs can be optimized by the framework, similar to a compiler optimizing source code. However, we cannot change a static graph at runtime.
+One example is RNNs. With a static computation graph, an RNN gets explicitly unrolled for a specified number of time steps. This means that it cannot process sequences of varying time/length.</p><p id="702077b8-849c-4e34-a0f4-a82dd0410438" class=""><strong>The major frameworks have now moved to dynamic computation graphs since they are more natural to work with. Static graphs can then be generated via JIT compilation of annotated functions.</strong></p><p id="6a3864b6-0f47-4c71-9019-0e230d3799ef" class="">
+</p><p id="fcdc7ce3-e0fa-423b-a56e-927be8f2393e" class="">
+</p><p id="888155cf-df64-4bd4-909a-ec2ab0633a77" class="">
+</p><p id="ac632266-1942-4938-9835-3f042488bf87" class="">
+</p><p id="3174c1c1-a315-41a4-b3ab-169e089c5855" class="">
+</p><h1 id="245f1b2a-7e7c-4116-9a37-d466a9457dac" class="">Modern architecture &amp; tricks</h1><h2 id="9525750c-ac8b-4a92-ad16-2dcc22a67f3e" class="">Batch normalization</h2><figure id="7120567c-8a85-4b09-ac3f-d54ab3dd06fb" class="image"><a href="Deep%20learning%20(2)%200b50e5b94e304340b4c4f6511ea83674/Untitled%2013.png"><img style="width:665px" src="Deep%20learning%20(2)%200b50e5b94e304340b4c4f6511ea83674/Untitled%2013.png"/></a></figure><p id="87986590-746c-4513-8ee6-cb99c97e6b6c" class="">
+</p><p id="0a3cc3fe-eb1a-4797-bcd4-649fb12e7e3f" class="">
+</p><h2 id="6b821239-e6d1-4e24-bd09-dcab42684fbc" class="">Batch normalization: Why does it work?</h2><figure id="44f6c77b-6f79-4b4a-9851-26896ce5f110" class="image"><a href="Deep%20learning%20(2)%200b50e5b94e304340b4c4f6511ea83674/Untitled%2014.png"><img style="width:640px" src="Deep%20learning%20(2)%200b50e5b94e304340b4c4f6511ea83674/Untitled%2014.png"/></a><figcaption>Loss landscape and gradient change per optimization step. From: Santurkar et al. How Does Batch Normalization Help Optimization? 2018</figcaption></figure><p id="2683d939-c20e-4eef-ab57-9ed819d32aed" class="">
+<strong>Batch normalization smoothens the loss landscape.</strong>
+This causes more predictive and stable gradients, which helps training.
+(Note: The original explanation based on internal covariate shift turned out to be wrong.)</p><p id="ea2173f9-4615-4d7d-959b-634ef94f81f2" class="">
+</p><p id="5fd1325a-f2a4-4c08-a03f-ee118a770a38" class="">
+</p><h2 id="40842baf-a0ea-4bc1-8436-f38efaa9ca5a" class="">Skip connections</h2><figure id="620de338-e3df-4dce-923d-cb60a00e66cf" class="image"><a href="Deep%20learning%20(2)%200b50e5b94e304340b4c4f6511ea83674/Untitled%2015.png"><img style="width:662px" src="Deep%20learning%20(2)%200b50e5b94e304340b4c4f6511ea83674/Untitled%2015.png"/></a></figure><p id="cf096097-c6e6-450d-b71f-0315cb5b6ddb" class="">
+</p><p id="0eb73291-f4f7-4b60-acfe-f53b78713084" class="">
+</p><h2 id="6153f631-cbcf-490e-8c53-a3067a0bf12a" class="">Tips and tricks</h2><ul id="68f2bd48-9da2-499a-a3bb-1008c3c88852" class="bulleted-list"><li style="list-style-type:disc">Use only differentiable operations. Non-differentiable operations are e.g. arg max, sampling from a distribution (see our MLGS lecture)</li></ul><ul id="e308dc58-e453-46ea-8127-b61fe5d1523e" class="bulleted-list"><li style="list-style-type:disc">Always try to overfit your model to a single training batch or sample to make sure it is correctly &#x27;wired&#x27;.</li></ul><ul id="2994e048-a662-4468-ba80-9c8bb91b5741" class="bulleted-list"><li style="list-style-type:disc">Start with small models and gradually add complexity while monitoring how the performance improves.</li></ul><ul id="286fd63c-ef46-4368-98c0-8418e2fec26c" class="bulleted-list"><li style="list-style-type:disc">Be aware of the properties of activation functions, e.g. no sigmoid output when doing regression.</li></ul><ul id="928bdbc0-f55c-4171-85d4-02f95367686e" class="bulleted-list"><li style="list-style-type:disc">Monitor the training procedure and use early stopping.</li></ul><ul id="02f98bd6-5886-4ab4-a423-8b164d05b5fb" class="bulleted-list"><li style="list-style-type:disc">See also: A Recipe for Training Neural Networks <a href="https://karpathy.github.io/2019/04/25/recipe/">https://karpathy.github.io/2019/04/25/recipe/</a></li></ul><p id="44f0cdb8-f4ec-44ed-bed1-96976bea5fd3" class="">
+</p><p id="98377dca-307f-4bae-b962-6215448fa27e" class="">
+</p><p id="7a7c1c0e-ca6f-4d93-8be2-226b239074bd" class="">
+</p><h1 id="f8a7bcb5-8fde-47b6-ab98-931f0fcfbdb4" class="">Summary</h1><ul id="80896de9-e73f-42b7-a1f7-47996f2bd49e" class="bulleted-list"><li style="list-style-type:disc">CNNs: Convolution, padding, strides, pooling</li></ul><ul id="7e0f7eaa-3e57-41b2-91ba-f2bad8a56ac5" class="bulleted-list"><li style="list-style-type:disc">Xavier Glorot initialization, regularization (dropout), hyperparameter optimization</li></ul><ul id="16d3f4de-73fc-4d8b-8c84-54ea934e0cc6" class="bulleted-list"><li style="list-style-type:disc">deep learning frameworks; static &amp; dynamic computation graphs</li></ul><ul id="ed8bff63-2b10-45f3-a103-1008f65fc49e" class="bulleted-list"><li style="list-style-type:disc">batch normalization, skip connections, tips &amp; tricks</li></ul><p id="cea59f39-afc4-4e49-b003-05890047b854" class="">
+</p></div></article></body></html>

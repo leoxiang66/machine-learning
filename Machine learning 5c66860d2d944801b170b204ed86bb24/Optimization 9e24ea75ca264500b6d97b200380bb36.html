@@ -1,0 +1,703 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Optimization</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="9e24ea75-ca26-4500-b6d9-7b200380bb36" class="page sans"><header><h1 class="page-title">Optimization</h1></header><div class="page-body"><nav id="96c623e2-8639-46f6-bf56-95a381f527c7" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#b7f54b9f-ac0a-4e27-a4eb-817c75ef233f">General task</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#c30388b1-e8bd-4a96-b8f6-2952e89ff6bf">Convexity</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#9a47b8f7-0e61-4454-9d0d-1c044a4c6b2e">First-order convexity conditions</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#f6d4781b-20f8-4ac7-9a07-d580cfd080d2">Verifying convexity</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#07441aa2-9183-4fde-a10c-4a02377e3d91">Convexity preserving operations</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#4bb56fe8-8fdd-48c0-b7bd-956d9f97eaa5">Learning rate</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#9bc82eb3-a6dd-446e-8e03-73d098a1d1b9">Learning rate adaption</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#80fd47e7-6421-4ddf-aacb-068acca0319b">Optimization algorithms</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#1cd771b5-b6a6-465a-aa98-5cda31479952">Newton&#x27;s method</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#f06269a0-91ff-4901-9e24-96807f6931d8">Parallel Newton&#x27;s method</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#0e4db0ca-805b-499e-b4ea-9627f4fb717e">Large scale optimization</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#98dae0e7-ab9e-47ee-92a4-ed00552de3e4">Stochastic Gradient Descent</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#96d63c75-2217-4e44-a69e-7b097b9e0d4b">Example: Perceptron</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#5256be97-bc91-4f2b-a839-1014ffba14a5">Convergence in expectation</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#d555147a-b0a5-44a2-a30c-003de1c30c22">Large-Scale learning - distributed learning</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#1a2c2a6c-089d-4b32-aff3-cbde33bcda29">Distributed Learning: Data vs. Model Parallelism</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#989d7900-d2b7-4289-9dc1-f6b4e8ae624a">Parameter server</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#2a43db1d-6bee-4029-85df-d0bb5e559f87">Distributed learning in pratice</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#aa48835a-0b8c-4801-b558-57685249062e">Summary</a></div></nav><h2 id="b7f54b9f-ac0a-4e27-a4eb-817c75ef233f" class="">General task</h2><figure id="c4107585-fd5a-4a9c-8d7b-6d9fbcbc4e4c" class="image"><a href="Optimization%209e24ea75ca264500b6d97b200380bb36/Untitled.png"><img style="width:803px" src="Optimization%209e24ea75ca264500b6d97b200380bb36/Untitled.png"/></a></figure><p id="45f6bd99-c7d1-49a4-9c3e-9d40732c277e" class="">
+</p><h2 id="c30388b1-e8bd-4a96-b8f6-2952e89ff6bf" class="">Convexity</h2><figure id="f8f8cc4d-9273-4350-9781-8a8480e587d5" class="image"><a href="Optimization%209e24ea75ca264500b6d97b200380bb36/Untitled%201.png"><img style="width:745px" src="Optimization%209e24ea75ca264500b6d97b200380bb36/Untitled%201.png"/></a></figure><figure id="447cee68-e727-4d99-b4ad-814958de6e6b" class="image"><a href="Optimization%209e24ea75ca264500b6d97b200380bb36/Untitled%202.png"><img style="width:857px" src="Optimization%209e24ea75ca264500b6d97b200380bb36/Untitled%202.png"/></a></figure><figure id="e255dec0-12a2-48a1-94e8-028d47a540d6" class="image"><a href="Optimization%209e24ea75ca264500b6d97b200380bb36/Untitled%203.png"><img style="width:907px" src="Optimization%209e24ea75ca264500b6d97b200380bb36/Untitled%203.png"/></a></figure><p id="ac7cf6fd-c438-4238-be2b-7ebcaa409277" class="">
+</p><h2 id="9a47b8f7-0e61-4454-9d0d-1c044a4c6b2e" class="">First-order convexity conditions</h2><figure id="955a673b-9539-4ea3-9853-686aabe3afbe" class="image"><a href="Optimization%209e24ea75ca264500b6d97b200380bb36/Untitled%204.png"><img style="width:629px" src="Optimization%209e24ea75ca264500b6d97b200380bb36/Untitled%204.png"/></a></figure><p id="c7202c4f-93ea-4480-ae17-165a9772ae0f" class="">
+</p><h2 id="f6d4781b-20f8-4ac7-9a07-d580cfd080d2" class="">Verifying convexity</h2><figure id="a3c2f545-c46d-44be-8676-fa67293acfcb" class="image"><a href="Optimization%209e24ea75ca264500b6d97b200380bb36/Untitled%205.png"><img style="width:780px" src="Optimization%209e24ea75ca264500b6d97b200380bb36/Untitled%205.png"/></a></figure><figure id="ca85a870-e2ea-4e18-9d1d-6b1c1da1dbec" class="image"><a href="Optimization%209e24ea75ca264500b6d97b200380bb36/Untitled%206.png"><img style="width:774px" src="Optimization%209e24ea75ca264500b6d97b200380bb36/Untitled%206.png"/></a></figure><p id="eca480ed-cb2d-4c04-8957-08903ce50f1e" class="">
+</p><figure id="6f908665-43c6-473a-bc54-25249a170edb" class="image"><a href="Optimization%209e24ea75ca264500b6d97b200380bb36/Untitled%207.png"><img style="width:746px" src="Optimization%209e24ea75ca264500b6d97b200380bb36/Untitled%207.png"/></a></figure><p id="eec9f7cd-330e-48df-99bc-52e8a97457d3" class="">
+</p><p id="3f8a6857-4ba8-4b3b-b668-2eeba97a069d" class="">
+</p><h2 id="07441aa2-9183-4fde-a10c-4a02377e3d91" class="">Convexity preserving operations</h2><figure id="a1f12517-4309-47ab-bc70-91f97dcc9a60" class="image"><a href="Optimization%209e24ea75ca264500b6d97b200380bb36/Untitled%208.png"><img style="width:780px" src="Optimization%209e24ea75ca264500b6d97b200380bb36/Untitled%208.png"/></a></figure><p id="2ca2c5c1-6400-4687-97e6-72a1d6aa2a2d" class="">
+</p><p id="49243952-c92c-4bc9-8d0b-83e5b9463881" class="">
+</p><h2 id="4bb56fe8-8fdd-48c0-b7bd-956d9f97eaa5" class="">Learning rate</h2><ul id="69f75cd3-2060-427b-b727-88a912ad93f0" class="bulleted-list"><li style="list-style-type:disc">A too-small value for <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>τ</mi></mrow><annotation encoding="application/x-tex">\tau</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.1132em;">τ</span></span></span></span></span><span>﻿</span></span> has 2 drawbacks<ul id="d326465e-1fa4-4883-bcb1-21aa791d78f5" class="bulleted-list"><li style="list-style-type:circle">We find the minimum more slowly</li></ul><ul id="79cf10fb-0ce0-4ade-9782-437ec7698268" class="bulleted-list"><li style="list-style-type:circle">We end up in local minima or saddle/flat points</li></ul></li></ul><ul id="ca95c57e-7da3-4b99-a522-a9983340109b" class="bulleted-list"><li style="list-style-type:disc">A too-large value for <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>τ</mi></mrow><annotation encoding="application/x-tex">\tau</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.1132em;">τ</span></span></span></span></span><span>﻿</span></span> has one drawback<ul id="6e0638d4-2af8-4b81-95a5-52bf964d144a" class="bulleted-list"><li style="list-style-type:circle">You may never find a minimum; oscillations usually occur</li></ul><p id="a0ec0c17-4869-478f-89ed-1bff1b4e5017" class="">
+</p></li></ul><h3 id="9bc82eb3-a6dd-446e-8e03-73d098a1d1b9" class="">Learning rate adaption</h3><p id="bd86ed64-1e13-4e5d-95d8-c10ac6bf4236" class="">Simple solution: let the learning rate be a decreasing function <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>τ</mi><mi>t</mi></msub></mrow><annotation encoding="application/x-tex">\tau_{t}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.1132em;">τ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.1132em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> of
+the iteration number <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi></mrow><annotation encoding="application/x-tex">t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61508em;vertical-align:0em;"></span><span class="mord mathnormal">t</span></span></span></span></span><span>﻿</span></span></p><ul id="41e9f01f-8005-4930-9bfd-1f5492a3d17e" class="bulleted-list"><li style="list-style-type:disc">so-called learning rate schedule</li></ul><ul id="889e6d91-ea83-4323-acbd-5a4d546e406f" class="bulleted-list"><li style="list-style-type:disc">first iterations cause large changes in the parameters; later do
+fine-tuning</li></ul><ul id="3de1df14-a60b-4f9d-8009-c8566935d755" class="bulleted-list"><li style="list-style-type:disc">convergence easily guaranteed if <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi>lim</mi><mo>⁡</mo></mrow><mrow><mi>t</mi><mo>→</mo><mi mathvariant="normal">∞</mi></mrow></msub><msub><mi>τ</mi><mi>t</mi></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\lim _{t \rightarrow \infty} \tau_{t}=0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mop"><span class="mop">lim</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mrel mtight">→</span><span class="mord mtight">∞</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.1132em;">τ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.1132em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span></span><span>﻿</span></span></li></ul><ul id="ecd497f2-7063-4d8a-9d9d-ef23be4412f2" class="bulleted-list"><li style="list-style-type:disc">example: <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>τ</mi><mrow><mi>t</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>←</mo><mi>α</mi><mo>⋅</mo><msub><mi>τ</mi><mi>t</mi></msub></mrow><annotation encoding="application/x-tex">\tau_{t+1} \leftarrow \alpha \cdot \tau_{t}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.638891em;vertical-align:-0.208331em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.1132em;">τ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.301108em;"><span style="top:-2.5500000000000003em;margin-left:-0.1132em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">←</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.44445em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.1132em;">τ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.1132em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> for <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>&lt;</mo><mi>α</mi><mo>&lt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">0&lt;\alpha&lt;1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68354em;vertical-align:-0.0391em;"></span><span class="mord">0</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span></span><span>﻿</span></span></li></ul><p id="bf70f57c-2595-435f-b763-d15f894ade05" class="">
+</p><p id="69fa53cb-8481-45ca-a81a-759ebad1486f" class="">
+</p><h2 id="80fd47e7-6421-4ddf-aacb-068acca0319b" class="">Optimization algorithms</h2><figure id="723ea55b-dc30-4700-99d2-e3ad5fd7d937"><a href="https://zhuanlan.zhihu.com/p/409159459" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">2.2 Optimization Algorithms 优化算法</div><div class="bookmark-description">Batch vs. mini-batch dradient descent Vectorization allows you to efficiently compute on examples However, if is too large like 5 milion, then training speed will decrease 假设我们的训练集有500万数据, 我们设定每个mini-batch的大小为1000, 则我们一共有5000 mini-batches Notation: , where = 5000, 为第i个mini batch.e.g.</div></div><div class="bookmark-href"><img src="https://static.zhihu.com/heifetz/favicon.ico" class="icon bookmark-icon"/>https://zhuanlan.zhihu.com/p/409159459</div></div><img src="https://pic3.zhimg.com/v2-694d387d01bc36bc58b5c08dee9cf4ce_b.jpg" class="bookmark-image"/></a></figure><p id="f8671f9d-6f28-4fe9-9113-5124c97e7729" class="">
+</p><h2 id="1cd771b5-b6a6-465a-aa98-5cda31479952" class="">Newton&#x27;s method</h2><figure id="2ad1d5f4-75a9-4c91-97a0-d134d47e069a" class="image"><a href="Optimization%209e24ea75ca264500b6d97b200380bb36/Untitled%209.png"><img style="width:977px" src="Optimization%209e24ea75ca264500b6d97b200380bb36/Untitled%209.png"/></a></figure><p id="7dd32e71-a0f3-43ab-81a5-6a825df34941" class="">
+</p><p id="066b34b6-d8cf-4cc3-bfa3-3b40bce07e26" class="">
+</p><h2 id="f06269a0-91ff-4901-9e24-96807f6931d8" class="">Parallel Newton&#x27;s method</h2><figure id="5e720f44-f4e0-4b32-80bc-a1f6b7578f7a" class="image"><a href="Optimization%209e24ea75ca264500b6d97b200380bb36/Untitled%2010.png"><img style="width:735px" src="Optimization%209e24ea75ca264500b6d97b200380bb36/Untitled%2010.png"/></a></figure><p id="9f96cdff-9518-4c57-b20e-d70d5586cff2" class="">
+</p><h2 id="0e4db0ca-805b-499e-b4ea-9627f4fb717e" class="">Large scale optimization</h2><ul id="56754f18-b44c-49d5-bebc-4810e8c16861" class="bulleted-list"><li style="list-style-type:disc">Higher-order techniques have nice properties (e.g. convergence) but they are prohibitively expensive for high dimensional problems</li></ul><ul id="0da5c116-5710-4c10-b8b2-0a64dd3ddc32" class="bulleted-list"><li style="list-style-type:disc">For large scale data / high dimensional problems use first-order techniques</li></ul><ul id="c8bda457-3ee4-4c3e-b938-46b950698527" class="bulleted-list"><li style="list-style-type:disc">i.e. variants of gradient descent</li></ul><ul id="0ad843ac-a8c3-42ad-9ed7-a620a88bf54f" class="bulleted-list"><li style="list-style-type:disc">But for real-world large scale data even first-order methods are too costly</li></ul><ul id="693e28d3-71dd-4cf0-8af2-df443597e00c" class="bulleted-list"><li style="list-style-type:disc">Solution: Stochastic optimization!</li></ul><p id="27a03f61-34cc-4e3c-9aa1-f437d1ea968d" class="">
+</p><p id="fe294006-eb58-4a16-8848-c5e1a61c49cd" class="">
+</p><h2 id="98dae0e7-ab9e-47ee-92a4-ed00552de3e4" class="">Stochastic Gradient Descent</h2><ul id="de503ba5-6c4e-4fa8-9953-d7ee2886f3b3" class="bulleted-list"><li style="list-style-type:disc">Goal: minimize <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><mi mathvariant="bold-italic">θ</mi><mo stretchy="false">)</mo><mo>=</mo><msubsup><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></msubsup><msub><mi>L</mi><mi>i</mi></msub><mo stretchy="false">(</mo><mi mathvariant="bold-italic">θ</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">f(\boldsymbol{\theta})=\sum_{i=1}^{n} L_{i}(\boldsymbol{\theta})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord"><span class="mord"><span class="mord boldsymbol" style="margin-right:0.03194em;">θ</span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.104002em;vertical-align:-0.29971000000000003em;"></span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.804292em;"><span style="top:-2.40029em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.2029em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.29971000000000003em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord"><span class="mord boldsymbol" style="margin-right:0.03194em;">θ</span></span></span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span> + potential constraints</li></ul><ul id="4172101c-39ad-4ae0-b42c-2e864a02505b" class="bulleted-list"><li style="list-style-type:disc">For very large data: even a single pass through the data is very costly</li></ul><ul id="5fade45f-b33f-4b24-a0cd-f6b0283ec607" class="bulleted-list"><li style="list-style-type:disc">Lots of time required to even compute the very first gradient</li></ul><ul id="00d13dbc-224d-4564-9c53-8fbbda5128cb" class="bulleted-list"><li style="list-style-type:disc">Is it possible to update the parameters more frequently/faster?</li></ul><p id="89aced43-5449-4d1a-84fb-bf96f9f0132d" class="">
+</p><p id="634922ac-0622-4d93-a220-b9d16ec05a9c" class="">
+</p><figure id="200b8982-dbbb-4900-922f-0ce89088ba8d" class="image"><a href="Optimization%209e24ea75ca264500b6d97b200380bb36/Untitled%2011.png"><img style="width:950px" src="Optimization%209e24ea75ca264500b6d97b200380bb36/Untitled%2011.png"/></a></figure><p id="d1ef8cf5-c25c-4b9a-aeb9-1d10d60d29bc" class="">
+</p><figure id="943e787b-c92a-49d3-8b40-44d933f062e2" class="image"><a href="Optimization%209e24ea75ca264500b6d97b200380bb36/Untitled%2012.png"><img style="width:1002px" src="Optimization%209e24ea75ca264500b6d97b200380bb36/Untitled%2012.png"/></a></figure><p id="c101fc34-9fe2-4991-b4c7-c45efc6c6523" class="">
+</p><h3 id="96d63c75-2217-4e44-a69e-7b097b9e0d4b" class="">Example: Perceptron</h3><figure id="92614300-a210-4325-a937-86932692a0f3" class="image"><a href="Optimization%209e24ea75ca264500b6d97b200380bb36/Untitled%2013.png"><img style="width:1101px" src="Optimization%209e24ea75ca264500b6d97b200380bb36/Untitled%2013.png"/></a></figure><figure id="b7392d79-b718-4e48-b6e1-0fb2c3934184" class="image"><a href="Optimization%209e24ea75ca264500b6d97b200380bb36/Untitled%2014.png"><img style="width:970px" src="Optimization%209e24ea75ca264500b6d97b200380bb36/Untitled%2014.png"/></a></figure><p id="7b956188-a0ee-4b8d-81b4-070deef22cde" class="">
+</p><p id="3d551520-2801-43e1-9956-5638d8f7a5f4" class="">
+</p><h2 id="5256be97-bc91-4f2b-a839-1014ffba14a5" class="">Convergence in expectation</h2><figure id="8c5a0f14-f32c-4d7c-8a3e-b147c05aeac6" class="image"><a href="Optimization%209e24ea75ca264500b6d97b200380bb36/Untitled%2015.png"><img style="width:982px" src="Optimization%209e24ea75ca264500b6d97b200380bb36/Untitled%2015.png"/></a></figure><p id="5781a511-1499-42ce-8016-01305eafc1dc" class="">
+</p><p id="1c007289-6833-4a6e-bc08-165ddd594a37" class="">
+</p><h2 id="d555147a-b0a5-44a2-a30c-003de1c30c22" class="">Large-Scale learning - distributed learning</h2><ul id="d6bc3691-6319-4fac-9d54-bf16249e929f" class="bulleted-list"><li style="list-style-type:disc">So far, we (mainly) assumed a single machine</li></ul><ul id="e1d3839d-96f2-40f5-8804-e19f18822200" class="bulleted-list"><li style="list-style-type:disc">SGD achieves speed-up by only operating on a subset of the data</li></ul><ul id="08b1b5d8-c587-4306-9894-99a12819d040" class="bulleted-list"><li style="list-style-type:disc">Might still be too slow when operating with really large data and large models</li></ul><ul id="b2dd6827-e1ae-4f5f-af6c-37d2685d7fd8" class="bulleted-list"><li style="list-style-type:disc">In practice: We have often multiple machines available
+</li></ul><p id="676bd038-3053-4443-a8f4-49e1570625b3" class="">⇒ Distributed learning</p><ul id="e9b9326c-524c-45c0-b989-b51f8f35708e" class="bulleted-list"><li style="list-style-type:disc">Distribute computation across multiple machines</li></ul><ul id="6f4260d2-cb65-40f6-a424-9813927e8ae2" class="bulleted-list"><li style="list-style-type:disc">Core challenge: distribute work so that communication doesn&#x27;t kill you</li></ul><p id="ba3bc245-14bf-46c2-b542-8800372fc1af" class="">
+</p><h1 id="1a2c2a6c-089d-4b32-aff3-cbde33bcda29" class="">Distributed Learning: Data vs. Model Parallelism</h1><figure id="ba242eff-67f6-4875-a85f-6f59b26b3943" class="image"><a href="Optimization%209e24ea75ca264500b6d97b200380bb36/Untitled%2016.png"><img style="width:1052px" src="Optimization%209e24ea75ca264500b6d97b200380bb36/Untitled%2016.png"/></a></figure><p id="1ed79f7a-096a-46dc-8b30-a59b882bf9cf" class="">
+</p><p id="6c21e053-ae43-4b08-9c05-5de72a23a047" class="">
+</p><h2 id="989d7900-d2b7-4289-9dc1-f6b4e8ae624a" class="">Parameter server</h2><figure id="017727ae-9b31-4517-9e54-33ae2a5769e8" class="image"><a href="Optimization%209e24ea75ca264500b6d97b200380bb36/Untitled%2017.png"><img style="width:991px" src="Optimization%209e24ea75ca264500b6d97b200380bb36/Untitled%2017.png"/></a></figure><p id="6a9d70b2-215d-467f-a8d4-256fb6694342" class="">
+</p><h2 id="2a43db1d-6bee-4029-85df-d0bb5e559f87" class="">Distributed learning in pratice</h2><ul id="4e12a3c1-88e3-4406-a467-6f7b0152570c" class="bulleted-list"><li style="list-style-type:disc">Distributed optimization/learning is essential when operating with very large data (and large models)<ul id="a229e6ce-126d-41dc-b03b-2e31df83242f" class="bulleted-list"><li style="list-style-type:circle">Default for training ML models in today&#x27;s production systems</li></ul></li></ul><ul id="d16e13ad-1059-4b66-890c-396bd295a973" class="bulleted-list"><li style="list-style-type:disc">Many modern ML frameworks (e.g. Tensorflow, PyTorch, MXNet, ...) provide support for distributed learning</li></ul><ul id="32341be8-37db-461a-9dcf-3d5d170ea9b8" class="bulleted-list"><li style="list-style-type:disc">Many further aspects/challenges<ul id="e7971a01-6b86-4e53-9392-827b1559878d" class="bulleted-list"><li style="list-style-type:circle">Desired synchronization</li></ul><ul id="26d4ed12-d29b-4d21-af37-eaa127986d95" class="bulleted-list"><li style="list-style-type:circle">Fault tolerance, recovery</li></ul><ul id="50afbb2e-008b-4b04-af9a-9a585571aa44" class="bulleted-list"><li style="list-style-type:circle">Automatic placement (of data/model) to reduce communication</li></ul><p id="1ee1d85e-3871-4039-b9bf-720b63b7a9ac" class="">
+</p></li></ul><h1 id="aa48835a-0b8c-4801-b558-57685249062e" class="">Summary</h1><figure id="ae4f4531-0fec-47cb-8af6-a90471efa58c" class="image"><a href="Optimization%209e24ea75ca264500b6d97b200380bb36/Untitled%2018.png"><img style="width:970px" src="Optimization%209e24ea75ca264500b6d97b200380bb36/Untitled%2018.png"/></a></figure><p id="c32239bd-8c4c-4a49-86a0-39a14f852905" class="">
+</p></div></article></body></html>

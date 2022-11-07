@@ -1,0 +1,702 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Deep learning (1)</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="18542b2b-f10d-4e2c-9459-e893d64c9a96" class="page mono"><header><h1 class="page-title">Deep learning (1)</h1></header><div class="page-body"><nav id="4c3f8e67-3817-403a-9ec4-959d89fadbd4" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#baaf00e4-1bb8-4c13-ba59-e54c2c11f332">Intro</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#57747999-0702-4f04-afc2-f265ed25a411">The XOR dataset</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#b35b1485-fc3d-42b9-9707-f0a4f5bdce3d">The activation functions</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#0daa4d70-a55e-4964-adef-dd2b26805835">why use nonlinear activations?</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#3924c859-f55a-4232-96b0-52ad3ea19adb">Beyond binary classification</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#24736a55-b7fe-489a-b920-1df0d8d184bd">Loss function</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#0d828df2-f484-4fed-bdf6-bf8ec051aba1">e.g. 1: binary classification</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#ebe6ae58-f42a-44f0-ba9d-fe6b00a6a9ff">e.g. 2: multiclass classification</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#2db0d8c4-82dd-456b-ae21-fe38631d3aa7">e.g. 3: single-output regression
+</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#cfb17e90-8003-4b88-914c-9482b19336d4">Unsupervised deep learning</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#d22d78ad-7c6d-46f5-9e5e-e97154ac8e3d">Choosing the loss</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#42b0112f-340d-402d-9fbc-5c2dc5e5d9af">Parameter learning</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#7fab9be7-cb32-47bf-8780-2d1649713dfe">Minimizing the loss function</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#e1ce345d-77c2-4435-b794-0ed7869cd5fd">How can we compute the gradient?</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#7f656ddc-740e-45dc-815e-0d15d4d13a43">Backpropagation: toy example</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#7693497a-8e49-444b-a045-5ef85d309b46">Backprop in a nutshell</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#d404a0aa-615c-4820-86b2-1e804b7208a1">Multiple inputs</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#19567558-aef3-40b0-bcc8-f5a8e426a29d">Multiple paths</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#26fc219d-0335-4303-9528-bfc2e324b995">Multivariant chain rule</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#976ee8ae-42af-4183-b365-7bedad4bc37a">Jacobian and the gradient</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#591e588c-299f-4c42-9be7-827e7fa3bd29">Chain rule in matrix form</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#845f79b6-4187-4481-bc11-457eceaed69f">Computational graph of a NN</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#e0fc7e53-a6d7-41e3-ba71-cad1a9687163">Matrix calculus</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#722d5f4c-2763-4406-a034-e9aacef63820">Accumulating the gradient</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#f711dab1-827f-4b0e-8019-12141b9be1f3">e.g. Affine layer</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#7fa7d371-a352-47ec-9ed9-f623ce9a49b2">Backprop: summary</a></div></nav><h1 id="baaf00e4-1bb8-4c13-ba59-e54c2c11f332" class="">Intro</h1><h1 id="57747999-0702-4f04-afc2-f265ed25a411" class="">The XOR dataset</h1><figure id="0724f6b5-64f8-42ea-9743-7eb726005571" class="image"><a href="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled.png"><img style="width:761px" src="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled.png"/></a></figure><h1 id="b35b1485-fc3d-42b9-9707-f0a4f5bdce3d" class="">The activation functions</h1><figure id="6eb05b00-2cb3-4f11-bb42-7c10658359ac" class="image"><a href="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%201.png"><img style="width:696px" src="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%201.png"/></a></figure><h2 id="0daa4d70-a55e-4964-adef-dd2b26805835" class="">why use nonlinear activations?</h2><figure id="01bc0bb2-ea22-484c-97a9-e9a2b107e71a" class="image"><a href="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%202.png"><img style="width:628px" src="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%202.png"/></a></figure><p id="b1b7761c-41c7-478c-a5a5-d32312a41f8e" class="">
+</p><h1 id="3924c859-f55a-4232-96b0-52ad3ea19adb" class="">Beyond binary classification</h1><h2 id="24736a55-b7fe-489a-b920-1df0d8d184bd" class="">Loss function</h2><figure id="996b5e93-aef5-44e9-b699-6d8c0cba58a0" class="image"><a href="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%203.png"><img style="width:727px" src="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%203.png"/></a></figure><h2 id="0d828df2-f484-4fed-bdf6-bf8ec051aba1" class="">e.g. 1: binary classification</h2><figure id="7c1c29da-50a9-4ecf-98cb-cbb6f4f6cee1" class="image"><a href="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%204.png"><img style="width:689px" src="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%204.png"/></a></figure><p id="3ccc95d5-4ae7-472f-a95f-7ddbd02d9c49" class="">
+</p><p id="81f41de9-8945-4467-b2d6-3d2e534a7895" class="">
+</p><h2 id="ebe6ae58-f42a-44f0-ba9d-fe6b00a6a9ff" class="">e.g. 2: multiclass classification</h2><figure id="2531ebd0-1e75-4a01-b8fd-4736aec7df61" class="image"><a href="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%205.png"><img style="width:637px" src="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%205.png"/></a></figure><p id="5ce0db32-2859-4882-8830-8cd5ce8933bb" class="">
+</p><p id="a62e1d5f-7144-44c9-a3ef-f408627b3560" class="">
+</p><h2 id="2db0d8c4-82dd-456b-ae21-fe38631d3aa7" class="">e.g. 3: single-output regression
+</h2><figure id="92b486a8-687c-43cb-93c5-3e2c88e94235" class="image"><a href="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%206.png"><img style="width:634px" src="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%206.png"/></a></figure><p id="3d7c0440-1742-4733-803a-ca53ee7c8496" class="">
+</p><h1 id="cfb17e90-8003-4b88-914c-9482b19336d4" class="">Unsupervised deep learning</h1><p id="bf0b5ed3-96a7-440b-8d38-c272bc1890e7" class="">So far we have only considered neural networks for supervised learning. Unsupervised deep learning is also a very active field of research, with models such as</p><ul id="ac1a0e4b-a6ec-4bd0-ae3a-9f4dbf80ec57" class="bulleted-list"><li style="list-style-type:disc">Autoencoder (covered later in this course)</li></ul><ul id="ad3efbba-bd85-4037-b270-b5d3c09db9a2" class="bulleted-list"><li style="list-style-type:disc">Variational autoencoder (covered in our MLGS lecture)</li></ul><ul id="6c016fa1-cdb7-435c-bea2-8bda9163b9b8" class="bulleted-list"><li style="list-style-type:disc">Generative adversarial networks (GAN; covered in our MLGS lecture)</li></ul><ul id="64d20ce1-83df-4912-8e53-bf25404a1685" class="bulleted-list"><li style="list-style-type:disc">Unsupervised representation learning (e.g. word or node embeddings; covered in our MLGS lecture)</li></ul><p id="4cb125b4-f9ed-450c-9084-377f979eedbf" class="">
+</p><p id="f6cf14d9-c304-4f8a-836b-34e0f1d098b9" class="">
+</p><h2 id="d22d78ad-7c6d-46f5-9e5e-e97154ac8e3d" class="">Choosing the loss</h2><p id="df307bb0-9506-4048-a695-05c331062edc" class="">We are free to choose any loss that provides a useful gradient for training.
+This choice includes both the function and which values to use and compare to. Many model types mainly differ in their choice of loss.
+Example loss functions:</p><ul id="d8b65916-6e86-406b-9366-99cb8ffef131" class="bulleted-list"><li style="list-style-type:disc">Cross entropy: For supervised classification</li></ul><ul id="3eb14146-7575-4916-97c8-fa0bfe5dcbec" class="bulleted-list"><li style="list-style-type:disc">Mean squared error (MSE)</li></ul><ul id="dd2cc251-558c-4629-b3ef-fe91e843b187" class="bulleted-list"><li style="list-style-type:disc">Mean absolute error (MAE): Useful if we have outliers, but gradient is independent of the distance from the optimum (advanced optimizers handle this surprisingly well, though).</li></ul><ul id="013800b1-2f5b-4268-98ba-5d7489f3def3" class="bulleted-list"><li style="list-style-type:disc">Huber loss, LogCosh: MSE at close distances, MAE far away. Combine benefits of MSE and MAE.</li></ul><ul id="548d82d7-f77e-4aec-9b35-547ace91dd24" class="bulleted-list"><li style="list-style-type:disc">Wasserstein (earth mover&#x27;s) distance, KL-divergence: For continuous distributions</li></ul><p id="00f35d70-0c84-43a3-8743-5fee34d22aaa" class="">
+</p><p id="7e3eeec2-a012-4e52-bead-c3b278c3b68d" class="">
+</p><h1 id="42b0112f-340d-402d-9fbc-5c2dc5e5d9af" class="">Parameter learning</h1><h2 id="7fab9be7-cb32-47bf-8780-2d1649713dfe" class="">Minimizing the loss function</h2><figure id="207ae326-4162-4668-b03b-d3799fb93dd7" class="image"><a href="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%207.png"><img style="width:759px" src="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%207.png"/></a></figure><p id="6f4ae4fa-32e6-454f-8779-77546d3365e2" class="">
+</p><p id="903d4490-6b4b-4b50-9594-38f620790e7e" class="">
+</p><h2 id="e1ce345d-77c2-4435-b794-0ed7869cd5fd" class="">How can we compute the gradient?</h2><figure id="53a053be-bcb5-45c1-a766-727ef76abd90" class="image"><a href="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%208.png"><img style="width:689px" src="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%208.png"/></a></figure><figure id="2125d4e7-1b98-4bb2-809a-e3c6c28f5c47" class="image"><a href="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%209.png"><img style="width:734px" src="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%209.png"/></a></figure><p id="99b7efdd-ff31-4b12-9dec-607da80396b2" class="">
+</p><h1 id="7f656ddc-740e-45dc-815e-0d15d4d13a43" class="">Backpropagation: toy example</h1><figure id="b6dab782-91ae-446d-80b0-4efe09fc2dad" class="image"><a href="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%2010.png"><img style="width:767px" src="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%2010.png"/></a></figure><ul id="76409d13-21fd-4fe1-8968-b90fcec91780" class="bulleted-list"><li style="list-style-type:disc">chain rule: <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mi mathvariant="normal">∂</mi><mi>f</mi></mrow><mrow><mi mathvariant="normal">∂</mi><mi>x</mi></mrow></mfrac><mo>=</mo><mfrac><mrow><mi mathvariant="normal">∂</mi><mi>d</mi></mrow><mrow><mi mathvariant="normal">∂</mi><mi>c</mi></mrow></mfrac><mfrac><mrow><mi mathvariant="normal">∂</mi><mi>c</mi></mrow><mrow><mi mathvariant="normal">∂</mi><mi>b</mi></mrow></mfrac><mfrac><mrow><mi mathvariant="normal">∂</mi><mi>b</mi></mrow><mrow><mi mathvariant="normal">∂</mi><mi>a</mi></mrow></mfrac><mfrac><mrow><mi mathvariant="normal">∂</mi><mi>a</mi></mrow><mrow><mi mathvariant="normal">∂</mi><mi>x</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">\frac{\partial f}{\partial x}=\frac{\partial d}{\partial c} \frac{\partial c}{\partial b} \frac{\partial b}{\partial a} \frac{\partial a}{\partial x}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.277216em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9322159999999999em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mathnormal mtight">x</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.446108em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mathnormal mtight" style="margin-right:0.10764em;">f</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.2251079999999999em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8801079999999999em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mathnormal mtight">c</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mathnormal mtight">d</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8801079999999999em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mathnormal mtight">b</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mathnormal mtight">c</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8801079999999999em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mathnormal mtight">a</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mathnormal mtight">b</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8801079999999999em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mathnormal mtight">x</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mathnormal mtight">a</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span><span>﻿</span></span><ul id="4f1171a1-8293-4902-b261-a3e762260e90" class="bulleted-list"><li style="list-style-type:circle"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mi mathvariant="normal">∂</mi><mi>f</mi></mrow><mrow><mi mathvariant="normal">∂</mi><mi>x</mi></mrow></mfrac><mtext> </mtext></mrow><annotation encoding="application/x-tex">\frac{\partial f}{\partial x} </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.277216em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9322159999999999em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mathnormal mtight">x</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.446108em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mathnormal mtight" style="margin-right:0.10764em;">f</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord"> </span></span></span></span></span><span>﻿</span></span> is the global derivative</li></ul><ul id="20eb843b-c8d6-4562-997b-2b54adffbf2d" class="bulleted-list"><li style="list-style-type:circle"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mi mathvariant="normal">∂</mi><mi>d</mi></mrow><mrow><mi mathvariant="normal">∂</mi><mi>c</mi></mrow></mfrac><mo separator="true">,</mo><mfrac><mrow><mi mathvariant="normal">∂</mi><mi>c</mi></mrow><mrow><mi mathvariant="normal">∂</mi><mi>b</mi></mrow></mfrac><mo separator="true">,</mo><mfrac><mrow><mi mathvariant="normal">∂</mi><mi>b</mi></mrow><mrow><mi mathvariant="normal">∂</mi><mi>a</mi></mrow></mfrac><mo separator="true">,</mo><mfrac><mrow><mi mathvariant="normal">∂</mi><mi>a</mi></mrow><mrow><mi mathvariant="normal">∂</mi><mi>x</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">\frac{\partial d}{\partial c}, \frac{\partial c}{\partial b}, \frac{\partial b}{\partial a}, \frac{\partial a}{\partial x}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.2251079999999999em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8801079999999999em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mathnormal mtight">c</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mathnormal mtight">d</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8801079999999999em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mathnormal mtight">b</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mathnormal mtight">c</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8801079999999999em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mathnormal mtight">a</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mathnormal mtight">b</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8801079999999999em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mathnormal mtight">x</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mathnormal mtight">a</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span><span>﻿</span></span> are the local derivatives</li></ul><p id="e27ff5ac-da6d-4c90-b1e6-a59183cef9bb" class="">
+</p></li></ul><h2 id="7693497a-8e49-444b-a045-5ef85d309b46" class="">Backprop in a nutshell</h2><ul id="ed7b643a-2bae-404a-b056-44fbc049759c" class="bulleted-list"><li style="list-style-type:disc">Write your function as a composition of modules<ul id="c4faa5c5-44bf-4ec0-a166-6b6e0b5df188" class="bulleted-list"><li style="list-style-type:circle">What the modules are is up to you</li></ul></li></ul><ul id="10ec33e8-7484-48b2-ad25-9464609410ed" class="bulleted-list"><li style="list-style-type:disc">Work out the local derivative of each module symbolically<ul id="60ba6ada-4027-422a-a3e2-72857d1ee2c9" class="toggle"><li><details open=""><summary>e.g.</summary><figure id="d21220f1-7714-4cbd-8919-68761d1a0f8f" class="image"><a href="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%2011.png"><img style="width:600px" src="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%2011.png"/></a></figure></details></li></ul></li></ul><ul id="cc066d06-91d5-4135-98f2-458d501b8306" class="bulleted-list"><li style="list-style-type:disc">Do a forward pass for a given input <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">x</span></span></span></span></span><span>﻿</span></span><ul id="b17124ec-1585-425c-9fb0-972d2a2212f9" class="bulleted-list"><li style="list-style-type:circle">i.e. compute the function <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mtext> </mtext></mrow><annotation encoding="application/x-tex">f(x) </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)</span><span class="mord"> </span></span></span></span></span><span>﻿</span></span> and remember the intermediate values</li></ul><ul id="0c32d69d-b837-405d-b62e-561a338a4d65" class="toggle"><li><details open=""><summary>e.g.</summary><figure id="86decefd-a5a0-49a3-9b11-c8fd6f54b30b" class="image"><a href="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%2012.png"><img style="width:724px" src="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%2012.png"/></a></figure></details></li></ul></li></ul><ul id="4f5f012f-8969-48c4-adc4-ae4d717d23e5" class="bulleted-list"><li style="list-style-type:disc">Compute the local derivatives for <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">x</span></span></span></span></span><span>﻿</span></span> (backward pass)</li></ul><ul id="8bfb640d-5dd8-4a04-a463-d959032215dc" class="bulleted-list"><li style="list-style-type:disc">Obtain the global derivative by multiplying the local derivatives (backward pass)<ul id="11cddd6c-67e2-46a1-b1d4-1ea816d63632" class="toggle"><li><details open=""><summary>e.g.</summary><figure id="8f8fe7b7-2b59-4360-9178-d780a135954f" class="image"><a href="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%2013.png"><img style="width:710px" src="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%2013.png"/></a></figure><p id="5aed08a5-c4c6-4b77-8c0e-2cb825cefe99" class="">
+</p></details></li></ul><p id="f2d62947-c318-4878-9e63-290e5465db26" class="">
+</p></li></ul><h2 id="d404a0aa-615c-4820-86b2-1e804b7208a1" class="">Multiple inputs</h2><figure id="89c0526f-add8-4de5-87c6-78e355383013" class="image"><a href="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%2014.png"><img style="width:584px" src="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%2014.png"/></a></figure><p id="cbc9de53-da14-43d5-a3bd-a1bfa2b9f807" class="">
+</p><p id="493ecc61-d60c-42e8-aa24-fdc3e2e4ba37" class="">
+</p><h2 id="19567558-aef3-40b0-bcc8-f5a8e426a29d" class="">Multiple paths</h2><figure id="1e97c0a6-bb26-492c-bded-6e1588fe0240" class="image"><a href="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%2015.png"><img style="width:696px" src="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%2015.png"/></a></figure><h2 id="26fc219d-0335-4303-9528-bfc2e324b995" class="">Multivariant chain rule</h2><figure id="a737a813-6a06-4d2f-8276-fecd9a03aff2" class="image"><a href="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%2016.png"><img style="width:706px" src="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%2016.png"/></a></figure><p id="d2515e13-1b9a-4eff-93d1-5487a55b9e83" class="">
+</p><p id="384a85c0-a430-4690-bb18-7bd0b1e7b01e" class="">
+</p><h2 id="976ee8ae-42af-4183-b365-7bedad4bc37a" class="">Jacobian and the gradient</h2><figure id="2a967202-b85e-44c0-b6eb-2a6556202b50" class="image"><a href="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%2017.png"><img style="width:694px" src="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%2017.png"/></a></figure><p id="077dc496-e306-4294-a4ce-9896b3f11017" class="">
+</p><h2 id="591e588c-299f-4c42-9be7-827e7fa3bd29" class="">Chain rule in matrix form</h2><figure id="1f166c98-1f95-474e-baa1-b8cf28f98122" class="image"><a href="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%2018.png"><img style="width:713px" src="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%2018.png"/></a></figure><h2 id="845f79b6-4187-4481-bc11-457eceaed69f" class="">Computational graph of a NN</h2><figure id="903760e9-c6ed-4a65-a4b6-cf49687d7bbf" class="image"><a href="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%2019.png"><img style="width:735px" src="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%2019.png"/></a></figure><p id="dd4f67dd-3537-4eff-b363-70015ecde1bd" class="">
+</p><p id="bb7bb0f0-550c-4853-8200-9b94c3cf26e4" class="">
+</p><h2 id="e0fc7e53-a6d7-41e3-ba71-cad1a9687163" class="">Matrix calculus</h2><figure id="2862b2e3-01ab-4d55-953a-5faf4d613857" class="image"><a href="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%2020.png"><img style="width:712px" src="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%2020.png"/></a></figure><p id="05882d2a-956d-4315-a845-faf622de6025" class="">
+</p><p id="c082e399-d908-487d-b58d-66c10e3efcaa" class="">
+</p><h2 id="722d5f4c-2763-4406-a034-e9aacef63820" class="">Accumulating the gradient</h2><figure id="f7867183-5372-4aaf-b00e-25a17f9a5ac5" class="image"><a href="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%2021.png"><img style="width:694px" src="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%2021.png"/></a></figure><figure id="b478ff39-c917-4e27-a61d-4296b93a88b1" class="image"><a href="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%2022.png"><img style="width:761px" src="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%2022.png"/></a></figure><p id="3e5a80b8-59cf-41ca-9866-dcbb92d9599e" class="">
+</p><h2 id="f711dab1-827f-4b0e-8019-12141b9be1f3" class="">e.g. Affine layer</h2><figure id="ae806761-8dd5-47e0-a182-595e3aa7ac3d" class="image"><a href="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%2023.png"><img style="width:684px" src="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%2023.png"/></a></figure><p id="7c54cf69-caf5-4235-a634-3ece3f7cdc42" class="">
+</p><figure id="15552aef-a9fb-4f07-aef4-88ff00f8cd22" class="image"><a href="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%2024.png"><img style="width:787px" src="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%2024.png"/></a></figure><figure id="d9488d9d-982e-49ac-b192-f8f7b3950070" class="image"><a href="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%2025.png"><img style="width:726px" src="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%2025.png"/></a></figure><figure id="827215d1-15cb-4ccf-9ff5-6588527fefa2" class="image"><a href="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%2026.png"><img style="width:600px" src="Deep%20learning%20(1)%2018542b2bf10d4e2c9459e893d64c9a96/Untitled%2026.png"/></a></figure><p id="767563ad-8e1f-4799-a247-fadaecdc06cc" class="">
+</p><h2 id="7fa7d371-a352-47ec-9ed9-f623ce9a49b2" class="">Backprop: summary</h2><ul id="4ab0b6ec-7af4-459d-86dd-05efab5adace" class="bulleted-list"><li style="list-style-type:disc">Define the computation as a composition of modules</li></ul><ul id="f98fbb7a-899d-45a8-b85a-9f0212e86e77" class="bulleted-list"><li style="list-style-type:disc">The forward function computes the output of the module</li></ul><ul id="0e29947e-d63f-4d73-a9c7-cccedc6085da" class="bulleted-list"><li style="list-style-type:disc">The backward function accumulates the total gradient</li></ul><ul id="c17c8d0c-8c3f-4ce8-b6f1-e95006fe462c" class="bulleted-list"><li style="list-style-type:disc">We can implement backward without materializing the Jacobian</li></ul><ul id="9fd9a467-0e92-450c-a3c2-f034ca05ed1b" class="bulleted-list"><li style="list-style-type:disc">Backpropagation walks backward through the computational graph, accumulating the product of gradients</li></ul><p id="7a698bbc-da15-4381-85ef-0ed12a4514f2" class="">
+</p></div></article></body></html>

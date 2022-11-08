@@ -1,0 +1,700 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.0, mkdocs-material-8.5.8">
+    
+    
+      
+        <title>Convex Optimization - Machine Learning Notes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.20d9efc8.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.815d1a91.min.css">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#convex-optimization" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Machine Learning Notes" class="md-header__button md-logo" aria-label="Machine Learning Notes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Machine Learning Notes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Convex Optimization
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Machine Learning Notes" class="md-nav__button md-logo" aria-label="Machine Learning Notes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Machine Learning Notes
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Welcome to My ML Notes
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Optimization
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Optimization" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Optimization
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Convex Optimization
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Convex Optimization
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#optimization-problems" class="md-nav__link">
+    Optimization Problems
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#convexity" class="md-nav__link">
+    Convexity
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#computational-aspects-of-optimization-algorithms" class="md-nav__link">
+    Computational aspects of optimization algorithms
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#takeaway" class="md-nav__link">
+    Takeaway
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Supervised Learning
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Supervised Learning" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Supervised Learning
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_1" type="checkbox" id="__nav_3_1" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_1">
+          0 Intro
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="0 Intro" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_1">
+          <span class="md-nav__icon md-icon"></span>
+          0 Intro
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Supervised%20Learning/0%20Intro/0.1%20Bias%20Variance%20Trade-off/" class="md-nav__link">
+        Bias-Variance tradeoff
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Supervised%20Learning/0%20Intro/0.2%20Model%20Selection%20and%20Validation/" class="md-nav__link">
+        Model selection and validation
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_2" type="checkbox" id="__nav_3_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_2">
+          1 Regression
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="1 Regression" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_2">
+          <span class="md-nav__icon md-icon"></span>
+          1 Regression
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Supervised%20Learning/1%20Regression/1.1%20Linear%20Regression/" class="md-nav__link">
+        Linear Regression
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Supervised%20Learning/1%20Regression/1.2%20Ridge%20Regression/" class="md-nav__link">
+        Ridge Regression 岭回归
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#optimization-problems" class="md-nav__link">
+    Optimization Problems
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#convexity" class="md-nav__link">
+    Convexity
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#computational-aspects-of-optimization-algorithms" class="md-nav__link">
+    Computational aspects of optimization algorithms
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#takeaway" class="md-nav__link">
+    Takeaway
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="convex-optimization">Convex Optimization</h1>
+<h2 id="optimization-problems">Optimization Problems</h2>
+<p>Many problems in science and engineering can be formulated as an <em>optimization</em> problem:
+$$
+\text { minimize } f(\mathbf{x}) \quad \text { subject to } \quad \mathbf{x} \in \mathcal{C} \text {, }
+$$
+where <span class="arithmatex">\(f\)</span> is a cost function and <span class="arithmatex">\(\mathcal{C}\)</span> is a set. Due to <span class="arithmatex">\(\max _{\mathbf{x} \in \mathcal{C}} f(\mathbf{x})=\min _{\mathbf{x} \in \mathcal{C}}-f(\mathbf{x})\)</span>, this formulation includes the problem of maximizing a cost function. The function <span class="arithmatex">\(f\)</span> can model goodness of fit in machine learning (we'll see many examples later), utility, or cost. The set <span class="arithmatex">\(\mathcal{C}\)</span> can incorporate constraints such as a limited budget <span class="arithmatex">\((\|\mathbf{x}\| \leq B)\)</span> or priors ( <span class="arithmatex">\(\mathbf{x}\)</span> is non-negative).</p>
+<p>We say that <span class="arithmatex">\(\mathbf{x}^*\)</span> is a (global) solution to the optimization problem (1) if <span class="arithmatex">\(\mathbf{x}^* \in \mathcal{C}\)</span>, and <span class="arithmatex">\(f\left(\mathbf{x}^*\right) \leq f(\mathbf{x})\)</span> for all <span class="arithmatex">\(\mathrm{x} \in \mathcal{C}\)</span>. We say that <span class="arithmatex">\(\mathrm{x}^*\)</span> is a local solution to the optimization problem if in a neighborhood <span class="arithmatex">\(\mathcal{N}\)</span> around <span class="arithmatex">\(\mathbf{x}^*, f\left(\mathbf{x}^*\right) \leq f(\mathbf{x})\)</span> for all <span class="arithmatex">\(\mathbf{x} \in \mathcal{C} \cap \mathcal{N}\)</span>. Optimality can be very hard to check, even if <span class="arithmatex">\(f\)</span> is differentiable and <span class="arithmatex">\(\mathcal{C}=\mathbb{R}^n\)</span>.</p>
+<h2 id="convexity">Convexity</h2>
+<p>An important class of optimization problems for which we can check optimality rather easily are convex optimization problems. A standard reference for convex optimization problems is the book [BV04].</p>
+<p><strong>Definition 1.</strong> A convex set <span class="arithmatex">\(\mathcal{C}\)</span> is any set such that for all <span class="arithmatex">\(\mathbf{x}, \mathbf{y} \in \mathcal{C}\)</span> and all <span class="arithmatex">\(\theta \in(0,1)\)</span>,
+$$
+\theta \mathbf{x}+(1-\theta) \mathbf{y} \in \mathcal{C}
+$$</p>
+<p><img alt="" src="https://i.imgur.com/zQzqblO.png" /></p>
+<p><mark>连接set内任意两个点, 这两个点的连线上任意一点都在set内</mark></p>
+<p>Figure 1 shows examples of convex and non-convex sets. Intersections of convex sets are convex. Important examples of convex sets are the following:</p>
+<ul>
+<li>Subspaces <span class="arithmatex">\(\left\{\mathbf{x}=\mathbf{U a}: \mathbf{a} \in \mathbb{R}^d\right\}\)</span>,</li>
+<li>Affines spaces <span class="arithmatex">\(\left\{\mathbf{x}=\mathbf{U a}+\mathbf{b}: \mathbf{a} \in \mathbb{R}^d\right\}\)</span></li>
+<li>Half-spaces <span class="arithmatex">\(\{\mathbf{x}:\langle\mathbf{a}, \mathbf{x}\rangle \leq b\}\)</span></li>
+</ul>
+<p><strong>Definition 2.</strong> for a set of points <span class="arithmatex">\(\mathbf{x}_1, \ldots, \mathbf{x}_n \in \mathbb{R}^n\)</span>, a convex combination of them is defined as the set</p>
+<div class="arithmatex">\[
+\left\{\mathbf{x}=\sum_{i=1}^n \theta_i \mathbf{x}_i: \sum_{i=1}^n \theta_i=1, \theta_i \geq 0\right\}
+\]</div>
+<p><mark> A set <span class="arithmatex">\(\mathcal{C}\)</span> is convex if and only if it contains all convex combinations of its elements. </mark></p>
+<p>For any given set <span class="arithmatex">\(\mathcal{S}\)</span>, the convex hull of <span class="arithmatex">\(\mathcal{S}\)</span> is defined as the set of all convex combinations of points in <span class="arithmatex">\(\mathcal{S}\)</span>. Intuitively, it is the smallest convex set that contains <span class="arithmatex">\(\mathcal{S}\)</span>. As an example, consider the non-convex set <span class="arithmatex">\(\left\{\mathbf{x}:\|\mathbf{x}\|_0 \leq 1,\|\mathbf{x}\|_1 \leq 1\right\}\)</span>. Its convex hull is the <span class="arithmatex">\(\ell_1\)</span>-norm ball <span class="arithmatex">\(\left\{\mathbf{x}\right.\)</span> : <span class="arithmatex">\(\left.\|\mathbf{x}\|_1 \leq 1\right\}\)</span>.
+We are now ready for one of the most important definitions in this class.</p>
+<p><strong>Definition 3.</strong> A function <span class="arithmatex">\(f: \mathbb{R}^n \rightarrow \mathbb{R}\)</span> is convex if for all <span class="arithmatex">\(\mathbf{x}, \mathbf{y} \in \mathbb{R}^n\)</span>, and all <span class="arithmatex">\(\theta \in(0,1)\)</span>,
+$$
+\theta f(\mathbf{x})+(1-\theta) f(\mathbf{y}) \geq f(\theta \mathbf{x}+(1-\theta) \mathbf{y}) .
+$$
+A function is strictly convex, if the inequality above is strict whenever <span class="arithmatex">\(\mathbf{x} \neq \mathbf{y}\)</span>. </p>
+<p>A function <span class="arithmatex">\(f\)</span> is concave if <span class="arithmatex">\(-f\)</span> is convex.
+Common examples of convex functions are:</p>
+<ul>
+<li>Linear functions: <span class="arithmatex">\(f(\mathbf{x})=\langle\mathbf{a}, \mathbf{x}\rangle+b\)</span>,</li>
+<li>Quadratics: <span class="arithmatex">\(f(\mathbf{x})=\frac{1}{2} \mathbf{x}^T \mathbf{Q} \mathbf{x}+\mathbf{b}^T \mathbf{x}+c\)</span>, where <span class="arithmatex">\(\mathbf{Q}\)</span> is positive semidefinite. The function <span class="arithmatex">\(f\)</span> is convex if and only if <span class="arithmatex">\(\mathbf{Q}\)</span> is positive semidefinite.</li>
+<li>Any norm <span class="arithmatex">\(f(\mathbf{x})=\|\mathbf{x}\|\)</span> is convex. This follows from the triangle inequality and homogeneity/scalability.</li>
+</ul>
+<p><u>An important property of convex functions is that local minima are global.</u></p>
+<p><strong>Proposition 1.</strong> Any local minimum of a convex function <span class="arithmatex">\(f: \mathbb{R}^n \rightarrow \mathbb{R}\)</span> is also a global minimum.
+We now turn to first order optimality conditions. To this end, we first state a proposition stating that a function is convex if and only if it is lower bounded by its first order Taylor expansion at any point.</p>
+<p><strong>Proposition 2.</strong> A differentiable function <span class="arithmatex">\(f\)</span> is convex if and only if for all <span class="arithmatex">\(\mathbf{x}, \mathbf{y} \in \mathbb{R}^n\)</span>,
+$$
+f(\mathbf{y}) \geq f(\mathbf{x})+\langle\mathbf{y}-\mathbf{x}, \nabla f(\mathbf{x})\rangle .
+$$
+It is strictly convex if and only if the inequality holds strictly for all <span class="arithmatex">\(\mathbf{x} \neq \mathbf{y}\)</span>.
+An important consequence is the following optimality condition.</p>
+<p><strong>Corollary 1.</strong> If a differentiable function <span class="arithmatex">\(f\)</span> is convex and <span class="arithmatex">\(\nabla f\left(\mathbf{x}^*\right)=0\)</span>, then <span class="arithmatex">\(\mathbf{x}^*\)</span> is a global minimizer of <span class="arithmatex">\(f\)</span>.</p>
+<h2 id="computational-aspects-of-optimization-algorithms">Computational aspects of optimization algorithms</h2>
+<p>Suppose we want to minimize a differentiable function <span class="arithmatex">\(f: \mathbb{R}^n \rightarrow \mathbb{R}\)</span> over <span class="arithmatex">\(\mathbb{R}^n\)</span> :
+$$
+\underset{\mathbf{x} \in \mathbb{R}^n}{\operatorname{minimize}} f(\mathbf{x}) .
+$$
+For simplicity assume that <span class="arithmatex">\(f(\mathbf{x})=\|\mathbf{A} \mathbf{x}-\mathbf{y}\|_2^2\)</span>, where <span class="arithmatex">\(\mathbf{A} \in \mathbb{R}^{m \times n}\)</span> is a matrix with full column rank. So the optimization problem above is a standard least squares problem. If the columns are linearly independent, we can simply obtain a closed form solution as <span class="arithmatex">\(\mathbf{x}^*=\left(\mathbf{A}^T \mathbf{A}\right)^{-1} \mathbf{A}^T \mathbf{y}\)</span>. However, for many practically relevant functions <span class="arithmatex">\(f\)</span>, we cannot compute a closed form solution. Even if we can, we might not want to because computing the closed form solution can be computationally expensive, e.g., for <span class="arithmatex">\(\mathbf{x}^*=\left(\mathbf{A}^T \mathbf{A}\right)^{-1} \mathbf{A}^T \mathbf{y}\)</span> we have to compute the inverse of a possibly large matrix. In the first part of this course we consider algorithms for finding approximate solutions of the minimization problem above. In practice we are essentially always content with an approximate solution (a computer can only give us a solution up to machine precision anyways). We assume that we have oracle access to <span class="arithmatex">\(f\)</span>:</p>
+<ul>
+<li>A zeroth order oracle returns <span class="arithmatex">\(f(\mathbf{x})\)</span> for a given <span class="arithmatex">\(\mathbf{x}\)</span>.</li>
+<li>A first order oracle returns <span class="arithmatex">\(\{f(\mathbf{x}), \nabla f(\mathbf{x})\}\)</span> for a given <span class="arithmatex">\(\mathbf{x}\)</span>.</li>
+<li>A second order oracle returns <span class="arithmatex">\(\left\{f(\mathbf{x}), \nabla f(\mathbf{x}), \nabla^2 f(\mathbf{x})\right\}\)</span> for a given <span class="arithmatex">\(\mathbf{x}\)</span>.</li>
+</ul>
+<p>Ultimately, we are interested in understanding the computational complexity of convex optimization algorithms, i.e., the number of flops to obtain a <span class="arithmatex">\(\epsilon\)</span>-accurate solution (an <span class="arithmatex">\(\epsilon\)</span>-accurate solution can be a vector <span class="arithmatex">\(\mathbf{x}^k\)</span> obeying <span class="arithmatex">\(\left\|\mathbf{x}^k-\mathbf{x}^*\right\| \leq \epsilon\)</span>, or <span class="arithmatex">\(\left.f\left(\mathbf{x}^k\right)-f\left(\mathbf{x}^*\right) \leq \epsilon\right)\)</span>. To this end, we study the oracle complexity of iterative algorithms to obtain approximate solutions to convex optimization problems. The number of flops can then be obtained as the number of oracle queries required to obtain an <span class="arithmatex">\(\epsilon\)</span>-accurate solution times the complexity of the oracle.</p>
+<p>A word of caution: Other properties than the oracle complexity can affect the runtime of algorithms in practice. For example, standard gradient descent has a worse convergence rate than the accelerated gradient method, but might be more sensitive to noise.</p>
+<h2 id="takeaway">Takeaway</h2>
+<p><strong>Convex Set</strong></p>
+<ol>
+<li>
+<p>连接set内任意两个点, 这两个点的连线上任意一点都在set内</p>
+</li>
+<li>
+<p>A set C is convex if and only if it contains all convex combinations of its elements.</p>
+</li>
+</ol>
+<p><strong>Convex Combination</strong></p>
+<p>for a set of points <span class="arithmatex">\(\mathbf{x}_1, \ldots, \mathbf{x}_n \in \mathbb{R}^n\)</span>, a convex combination of them is defined as the set</p>
+<div class="arithmatex">\[
+\left\{\mathbf{x}=\sum_{i=1}^n \theta_i \mathbf{x}_i: \sum_{i=1}^n \theta_i=1, \theta_i \geq 0\right\}
+\]</div>
+<p><strong>Convex Hull of S</strong></p>
+<p>For any given set S, the convex hull of S is defined as the set of all convex combinations of points in S. Intuitively, it is the smallest convex set that contains S</p>
+<p><strong>Differentiable Function</strong> </p>
+<p>A differentiable function <span class="arithmatex">\(f\)</span> is convex if and only if for all <span class="arithmatex">\(\mathbf{x}, \mathbf{y} \in \mathbb{R}^n\)</span>,
+$$
+f(\mathbf{y}) \geq f(\mathbf{x})+\langle\mathbf{y}-\mathbf{x}, \nabla f(\mathbf{x})\rangle .
+$$</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../.." class="md-footer__link md-footer__link--prev" aria-label="Previous: Welcome to My ML Notes" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Welcome to My ML Notes
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../../Supervised%20Learning/0%20Intro/0.1%20Bias%20Variance%20Trade-off/" class="md-footer__link md-footer__link--next" aria-label="Next: Bias-Variance tradeoff" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Bias-Variance tradeoff
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d6c3db9e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

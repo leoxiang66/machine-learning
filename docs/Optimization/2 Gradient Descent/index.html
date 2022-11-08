@@ -8,19 +8,19 @@
       
       
       
-      <link rel="icon" href="assets/images/favicon.png">
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.0, mkdocs-material-8.5.8">
     
     
       
-        <title>Machine Learning Notes</title>
+        <title>Gradient Descent - Machine Learning Notes</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.20d9efc8.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.20d9efc8.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.815d1a91.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.815d1a91.min.css">
         
       
       
@@ -37,7 +37,7 @@
       
     
     
-    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -62,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#welcome-to-my-ml-notes" class="md-skip">
+        <a href="#gradient-descent" class="md-skip">
           Skip to content
         </a>
       
@@ -76,7 +76,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="Machine Learning Notes" class="md-header__button md-logo" aria-label="Machine Learning Notes" data-md-component="logo">
+    <a href="../.." title="Machine Learning Notes" class="md-header__button md-logo" aria-label="Machine Learning Notes" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -95,7 +95,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Welcome to My ML Notes
+              Gradient Descent
             
           </span>
         </div>
@@ -162,7 +162,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="Machine Learning Notes" class="md-nav__button md-logo" aria-label="Machine Learning Notes" data-md-component="logo">
+    <a href="../.." title="Machine Learning Notes" class="md-nav__button md-logo" aria-label="Machine Learning Notes" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -179,21 +179,11 @@
 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="." class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
         Welcome to My ML Notes
       </a>
-      
     </li>
   
 
@@ -204,12 +194,14 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
       
       
       
@@ -232,7 +224,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Optimization/1%20Convexity/" class="md-nav__link">
+      <a href="../1%20Convexity/" class="md-nav__link">
         Convex Optimization
       </a>
     </li>
@@ -244,11 +236,59 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="Optimization/2%20Gradient%20Descent/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Gradient Descent
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Gradient Descent
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#convergence-for-quadratic-functions" class="md-nav__link">
+    Convergence for quadratic functions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    References
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -320,7 +360,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Supervised%20Learning/0%20Intro/0.1%20Bias%20Variance%20Trade-off/" class="md-nav__link">
+      <a href="../../Supervised%20Learning/0%20Intro/0.1%20Bias%20Variance%20Trade-off/" class="md-nav__link">
         Bias-Variance tradeoff
       </a>
     </li>
@@ -334,7 +374,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Supervised%20Learning/0%20Intro/0.2%20Model%20Selection%20and%20Validation/" class="md-nav__link">
+      <a href="../../Supervised%20Learning/0%20Intro/0.2%20Model%20Selection%20and%20Validation/" class="md-nav__link">
         Model selection and validation
       </a>
     </li>
@@ -381,7 +421,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Supervised%20Learning/1%20Regression/1.1%20Linear%20Regression/" class="md-nav__link">
+      <a href="../../Supervised%20Learning/1%20Regression/1.1%20Linear%20Regression/" class="md-nav__link">
         Linear Regression
       </a>
     </li>
@@ -395,7 +435,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Supervised%20Learning/1%20Regression/1.2%20Ridge%20Regression/" class="md-nav__link">
+      <a href="../../Supervised%20Learning/1%20Regression/1.2%20Ridge%20Regression/" class="md-nav__link">
         Ridge Regression 岭回归
       </a>
     </li>
@@ -436,6 +476,28 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#convergence-for-quadratic-functions" class="md-nav__link">
+    Convergence for quadratic functions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    References
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -449,7 +511,43 @@
                   
 
 
-<h1 id="welcome-to-my-ml-notes">Welcome to My ML Notes</h1>
+<h1 id="gradient-descent">Gradient Descent</h1>
+<p>Gradient descent is a simple iterative algorithm for minimizing a differentiable function <span class="arithmatex">\(f: \mathbb{R}^n \rightarrow \mathbb{R}\)</span> on <span class="arithmatex">\(\mathbb{R}^n\)</span>. Starting from an initial point <span class="arithmatex">\(\mathbf{x}_0\)</span>, gradient descent iterates:
+$$
+\mathbf{x}^{k+1}=\mathbf{x}^k-\alpha_k \nabla f\left(\mathbf{x}^k\right),
+$$
+where <span class="arithmatex">\(\alpha_k\)</span> is a step size parameter. Gradient descent converges to a local minimum, and provided that <span class="arithmatex">\(f\)</span> is convex, it converges to a global minimum. The idea behind this algorithm is to make small steps in the direction that minimizes the local first order approximation of <span class="arithmatex">\(f\)</span>.</p>
+<h2 id="convergence-for-quadratic-functions">Convergence for quadratic functions</h2>
+<p>In order to understand the gradient method better, let us start with a simple class of functions, namely quadratic functions:
+$$
+f(\mathbf{x})=\frac{1}{2} \mathbf{x}^T \mathbf{Q} \mathbf{x}-\mathbf{b}^T \mathbf{x},
+$$
+where <span class="arithmatex">\(\mathbf{Q}\)</span> is symmetric and strictly positive definite. A closed form solution to the minimization problem minimize <span class="arithmatex">\(\mathbf{f}(\mathbf{x})\)</span> is <span class="arithmatex">\(\mathbf{x}^*=\mathbf{Q}^{-1} \mathbf{b}\)</span>.</p>
+<p>We want to understand what gradient descent yields for this problem. We consider gradient descent with a fixed stepsize:
+$$
+\mathbf{x}^{k+1}=\mathbf{x}^k-\alpha \nabla f\left(\mathbf{x}^k\right) .
+$$
+Using that the gradient is given by <span class="arithmatex">\(\nabla f(\mathbf{x})=\mathbf{Q} \mathbf{x}-\mathbf{b}\)</span> and that the optimal solution obeys <span class="arithmatex">\(\mathbf{Q x}^*=\mathbf{b}\)</span>, the difference of the <span class="arithmatex">\((k+1)\)</span>-st iteration to the optimum is
+<img alt="" src="https://i.imgur.com/Hh5bGNU.png" /></p>
+<p>It follows that</p>
+<div class="arithmatex">\[
+\left\|\mathbf{x}^{k+1}-\mathbf{x}^*\right\|_2 \leq\|\mathbf{I}-\alpha \mathbf{Q}\|\left\|\mathbf{x}^k-\mathbf{x}^*\right\|_2
+\]</div>
+<p>Since <span class="arithmatex">\(\mathbf{I}-\alpha \mathbf{Q}\)</span> is symmetric (the first equality below can be checked by taking the singular value decomposition of the matrix)
+$$
+|\mathbf{I}-\alpha \mathbf{Q}|=\max \left(\lambda_{\max }(\mathbf{I}-\alpha \mathbf{Q}),-\lambda_{\min }(\mathbf{I}-\alpha \mathbf{Q})\right)=\max (\alpha M-1,1-\alpha m),
+$$
+where <span class="arithmatex">\(M\)</span> and <span class="arithmatex">\(m\)</span> are the largest and smallest singular values of the matrix <span class="arithmatex">\(\mathbf{Q}\)</span>. For the second equality, we used that, the eigenvalues of <span class="arithmatex">\(\mathbf{I}-\alpha \mathbf{Q}\)</span> and <span class="arithmatex">\(\mathbf{Q}\)</span> are related as <span class="arithmatex">\(\lambda_i(\mathbf{I}-\alpha \mathbf{Q})=1-\alpha \lambda_i(\mathbf{Q})^1\)</span>. The right hand side above is minimized by <span class="arithmatex">\(\alpha=\frac{2}{M+m}\)</span>. For this choice, <span class="arithmatex">\(\|\mathbf{I}-\alpha \mathbf{Q}\|=\frac{1-1 / \kappa}{1+1 / \kappa}&lt;1\)</span>, where <span class="arithmatex">\(\kappa=M / m\)</span> is the condition number of the matrix <span class="arithmatex">\(\mathbf{Q}\)</span>.
+To summarize, we have proven the following proposition:</p>
+<p><strong>Proposition 3.</strong> Gradient descent with <span class="arithmatex">\(\alpha=\frac{2}{M+m}\)</span> applied to a quadratic function obeys
+<img alt="" src="https://i.imgur.com/AKfd3gW.png" /></p>
+<p>Thus the rate of convergence is geometric/linear. Suppose we want to find a solution that <span class="arithmatex">\(\epsilon\)</span>-close to the original solution. It follows from the proposition that we require
+$$
+\left.N=\left(\log \left(\frac{1+1 / \kappa}{1-1 / \kappa}\right)\right)^{-1} \log \left(\left|\mathbf{x}^0-\mathbf{x}^*\right|_2 / \epsilon\right)\right)
+$$
+many iterations to reach an <span class="arithmatex">\(\epsilon\)</span>-accurate solution. Due to <span class="arithmatex">\(\log x \geq x /(x-1)\)</span>, we have that <span class="arithmatex">\(N=\)</span> <span class="arithmatex">\(O(\kappa \log (1 / \epsilon))\)</span></p>
+<h2 id="references">References</h2>
+<p>[BV04] S. Boyd and L. Vandenberghe. Convex Optimization. Cambridge University Press, 2004.</p>
 
 
 
@@ -469,15 +567,30 @@
     
     <nav class="md-footer__inner md-grid" aria-label="Footer" >
       
+        
+        <a href="../1%20Convexity/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Convex Optimization" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Convex Optimization
+            </div>
+          </div>
+        </a>
+      
       
         
-        <a href="Optimization/1%20Convexity/" class="md-footer__link md-footer__link--next" aria-label="Next: Convex Optimization" rel="next">
+        <a href="../../Supervised%20Learning/0%20Intro/0.1%20Bias%20Variance%20Trade-off/" class="md-footer__link md-footer__link--next" aria-label="Next: Bias-Variance tradeoff" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Convex Optimization
+              Bias-Variance tradeoff
             </div>
           </div>
           <div class="md-footer__button md-icon">
@@ -508,12 +621,12 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": ".", "features": [], "search": "assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
-      <script src="assets/javascripts/bundle.d6c3db9e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d6c3db9e.min.js"></script>
       
-        <script src="javascripts/mathjax.js"></script>
+        <script src="../../javascripts/mathjax.js"></script>
       
         <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
       

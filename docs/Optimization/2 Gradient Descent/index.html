@@ -539,13 +539,7 @@ $$
 $$
 where <span class="arithmatex">\(M\)</span> and <span class="arithmatex">\(m\)</span> are the largest and smallest singular values of the matrix <span class="arithmatex">\(\mathbf{Q}\)</span>. For the second equality, we used that, the eigenvalues of <span class="arithmatex">\(\mathbf{I}-\alpha \mathbf{Q}\)</span> and <span class="arithmatex">\(\mathbf{Q}\)</span> are related as <span class="arithmatex">\(\lambda_i(\mathbf{I}-\alpha \mathbf{Q})=1-\alpha \lambda_i(\mathbf{Q})^1\)</span>. The right hand side above is minimized by <span class="arithmatex">\(\alpha=\frac{2}{M+m}\)</span>. For this choice, <span class="arithmatex">\(\|\mathbf{I}-\alpha \mathbf{Q}\|=\frac{1-1 / \kappa}{1+1 / \kappa}&lt;1\)</span>, where <span class="arithmatex">\(\kappa=M / m\)</span> is the condition number of the matrix <span class="arithmatex">\(\mathbf{Q}\)</span>.
 To summarize, we have proven the following proposition:</p>
-<p><strong>Proposition 3.</strong> Gradient descent with <span class="arithmatex">\(\alpha=\frac{2}{M+m}\)</span> applied to a quadratic function obeys
-<img alt="" src="https://i.imgur.com/AKfd3gW.png" /></p>
-<p>Thus the rate of convergence is geometric/linear. Suppose we want to find a solution that <span class="arithmatex">\(\epsilon\)</span>-close to the original solution. It follows from the proposition that we require
-$$
-\left.N=\left(\log \left(\frac{1+1 / \kappa}{1-1 / \kappa}\right)\right)^{-1} \log \left(\left|\mathbf{x}^0-\mathbf{x}^*\right|_2 / \epsilon\right)\right)
-$$
-many iterations to reach an <span class="arithmatex">\(\epsilon\)</span>-accurate solution. Due to <span class="arithmatex">\(\log x \geq x /(x-1)\)</span>, we have that <span class="arithmatex">\(N=\)</span> <span class="arithmatex">\(O(\kappa \log (1 / \epsilon))\)</span></p>
+<p><img alt="" src="https://i.imgur.com/IXCyNUT.png" /></p>
 <h2 id="references">References</h2>
 <p>[BV04] S. Boyd and L. Vandenberghe. Convex Optimization. Cambridge University Press, 2004.</p>
 

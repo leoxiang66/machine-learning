@@ -35,14 +35,8 @@ $$
 where $M$ and $m$ are the largest and smallest singular values of the matrix $\mathbf{Q}$. For the second equality, we used that, the eigenvalues of $\mathbf{I}-\alpha \mathbf{Q}$ and $\mathbf{Q}$ are related as $\lambda_i(\mathbf{I}-\alpha \mathbf{Q})=1-\alpha \lambda_i(\mathbf{Q})^1$. The right hand side above is minimized by $\alpha=\frac{2}{M+m}$. For this choice, $\|\mathbf{I}-\alpha \mathbf{Q}\|=\frac{1-1 / \kappa}{1+1 / \kappa}<1$, where $\kappa=M / m$ is the condition number of the matrix $\mathbf{Q}$.
 To summarize, we have proven the following proposition:
 
-**Proposition 3.** Gradient descent with $\alpha=\frac{2}{M+m}$ applied to a quadratic function obeys
-![](https://i.imgur.com/AKfd3gW.png)
+![](https://i.imgur.com/IXCyNUT.png)
 
-Thus the rate of convergence is geometric/linear. Suppose we want to find a solution that $\epsilon$-close to the original solution. It follows from the proposition that we require
-$$
-\left.N=\left(\log \left(\frac{1+1 / \kappa}{1-1 / \kappa}\right)\right)^{-1} \log \left(\left\|\mathbf{x}^0-\mathbf{x}^*\right\|_2 / \epsilon\right)\right)
-$$
-many iterations to reach an $\epsilon$-accurate solution. Due to $\log x \geq x /(x-1)$, we have that $N=$ $O(\kappa \log (1 / \epsilon))$
 
 ## References
 [BV04] S. Boyd and L. Vandenberghe. Convex Optimization. Cambridge University Press, 2004.

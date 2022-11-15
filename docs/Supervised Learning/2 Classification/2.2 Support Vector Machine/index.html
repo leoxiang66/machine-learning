@@ -13,7 +13,7 @@
     
     
       
-        <title>Ridge Regression 岭回归 - Machine Learning Notes</title>
+        <title>Support vector machines - Machine Learning Notes</title>
       
     
     
@@ -62,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#ridge-regression" class="md-skip">
+        <a href="#support-vector-machines" class="md-skip">
           Skip to content
         </a>
       
@@ -95,7 +95,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Ridge Regression 岭回归
+              Support vector machines
             
           </span>
         </div>
@@ -345,14 +345,12 @@
               
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_2" type="checkbox" id="__nav_3_2" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_2" type="checkbox" id="__nav_3_2" >
       
       
       
@@ -375,7 +373,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../1.1%20Linear%20Regression/" class="md-nav__link">
+      <a href="../../1%20Regression/1.1%20Linear%20Regression/" class="md-nav__link">
         Linear Regression
       </a>
     </li>
@@ -387,106 +385,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Ridge Regression 岭回归
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../1%20Regression/1.2%20Ridge%20Regression/" class="md-nav__link">
         Ridge Regression 岭回归
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#motivation" class="md-nav__link">
-    Motivation
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#ridge-regression_1" class="md-nav__link">
-    Ridge regression
-  </a>
-  
-    <nav class="md-nav" aria-label="Ridge regression">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#lambda-parameter" class="md-nav__link">
-    Lambda parameter
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#ridge-regression-estimate" class="md-nav__link">
-    Ridge regression estimate
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#bias-variance-tradeoff-of-the-ridge-regression-estimate" class="md-nav__link">
-    Bias-variance tradeoff of the ridge regression estimate
-  </a>
-  
-    <nav class="md-nav" aria-label="Bias-variance tradeoff of the ridge regression estimate">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#analysis" class="md-nav__link">
-    Analysis
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#compared-with-linear-regression" class="md-nav__link">
-    Compared with linear regression
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -503,12 +406,14 @@
               
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_3" type="checkbox" id="__nav_3_3" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_3" type="checkbox" id="__nav_3_3" checked>
       
       
       
@@ -531,7 +436,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../2%20Classification/2.1%20Logistic%20Regression/" class="md-nav__link">
+      <a href="../2.1%20Logistic%20Regression/" class="md-nav__link">
         Logistic Regression
       </a>
     </li>
@@ -543,11 +448,93 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../../2%20Classification/2.2%20Support%20Vector%20Machine/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Support vector machines
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Support vector machines
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-perceptron-algorithm" class="md-nav__link">
+    The perceptron algorithm
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hard-margin-svms" class="md-nav__link">
+    Hard-margin SVMs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#soft-margin-svms" class="md-nav__link">
+    Soft-margin SVMs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lagrangian-dualitz-and-svms" class="md-nav__link">
+    Lagrangian dualitz and SVMs
+  </a>
+  
+    <nav class="md-nav" aria-label="Lagrangian dualitz and SVMs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#langrangian-dualitz-and-svms" class="md-nav__link">
+    Langrangian dualitz and SVMs
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hard-margin-svms-in-the-dual-space" class="md-nav__link">
+    Hard margin SVMs in the dual space
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -593,57 +580,44 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#motivation" class="md-nav__link">
-    Motivation
+  <a href="#the-perceptron-algorithm" class="md-nav__link">
+    The perceptron algorithm
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#ridge-regression_1" class="md-nav__link">
-    Ridge regression
+  <a href="#hard-margin-svms" class="md-nav__link">
+    Hard-margin SVMs
   </a>
   
-    <nav class="md-nav" aria-label="Ridge regression">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#soft-margin-svms" class="md-nav__link">
+    Soft-margin SVMs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lagrangian-dualitz-and-svms" class="md-nav__link">
+    Lagrangian dualitz and SVMs
+  </a>
+  
+    <nav class="md-nav" aria-label="Lagrangian dualitz and SVMs">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#lambda-parameter" class="md-nav__link">
-    Lambda parameter
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#ridge-regression-estimate" class="md-nav__link">
-    Ridge regression estimate
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#bias-variance-tradeoff-of-the-ridge-regression-estimate" class="md-nav__link">
-    Bias-variance tradeoff of the ridge regression estimate
-  </a>
-  
-    <nav class="md-nav" aria-label="Bias-variance tradeoff of the ridge regression estimate">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#analysis" class="md-nav__link">
-    Analysis
+  <a href="#langrangian-dualitz-and-svms" class="md-nav__link">
+    Langrangian dualitz and SVMs
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#compared-with-linear-regression" class="md-nav__link">
-    Compared with linear regression
+  <a href="#hard-margin-svms-in-the-dual-space" class="md-nav__link">
+    Hard margin SVMs in the dual space
   </a>
   
 </li>
@@ -668,79 +642,111 @@
                   
 
 
-<h1 id="ridge-regression">Ridge Regression 岭回归</h1>
-<h2 id="motivation">Motivation</h2>
-<p>上一节讲的线性回归中，expected error: <img alt="" src="https://i.imgur.com/pL3abV4.png" /></p>
-<p>如果</p>
+<h1 id="support-vector-machines">Support vector machines</h1>
+<p>Support vector machines are a class of model for classification. We already learned about a logistic regression as another model for classification. In logistic regression we learn a parameter vector <span class="arithmatex">\(\boldsymbol{\theta}\)</span> and classify an example as belonging to one of two (or <span class="arithmatex">\(k\)</span> ) classes based on a decision boundary. Specifically, in logistic regression, we classified an example as belonging to class one if the inner product <span class="arithmatex">\(\langle\boldsymbol{\theta}, \mathbf{x}\rangle\)</span> is larger than a threshold. </p>
+<p>In a similar spirit, Support Vector Machines (SVMs) learn decision boundaries. <mark>Contrary to our previous discussion on logistic regression, for SVMs we will not make any distributional assumption on the data.</mark></p>
 <ul>
-<li>Features of <span class="arithmatex">\(X\)</span> are (strongly) correlated<ul>
-<li>specifically if its smallest singular value, <span class="arithmatex">\(\sigma_{\min }^2(\mathbf{X})\)</span>, is close to zero. In this case, <span class="arithmatex">\(1 / \sigma_{\min }^2(\mathbf{X})\)</span> is large, and therefore the expected error above is large.</li>
+<li>logistic regression assumes the data follow a Benouri distribution</li>
+</ul>
+<p>As before, we consider a binary classification problem. Given a training dataset</p>
+<div class="arithmatex">\[
+\mathcal{D}=\left\{\left(\mathbf{x}_1, y_1\right), \ldots,\left(\mathbf{x}_n, y_n\right)\right\} \in \mathbb{R}^d \times\{-1,1\},
+\]</div>
+<p>our goal is to find a classifier based on separating the two classes by a hyperplane. A classifier <span class="arithmatex">\(f\)</span> based on a hyperplane classifies a feature <span class="arithmatex">\(\mathbf{x}\)</span> as 1 if <span class="arithmatex">\(\langle\boldsymbol{\theta}, \mathbf{x}\rangle \geq b\)</span>, where <span class="arithmatex">\(b\)</span> is a threshold, and as <span class="arithmatex">\(-1\)</span> otherwise, i.e.,
+$$
+f(\mathbf{x})= \begin{cases}1 &amp; \langle\boldsymbol{\theta}, \mathbf{x}\rangle \geq b \ -1 &amp; \langle\boldsymbol{\theta}, \mathbf{x}\rangle&lt;b .\end{cases}
+$$</p>
+<ul>
+<li>In logistic regression, the threshold <span class="arithmatex">\(b\)</span> is 0</li>
+</ul>
+<h2 id="the-perceptron-algorithm">The perceptron algorithm</h2>
+<p>As a first step towards SVMs, we discuss the perceptron algorithm. The perceptron algorithm finds a hyperplane that perfectly separates the <span class="arithmatex">\(+1\)</span> 's from the <span class="arithmatex">\(-1\)</span> 's. The goal of the perceptron algorithm is to find a parameter vector <span class="arithmatex">\(\boldsymbol{\theta}\)</span> such that for all <span class="arithmatex">\(i\)</span>,
+$$
+\begin{cases}\left\langle\boldsymbol{\theta}, \mathbf{x}_i\right\rangle \geq b &amp; \text { if } y_i=1, \ \left\langle\boldsymbol{\theta}, \mathbf{x}_i\right\rangle&lt;b &amp; \text { if } y_i=-1 .\end{cases}
+$$</p>
+<p><strong>Such a parameter vector <span class="arithmatex">\(\boldsymbol{\theta}\)</span> does not necessarily exist:</strong> </p>
+<ul>
+<li>if it exists, we say that the data is linearly separable. This restriction to data that is linearly separable is a major issue limiting the applicability of perceptrons in its original form in practice, and we will discuss less restrictive SVMs later. Even if the data is linearly separable, then a parameter vector <span class="arithmatex">\(\boldsymbol{\theta}\)</span> and a threshold <span class="arithmatex">\(b\)</span> are not necessarily unique for separating the <span class="arithmatex">\(+1\)</span> 's from the <span class="arithmatex">\(-1\)</span> 's, thus it is not clear which hyperplane to choose.</li>
+</ul>
+<h2 id="hard-margin-svms">Hard-margin SVMs</h2>
+<p><strong>Suppose that the dataset <span class="arithmatex">\(\mathcal{D}\)</span> is is linearly separable.</strong></p>
+<ul>
+<li>Then there might be different hyperplanes that separate the data. The concept of a <strong>margin</strong> enables us to distinguish between "good" and "bad" separating hyperplanes. </li>
+<li>Instead of finding an arbitrary hyperplane that separates the two classes, our goal is to find the particular hyperplane that <u>maximizes the distance from the decision boundary to the training points.</u> <ul>
+<li>In more detail, we want to maximize a margin <span class="arithmatex">\(m \geq 0\)</span> such that</li>
+<li>i) all points classified as <span class="arithmatex">\(+1\)</span> are on the positive side of the hyperplane, and their distance to the hyperplane is at least <span class="arithmatex">\(m\)</span>, and</li>
+<li>ii) all points classified as <span class="arithmatex">\(-1\)</span> are on the negative side of the hyperplane, and their distance to the hyperplane is at least <span class="arithmatex">\(m\)</span>.</li>
 </ul>
 </li>
 </ul>
-<p>solution: ridge regression</p>
-<h2 id="ridge-regression_1">Ridge regression</h2>
-<p>Ridge regression: 最小二乘法 + l2 norm regularization
-<img alt="" src="https://i.imgur.com/AoMwZrp.png" /></p>
-<ul>
-<li>This additional term promotes solutions that yield a good fit</li>
-<li>while at the same time enforcing the coefficients of <span class="arithmatex">\(\theta\)</span> to be sufficiently small.</li>
-</ul>
-<p>Also known as:</p>
-<ol>
-<li>ridge regression (statistics)</li>
-<li>Tkhonov regularization/weight decay (machine learning)</li>
-</ol>
+<p>To find such a hyperplane, we first note that the distance of a point <span class="arithmatex">\(\mathrm{x}\)</span> to a hyperplane.</p>
+<div class="arithmatex">\[
+\mathcal{H}=\{\mathbf{x}:\langle\boldsymbol{\theta}, \mathbf{x}\rangle=b\}
+\]</div>
+<p>is given by</p>
+<div class="arithmatex">\[
+\frac{\left|\left\langle\boldsymbol{\theta}, \mathbf{x}-\mathbf{x}_0\right\rangle\right|}{\|\boldsymbol{\theta}\|_2}=\frac{|\langle\boldsymbol{\theta}, \mathbf{x}\rangle-b|}{\|\boldsymbol{\theta}\|_2} .
+\]</div>
 <blockquote>
-<p><em>In order to avoid this, we can add a term penalizing the norm of the coefficient vector <span class="arithmatex">\(\boldsymbol{\theta}\)</span>. This additional term promotes solutions that yield a good fit while at the same time enforcing the coefficients of <span class="arithmatex">\(\theta\)</span> to be sufficiently small. Incorporating assumptions about the solution-in this case that the coefficients should not be too large - is called regularization. A least squares penalty combined with <span class="arithmatex">\(\ell2\)</span>-norm regularization is called ridge regression in statistics and is also known as Tikhonov regularization and weight decay in machine learning. The ridge regression estimate is:</em></p>
+<p>This can be seen as follows. By definition, the vector <span class="arithmatex">\(\boldsymbol{\theta}\)</span> is perpendicular to the hyperplane <span class="arithmatex">\(\mathcal{H}\)</span>, i.e., to any vector that lies on the hyperplane. Specifically, consider any two points <span class="arithmatex">\(\mathbf{x}_0, \mathbf{x}_1 \in \mathcal{H}\)</span>, and note that the vectors <span class="arithmatex">\(\mathbf{x}_1-\mathbf{x}_0\)</span>, which lies on the hyperplane, is orthogonal to <span class="arithmatex">\(\boldsymbol{\theta}\)</span> : 
+$$
+\left\langle\mathbf{x}_1-\mathbf{x}_0, \boldsymbol{\theta}\right\rangle=\left\langle\mathbf{x}_1, \boldsymbol{\theta}\right\rangle-\left\langle\mathbf{x}_0, \boldsymbol{\theta}\right\rangle=b-b=0 .
+$$
+As a consequence of <span class="arithmatex">\(\boldsymbol{\theta}\)</span> being perpendicular to <span class="arithmatex">\(\mathcal{H}\)</span>, the shortest distance of a point <span class="arithmatex">\(\mathbf{x}\)</span> to <span class="arithmatex">\(\mathcal{H}\)</span> is given by the projection of <span class="arithmatex">\(\mathrm{x}-\mathrm{x}_0\)</span> onto <span class="arithmatex">\(\boldsymbol{\theta}\)</span>, where <span class="arithmatex">\(\mathrm{x}_0 \in \mathcal{H}\)</span>. Thus, the distance of the point to the hyperplane is
+$$
+\frac{\left|\left\langle\boldsymbol{\theta}, \mathbf{x}-\mathbf{x}_0\right\rangle\right|}{|\boldsymbol{\theta}|_2}=\frac{|\langle\boldsymbol{\theta}, \mathbf{x}\rangle-b|}{|\boldsymbol{\theta}|_2} .
+$$</p>
 </blockquote>
-<h3 id="lambda-parameter">Lambda parameter</h3>
-<p><span class="arithmatex">\(\lambda\)</span> is a fixed regularization parameter.</p>
+<p>Now let's return to the problem of finding a hyperplane that maximizes the margin. All datapoints are classified as <span class="arithmatex">\(+1(-1)\)</span> are on the positive (negative) side of the hyperplane, and their distance to the hyperplane is at least <span class="arithmatex">\(m\)</span>, if for all <span class="arithmatex">\(i=1, \ldots, n\)</span>
+$$
+y_i \frac{\left\langle\boldsymbol{\theta}, \mathbf{x}_i\right\rangle-b}{|\boldsymbol{\theta}|_2} \geq m
+$$</p>
+<p>This leads to the optimization problem:
+$$
+\max _{m, \boldsymbol{\theta}, b} m \quad \text { subject to } y_i \frac{\left\langle\boldsymbol{\theta}, \mathbf{x}_i\right\rangle-b}{|\boldsymbol{\theta}|_2} \geq m, i=1, \ldots, n \text {. }
+$$
+Here, we maximize over the parameters <span class="arithmatex">\(b, \boldsymbol{\theta}\)</span>, and <span class="arithmatex">\(m\)</span>. The margin <span class="arithmatex">\(m\)</span> is maximized if there exists at least one point on the negative side, and at least one on the positive side whose distance to the hyperplane is equal to <span class="arithmatex">\(m\)</span>; these points are called the <strong>support vectors</strong>.</p>
+<p>We next simplify the optimization problem by removing the variable <span class="arithmatex">\(m\)</span>. 
+- Note that the solution of the optimization problem is invariant to scaling <span class="arithmatex">\(\boldsymbol{\theta}\)</span> and <span class="arithmatex">\(b\)</span> by a positive scalar. Therefore, we can fix the norm of <span class="arithmatex">\(\boldsymbol{\theta}\)</span> to a particular value without changing the optimization problem. 
+    - Setting <span class="arithmatex">\(\|\boldsymbol{\theta}\|_2=1 / m\)</span>, the optimization problem becomes </p>
+<div class="arithmatex">\[
+\min _{\boldsymbol{\theta}, b} \frac{1}{2}\|\boldsymbol{\theta}\|_2^2 \quad \text { subject to } \quad y_i\left(\left\langle\boldsymbol{\theta}, \mathbf{x}_i\right\rangle-b\right) \geq 1 .
+\]</div>
+<p><mark>This is the standard formulation of the hard-margin SVM optimization problem.</mark> </p>
+<h2 id="soft-margin-svms">Soft-margin SVMs</h2>
+<p><strong>The hard-margin SVM optimization problem only has a solution if the data is linearly separable.</strong></p>
+<p><strong>Even if the data is linearly separable, the solution of the hard-margin SVM optimization problem can vary significantly when including or excluding single points that change the support vectors.</strong> </p>
+<p><mark> Soft-margin SVMs address these issues by allowing points to violate the margin. The idea is to introduce a slack variable <span class="arithmatex">\(\xi_i\)</span> for each data point, which allows points to violate the margin</mark>:</p>
+<div class="arithmatex">\[
+y_i\left(\left\langle\boldsymbol{\theta}, \mathbf{x}_i\right\rangle-b\right) \geq 1-\xi_i, \quad \xi_i \geq 0 .
+\]</div>
+<p>We take the slack variable in the objective into account by penalizing large values of <span class="arithmatex">\(\xi_i\)</span> :</p>
+<div class="arithmatex">\[
+\operatorname{minimize} \frac{1}{2}\|\boldsymbol{\theta}\|_2^2+\lambda \sum_{i=1}^n \xi_i \quad \text { subject to } \quad y_i\left(\left\langle\boldsymbol{\theta}, \mathbf{x}_i\right\rangle-b\right) \geq 1-\xi_i, \quad \xi_i \geq 0 \text {, }
+\]</div>
+<p>where we optimize over <span class="arithmatex">\(\boldsymbol{\theta}, b\)</span>, and the <span class="arithmatex">\(\xi_i\)</span> 's.</p>
+<p>We next show that this optimization problem can be expressed equivalently as the following unconstrained optimization problem</p>
+<div class="arithmatex">\[
+\operatorname{minimize} \frac{1}{2}\|\boldsymbol{\theta}\|_2^2+\lambda \sum_{i=1}^n \max \left(1-y_i\left(\left\langle\boldsymbol{\theta}, \mathbf{x}_i\right\rangle-b\right), 0\right) .
+\]</div>
 <ul>
-<li>different values of <span class="arithmatex">\(\lambda\)</span> give us different ridge regression estimates.</li>
-<li>Observe that for <span class="arithmatex">\(\lambda \rightarrow 0\)</span>, the ridge regression estimate converges to the least squares estimate, and for <span class="arithmatex">\(\lambda \rightarrow \infty\)</span>, the ridge regression estimate converges to zero.</li>
+<li>if <span class="arithmatex">\(1-y_i\left(\left\langle\boldsymbol{\theta}, \mathbf{x}_i\right\rangle-b\right)\)</span> &lt;0: &lt;==&gt; support vectors, no slack needed</li>
+<li>otherwise: need slack, and the slack variable should also be as small as possible</li>
 </ul>
-<h2 id="ridge-regression-estimate">Ridge regression estimate</h2>
-<p>If <span class="arithmatex">\(\mathbf{X} \in \mathbb{R}^{n \times d}\)</span> has full column rank <span class="arithmatex">\(d\)</span>, the ridge regression estimate has a closed-form solution:
-<img alt="" src="https://i.imgur.com/t4wIFHI.png" /></p>
-<p><strong>Equation 5.</strong>
-<img alt="" src="https://i.imgur.com/5I8VcFM.png" /></p>
 <blockquote>
-<p>proof:
-Recall that <span class="arithmatex">\(\mathbf{X} \hat{\theta}_{\mathrm{LS}}\)</span> is the orthogonal projection of the data onto the column space of the feature matrix, i.e., <span class="arithmatex">\(\mathbf{X} \hat{\boldsymbol{\theta}}_{\mathrm{LS}}=\mathbf{U U}^T \mathbf{y}\)</span>, where <span class="arithmatex">\(\mathbf{U} \in \mathbb{R}^{n \times d}\)</span> is an orthogonal basis for the column space of <span class="arithmatex">\(\mathbf{X}\)</span>. The approximation <span class="arithmatex">\(\mathbf{X} \hat{\boldsymbol{\theta}}_{\text {ridge }}\)</span> can no longer be interpreted as the orthogonal projection of the data onto the column space of the feature matrix. However, it can be interpreted as a modified projection, where each component of the data in the direction of the left singular vector <span class="arithmatex">\(\mathbf{u}_i\)</span> of the feature matrix is shrunk by a factor of <span class="arithmatex">\(\sigma_i^2 /\left(\sigma_i^2+\lambda\right)\)</span>. Here, <span class="arithmatex">\(\sigma_i\)</span> is the singular value of the feature matrix corresponding to the singular vector <span class="arithmatex">\(\mathbf{u}_i\)</span>. In more detail, consider the singular value decomposition <span class="arithmatex">\(\mathbf{X}=\mathbf{U} \Sigma \mathbf{V}^T\)</span>, and let <span class="arithmatex">\(\mathbf{u}_i\)</span> be the <span class="arithmatex">\(i\)</span>-th column of <span class="arithmatex">\(\mathbf{U}\)</span>, i.e., <span class="arithmatex">\(\mathbf{U}=\left[\mathbf{u}_1, \ldots, \mathbf{u}_d\right]\)</span>. Then we have <strong>equation 5</strong>.</p>
-<p><img alt="" src="https://i.imgur.com/hAVrUYo.png" />
-where we used that for two square matrixes that are invertible, we have that <span class="arithmatex">\((\mathbf{A B})^{-1}=\mathbf{B}^{-1} \mathbf{A}^{-1}\)</span>. Next, note that <span class="arithmatex">\(\left(\Sigma^2+\lambda \mathbf{I}\right)\)</span> is a diagonal matrix with <span class="arithmatex">\(\sigma_i^2+\lambda, i=1, \ldots, d\)</span> on its diagonal, thus <span class="arithmatex">\(\left(\Sigma^2+\lambda \mathbf{I}\right)^{-1}\)</span> is a diagonal matrix with <span class="arithmatex">\(1 /\left(\sigma_i^2+\lambda\right), i=1, \ldots, d\)</span> on its diagonal. As a consequence, <img alt="" src="https://i.imgur.com/9e3MY1v.png" />
-This concludes the proof of equation (5)</p>
+<p><img alt="" src="https://i.imgur.com/JEuPyqZ.png" /></p>
 </blockquote>
-<h2 id="bias-variance-tradeoff-of-the-ridge-regression-estimate">Bias-variance tradeoff of the ridge regression estimate</h2>
-<p>Assumption: the data indeed follows a linear model, i.e., <span class="arithmatex">\(\mathbf{y}=\mathbf{X} \boldsymbol{\theta}^*+\mathbf{z}\)</span></p>
-<p>the ride regression estimator can be decomposed into a signal and a noise term:
-<img alt="" src="https://i.imgur.com/3emx8N5.png" /></p>
-<h3 id="analysis">Analysis</h3>
-<ol>
-<li>suppose that the noise <span class="arithmatex">\(\mathbf{z}\)</span> is a zero-mean random variable. Then the expectation of <span class="arithmatex">\(\boldsymbol{\theta}_{\text {ridge }}\)</span> equals the first term <span class="arithmatex">\(\hat{\theta}_{\text {ridge }}^{\text {signal }}\)</span> which is deterministic. The second term, <span class="arithmatex">\(\hat{\theta}_{\text {ridge }}^{\text {noise }}\)</span>, is random and determines the variance of the ridge estimator.</li>
-<li>If <span class="arithmatex">\(\lambda=0\)</span>, the first term becomes <span class="arithmatex">\(\hat{\boldsymbol{\theta}}_{\text {ridge }}^{\text {signal }}=\boldsymbol{\theta}^*\)</span>, otherwise the first term is not equal to <span class="arithmatex">\(\boldsymbol{\theta}^*\)</span>. Thus, ridge regression is a biased estimator (for <span class="arithmatex">\(\lambda&gt;0\)</span> ).</li>
-<li>Increasing <span class="arithmatex">\(\lambda\)</span> moves the mean of the estimate <span class="arithmatex">\(\hat{\theta}_{\text {ridge }}\)</span> farther from the true model parameter <span class="arithmatex">\(\theta^*\)</span>, and thus increases the bias of the estimate, which is defined as <span class="arithmatex">\(\mathbb{E}\left[\hat{\boldsymbol{\theta}}_{\text {ridge }}\right]-\boldsymbol{\theta}^*=\hat{\boldsymbol{\theta}}_{\text {ridge }}^{\text {signal }}-\boldsymbol{\theta}^*\)</span><ul>
-<li><span class="arithmatex">\(\lambda\)</span>越大， <span class="arithmatex">\(\hat{\theta}_{\text{ridge}}\)</span>的绝对值越小 --&gt; 0 <img alt="" src="https://i.imgur.com/tZsxRv9.png" /></li>
-</ul>
-</li>
-<li>But in exchange, increasing <span class="arithmatex">\(\lambda\)</span> also shrinks the impact of the noise.</li>
-</ol>
-<p>Thus, choosing <span class="arithmatex">\(\lambda\)</span> appropriately enables us to adapt to the conditioning of the feature matrix and to the noise level for achieving a good tradeoff between the bias and the variance.</p>
-<blockquote>
-<p>因此，选择适当的λ使我们能够适应特征矩阵的条件和噪声水平，以在偏差和方差之间实现良好的折衷。</p>
-</blockquote>
-<p>Note that the optimal choice depends on</p>
-<ul>
-<li>the noise which is unknown to us,</li>
-<li>the conditioning of the feature matrix,</li>
-</ul>
-<p>thus we cannot simply compute the optimal choice based on the data.</p>
-<p>Later in the course we will discuss methods that enable us to determine a good choice of <span class="arithmatex">\(\lambda\)</span> based on the data.</p>
-<h3 id="compared-with-linear-regression">Compared with linear regression</h3>
-<p><img alt="" src="https://i.imgur.com/ZiU507c.png" /></p>
-<p>where normalized MSE = <span class="arithmatex">\(\left\|\boldsymbol{\theta}-\hat{\boldsymbol{\theta}}_{\text {ridge }}\right\|_2^2 /\|\boldsymbol{\theta}\|_2^2\)</span></p>
-<p>可以看到使得loss最小的<span class="arithmatex">\(\lambda \neq 0\)</span> </p>
+<h2 id="lagrangian-dualitz-and-svms">Lagrangian dualitz and SVMs</h2>
+<p>In order to gain additional insight into the optimization problem, and to see that the SVM algorithm can be written in terms of inner products between input feature vectors (which will turn out to be useful later), we next discuss duality theory, an important concept in optimization.</p>
+<p>This part is only provided as extra reading material, it won't be part of the exam. Feel free to skip this subsection, and continue with the "Kernels" section.</p>
+<h3 id="langrangian-dualitz-and-svms">Langrangian dualitz and SVMs</h3>
+<p><img alt="" src="https://i.imgur.com/W6nUzHC.png" />
+<img alt="" src="https://i.imgur.com/jZlUCqh.png" />
+<img alt="" src="https://i.imgur.com/00fAdQ6.png" /></p>
+<h3 id="hard-margin-svms-in-the-dual-space">Hard margin SVMs in the dual space</h3>
+<p><img alt="" src="https://i.imgur.com/Xn1VZsU.png" />
+<img alt="" src="https://i.imgur.com/c3BWODY.png" />
+<img alt="" src="https://i.imgur.com/hFmKcJK.png" /></p>
 
 
 
@@ -761,7 +767,7 @@ This concludes the proof of equation (5)</p>
     <nav class="md-footer__inner md-grid" aria-label="Footer" >
       
         
-        <a href="../1.1%20Linear%20Regression/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Linear Regression" rel="prev">
+        <a href="../2.1%20Logistic%20Regression/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Logistic Regression" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
@@ -770,26 +776,11 @@ This concludes the proof of equation (5)</p>
               <span class="md-footer__direction">
                 Previous
               </span>
-              Linear Regression
-            </div>
-          </div>
-        </a>
-      
-      
-        
-        <a href="../../2%20Classification/2.1%20Logistic%20Regression/" class="md-footer__link md-footer__link--next" aria-label="Next: Logistic Regression" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Next
-              </span>
               Logistic Regression
             </div>
           </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
-          </div>
         </a>
+      
       
     </nav>
   

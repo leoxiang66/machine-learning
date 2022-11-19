@@ -681,6 +681,13 @@ For simplicity assume that <span class="arithmatex">\(f(\mathbf{x})=\|\mathbf{A}
 \]</div>
 <p><strong>Convex Hull of S</strong></p>
 <p>For any given set S, the convex hull of S is defined as the set of all convex combinations of points in S. Intuitively, it is the smallest convex set that contains S</p>
+<p><strong>Function</strong></p>
+<p>A function <span class="arithmatex">\(f: \mathbb{R}^n \rightarrow \mathbb{R}\)</span> is convex if for all <span class="arithmatex">\(\mathbf{x}, \mathbf{y} \in \mathbb{R}^n\)</span>, and all <span class="arithmatex">\(\theta \in(0,1)\)</span>,
+$$
+\theta f(\mathbf{x})+(1-\theta) f(\mathbf{y}) \geq f(\theta \mathbf{x}+(1-\theta) \mathbf{y}) .
+$$
+A function is strictly convex, if the inequality above is strict whenever <span class="arithmatex">\(\mathbf{x} \neq \mathbf{y}\)</span>. </p>
+<p>A function <span class="arithmatex">\(f\)</span> is concave if <span class="arithmatex">\(-f\)</span> is convex.</p>
 <p><strong>Differentiable Function</strong> </p>
 <p>A differentiable function <span class="arithmatex">\(f\)</span> is convex if and only if for all <span class="arithmatex">\(\mathbf{x}, \mathbf{y} \in \mathbb{R}^n\)</span>,
 $$

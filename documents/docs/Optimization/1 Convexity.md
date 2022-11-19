@@ -108,6 +108,16 @@ $$
 
 For any given set S, the convex hull of S is defined as the set of all convex combinations of points in S. Intuitively, it is the smallest convex set that contains S
 
+**Function**
+
+A function $f: \mathbb{R}^n \rightarrow \mathbb{R}$ is convex if for all $\mathbf{x}, \mathbf{y} \in \mathbb{R}^n$, and all $\theta \in(0,1)$,
+$$
+\theta f(\mathbf{x})+(1-\theta) f(\mathbf{y}) \geq f(\theta \mathbf{x}+(1-\theta) \mathbf{y}) .
+$$
+A function is strictly convex, if the inequality above is strict whenever $\mathbf{x} \neq \mathbf{y}$. 
+
+A function $f$ is concave if $-f$ is convex.
+
 **Differentiable Function** 
 
 A differentiable function $f$ is convex if and only if for all $\mathbf{x}, \mathbf{y} \in \mathbb{R}^n$,

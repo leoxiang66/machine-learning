@@ -1,0 +1,896 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>Nonlinear features and kernels - Machine Learning Notes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.472b142f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.08040f6c.min.css">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="None" data-md-color-accent="None">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#nonlinear-features-and-kernels" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Machine Learning Notes" class="md-header__button md-logo" aria-label="Machine Learning Notes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Machine Learning Notes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Nonlinear features and kernels
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Machine Learning Notes" class="md-nav__button md-logo" aria-label="Machine Learning Notes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Machine Learning Notes
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        Welcome to My ML Notes
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Optimization
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Optimization" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Optimization
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Optimization/1%20Convexity/" class="md-nav__link">
+        Convex Optimization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Optimization/2%20Gradient%20Descent/" class="md-nav__link">
+        Gradient Descent
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Supervised Learning
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Supervised Learning" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Supervised Learning
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_1" type="checkbox" id="__nav_3_1" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_1">
+          0 Intro
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="0 Intro" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_1">
+          <span class="md-nav__icon md-icon"></span>
+          0 Intro
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../0%20Intro/0.1%20Bias%20Variance%20Trade-off/" class="md-nav__link">
+        Bias-Variance tradeoff
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../0%20Intro/0.2%20Model%20Selection%20and%20Validation/" class="md-nav__link">
+        Model selection and validation
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_2" type="checkbox" id="__nav_3_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_2">
+          1 Regression
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="1 Regression" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_2">
+          <span class="md-nav__icon md-icon"></span>
+          1 Regression
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1%20Regression/1.1%20Linear%20Regression/" class="md-nav__link">
+        Linear Regression
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1%20Regression/1.2%20Ridge%20Regression/" class="md-nav__link">
+        Ridge Regression 岭回归
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_3" type="checkbox" id="__nav_3_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_3">
+          2 Classification
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="2 Classification" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_3">
+          <span class="md-nav__icon md-icon"></span>
+          2 Classification
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.1%20Logistic%20Regression/" class="md-nav__link">
+        Logistic Regression
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.2%20Support%20Vector%20Machine/" class="md-nav__link">
+        Support vector machines
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Nonlinear features and kernels
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Nonlinear features and kernels
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#linear-estimators" class="md-nav__link">
+    Linear estimators
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-representer-theorem" class="md-nav__link">
+    The representer theorem
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nonlinear-features-and-kernels_1" class="md-nav__link">
+    Nonlinear features and kernels
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#support-vectors-machines-with-a-gaussian-kernel" class="md-nav__link">
+    Support vectors machines with a Gaussian kernel
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#linear-estimators" class="md-nav__link">
+    Linear estimators
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-representer-theorem" class="md-nav__link">
+    The representer theorem
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nonlinear-features-and-kernels_1" class="md-nav__link">
+    Nonlinear features and kernels
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#support-vectors-machines-with-a-gaussian-kernel" class="md-nav__link">
+    Support vectors machines with a Gaussian kernel
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="nonlinear-features-and-kernels">Nonlinear features and kernels</h1>
+<p>For all the supervised learning learning models we saw so far, the prediction is <strong>linear</strong> in feature vector. Specifically, for ridge regression (of which linear regression is a special case), we compute a model parameter vector <span class="arithmatex">\(\hat{\boldsymbol{\theta}}\)</span> from training data, and predict a response for a feature vector <span class="arithmatex">\(\mathbf{x}\)</span> as <span class="arithmatex">\(y=\hat{\boldsymbol{\theta}}^T \mathbf{x}\)</span>. For binary classification with logistic regression and SVMs, we learn a vector <span class="arithmatex">\(\hat{\boldsymbol{\theta}}\)</span> and a threshold <span class="arithmatex">\(b\)</span> based on training data, and predict label <span class="arithmatex">\(+1\)</span> for the feature vector <span class="arithmatex">\(\mathbf{x}\)</span> if <span class="arithmatex">\(\hat{\boldsymbol{\theta}}^T \mathbf{x} \geq b\)</span>, and predict <span class="arithmatex">\(-1\)</span> otherwise. Thus, those models learn a linear predictor; for classification this results in a linear decision boundary (i.e., the boundary that separates the <span class="arithmatex">\(+1\)</span> 's from the <span class="arithmatex">\(-1\)</span> 's is a plane).</p>
+<p>We can however, easily learn non-linear decision boundaries, by working with <strong>transformed features</strong>. For example, for a feature vector <span class="arithmatex">\(\mathbf{x} \in \mathbb{R}^d\)</span> containing a single feature (i.e., <span class="arithmatex">\(d=1\)</span> ), we can define the <em>feature map</em>
+$$
+\phi(\mathbf{x})=\left[1, x, x^2, x^3\right]^T,
+$$
+and then apply our learning algorithms to the transformed feature vectors, both for training and prediction. Specifically, we can work with the vectors <span class="arithmatex">\(\mathbf{x}^{\prime}=\phi(\mathbf{x})\)</span> instead of the vectors <span class="arithmatex">\(\mathbf{x}\)</span>. </p>
+<p><u>That's all there is to know conceptually.</u> However, working with the feature maps can be computationally very expensive, since the feature maps can be very high-dimensional vectors. Therefore, for the rest of this section, we discuss kernels, which enable working efficiently with feature maps.</p>
+<h2 id="linear-estimators">Linear estimators</h2>
+<p>We start with emphasizing a common pattern in the supervised learning problems we have seen so far. In the problems we have considered, we fit a model <span class="arithmatex">\(h_{\boldsymbol{\theta}}\)</span> parameterized by a vector <span class="arithmatex">\(\boldsymbol{\theta}\)</span> by minimizing the regularized empirical risk</p>
+<div class="arithmatex">\[
+\arg \min _{\boldsymbol{\theta}} J(\boldsymbol{\theta}), \quad J(\boldsymbol{\theta})=\frac{1}{n} \sum_{i=1}^n \operatorname{loss}\left(h_{\boldsymbol{\theta}}\left(\mathbf{x}_i\right), y_i\right)+r(\boldsymbol{\theta})
+\]</div>
+<blockquote>
+<p>Problem (1)</p>
+</blockquote>
+<p>Here, <span class="arithmatex">\(h_{\boldsymbol{\theta}}: \mathbb{R}^d \rightarrow \mathcal{Y}\)</span> and <span class="arithmatex">\(\mathcal{Y}=\{1,-1\}\)</span> for binary classification and <span class="arithmatex">\(\mathcal{Y}=\mathbb{R}\)</span> for regression problems, and <span class="arithmatex">\(r\)</span> is a regularizer.</p>
+<p><u>For binary and multi-class classification as well as regression, many classifiers and regressors are based on computing the inner product between a parameter vector and a feature vector,</u> i.e., <span class="arithmatex">\(\langle\boldsymbol{\theta}, \mathbf{x}\rangle\)</span>. For those classifiers and regressors, both the loss and the prediction made by the classifier or regressor only depend on the feature vectors <span class="arithmatex">\(\mathbf{x}_i\)</span> through the inner products <span class="arithmatex">\(\left\langle\boldsymbol{\theta}, \mathbf{x}_i\right\rangle\)</span>. Let us consider some examples. In the following, we formulate the loss as a function of the inner product <span class="arithmatex">\(\langle\boldsymbol{\theta}, \mathbf{x}\rangle\)</span>, since we consider algorithms where the loss only depends on the model parameter <span class="arithmatex">\(\boldsymbol{\theta}\)</span> and the feature vectors <span class="arithmatex">\(\mathbf{x}\)</span> through the inner product <span class="arithmatex">\(\langle\boldsymbol{\theta}, \mathbf{x}\rangle\)</span>. Specifically, we let</p>
+<div class="arithmatex">\[
+\operatorname{loss}\left(h_{\boldsymbol{\theta}}(\mathbf{x}), y\right)=\operatorname{loss}(\langle\boldsymbol{\theta}, \mathbf{x}\rangle, y),
+\]</div>
+<p>with a slight abuse of notation. The loss function on the right hand side maps two real numbers to another real number, i.e., loss: <span class="arithmatex">\(\mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}\)</span>.</p>
+<ul>
+<li>For logistic regression, the loss can be formulated as a function of the inner products <span class="arithmatex">\(\langle\boldsymbol{\theta}, \mathbf{x}\rangle\)</span> as
+$$
+\operatorname{loss}(\langle\boldsymbol{\theta}, \mathbf{x}\rangle, y)=\log \left(1+e^{-y\langle\boldsymbol{\theta}, \mathbf{x}\rangle}\right)
+$$
+Thus, logistic regression fits into the regularized empirical risk minimization framework above with <span class="arithmatex">\(r(\boldsymbol{\theta})=0\)</span>. Moreover, we classify a given feature vector <span class="arithmatex">\(\mathbf{x}\)</span> as belonging to class 1 if <span class="arithmatex">\(\langle\boldsymbol{\theta}, \mathbf{x}\rangle&gt;0\)</span>, and to class <span class="arithmatex">\(-1\)</span> otherwise.</li>
+<li>For ridge and linear regression, we used the squared error
+$$
+\operatorname{loss}(\langle\boldsymbol{\theta}, \mathbf{x}\rangle, y)=(\langle\boldsymbol{\theta}, \mathbf{x}\rangle-y)^2,
+$$
+and predicted a value associated with feature vector <span class="arithmatex">\(\mathbf{x}\)</span> as <span class="arithmatex">\(\langle\boldsymbol{\theta}, \mathbf{x}\rangle\)</span>. In addition, we choose the regularizer as <span class="arithmatex">\(r(\boldsymbol{\theta})=\frac{\lambda}{2}\|\boldsymbol{\theta}\|_2^2\)</span>.</li>
+<li>Support vector machines minimize the loss
+$$
+\operatorname{loss}(\langle\boldsymbol{\theta}, \mathbf{x}\rangle, y)=\max (1-y(\langle\boldsymbol{\theta}, \mathbf{x}\rangle-b), 0),
+$$
+and the regularizer is <span class="arithmatex">\(r(\boldsymbol{\theta})=\frac{1}{2}\|\boldsymbol{\theta}\|_2^2\)</span>.
+Recall that for ridge regression, the regularizer can be interpreted under a Bayesian viewpoint as a Gaussian prior over the feature vector <span class="arithmatex">\(\boldsymbol{\theta}\)</span>. For support vector machines, we derived the regularized loss function based on the idea of maximizing the margin.</li>
+</ul>
+<p>In general, regularization is useful for several reasons. It can make the problem of minimizing the empirical risk easier to solve numerically, and it can also lead to a better model, i.e., a model that generalizes better to unseen data or in other words has a smaller prediction or classification error.</p>
+<h2 id="the-representer-theorem">The representer theorem</h2>
+<p>Another common pattern of logistic regression, ridge regression, and SVMs, is that each method has a solution <span class="arithmatex">\(\hat{\boldsymbol{\theta}}\)</span> of the minimization problem (1) that obeys
+$$
+\hat{\boldsymbol{\theta}}=\sum_{i=1}^n \alpha_i \mathbf{x}_i,
+$$
+for some real valued parameters <span class="arithmatex">\(\alpha_i\)</span>. For SVMs this can be shown by analyzing the dual problem, but we will see a simpler argument below. For ridge regression this follows directly from the closed form solution of the ridge regression optimization problem. It turns out that this property of a minimizer of the regularized empirical loss holds more generally.</p>
+<p><strong>Theorem 1</strong> (Representer theorem). Consider the regularized empirical risk minimization problem in (1), and assume that the regularizer <span class="arithmatex">\(r\)</span> has the form <span class="arithmatex">\(r\left(\|\boldsymbol{\theta}\|_2\right)\)</span>, where <span class="arithmatex">\(r: \mathbb{R} \rightarrow \mathbb{R}\)</span> is a non-decreasing function, and <span class="arithmatex">\(h_{\boldsymbol{\theta}}(\mathbf{x})=\langle\boldsymbol{\theta}, \mathbf{x}\rangle\)</span>. Also suppose that the loss <span class="arithmatex">\(\operatorname{loss}(z, y)\)</span> is convex in <span class="arithmatex">\(z\)</span>. Then there exists a minimizer of (1) that can be written as</p>
+<div class="arithmatex">\[
+\hat{\boldsymbol{\theta}}=\sum_{i=1}^n \alpha_i \mathbf{x}_i
+\]</div>
+<p>where <span class="arithmatex">\(\alpha_i \in \mathbb{R}, i=1, \ldots, n\)</span> are some coefficients.</p>
+<p>Before providing a proof of the theorem, note that we can take <span class="arithmatex">\(r=0\)</span>, and observe that the three examples above (ridge regression, logistic regression, and SVMs) all obey the assumptions of the theorem.</p>
+<blockquote>
+<p>Proof. To provide intuition, we only provide a proof for the special case that loss <span class="arithmatex">\((z, y)\)</span> is differentiable with respect to <span class="arithmatex">\(z\)</span>, and <span class="arithmatex">\(r(\boldsymbol{\theta})=\frac{\lambda}{2}\|\boldsymbol{\theta}\|_2^2\)</span> with <span class="arithmatex">\(\lambda&gt;0\)</span>. In this case the regularized empirical loss <span class="arithmatex">\(J(\boldsymbol{\theta})\)</span> is strictly convex, since <span class="arithmatex">\(r(\boldsymbol{\theta})=\frac{\lambda}{2}\|\boldsymbol{\theta}\|_2\)</span> is strictly convex. It therefore has a unique minimizer <span class="arithmatex">\(\hat{\boldsymbol{\theta}}\)</span> that obeys <span class="arithmatex">\(\nabla J(\hat{\boldsymbol{\theta}})=0\)</span>.</p>
+<p>Let <span class="arithmatex">\(\operatorname{loss}^{\prime}(z, y)\)</span> be the derivative of the loss with respect to the first variable, <span class="arithmatex">\(z\)</span>. By the chain rule, the gradient of the loss with respect to <span class="arithmatex">\(\boldsymbol{\theta}\)</span> obeys</p>
+<div class="arithmatex">\[
+\nabla \operatorname{loss}(\langle\boldsymbol{\theta}, \mathbf{x}\rangle, y)=\operatorname{loss}^{\prime}(\langle\boldsymbol{\theta}, \mathbf{x}\rangle, y) \mathbf{x}
+\]</div>
+<p>and the gradient of <span class="arithmatex">\(r(\boldsymbol{\theta})\)</span> is given by <span class="arithmatex">\(\lambda \boldsymbol{\theta}\)</span>. Setting the gradient of the regularized empirical loss equal to zero, we thus find that the minimizer <span class="arithmatex">\(\hat{\boldsymbol{\theta}}\)</span> obeys</p>
+<div class="arithmatex">\[
+0=\nabla J(\hat{\boldsymbol{\theta}})=\frac{1}{n} \sum_{i=1}^n \operatorname{loss}^{\prime}\left(\left\langle\hat{\boldsymbol{\theta}}, \mathbf{x}_i\right\rangle, y_i\right) \mathbf{x}_i+\lambda \hat{\boldsymbol{\theta}}
+\]</div>
+<p>Thus the minimizer <span class="arithmatex">\(\hat{\boldsymbol{\theta}}\)</span> obeys</p>
+<div class="arithmatex">\[
+\hat{\boldsymbol{\theta}}=\sum_{i=1}^n-\frac{1}{n \lambda} \operatorname{loss}^{\prime}\left(\left\langle\hat{\boldsymbol{\theta}}, \mathbf{x}_i\right\rangle, y_i\right) \mathbf{x}_i
+\]</div>
+<p>and setting <span class="arithmatex">\(\alpha_i=-\frac{1}{n \lambda} \operatorname{loss}^{\prime}\left(\left\langle\hat{\boldsymbol{\theta}}, \mathbf{x}_i\right\rangle, y_i\right)\)</span> completes the proof. Note that <span class="arithmatex">\(\alpha_i\)</span> is a real number (that depends on <span class="arithmatex">\(\hat{\boldsymbol{\theta}}\)</span>, but that is irrelevant for the statement).</p>
+</blockquote>
+<h2 id="nonlinear-features-and-kernels_1">Nonlinear features and kernels</h2>
+<p>From the representer theorem we see that we can write a minimizer of the empirical risk <span class="arithmatex">\(J(\boldsymbol{\theta})\)</span> as a linear combination of the training feature vectors <span class="arithmatex">\(\left\{\mathbf{x}_i\right\}\)</span>, i.e., <span class="arithmatex">\(\hat{\boldsymbol{\theta}}=\sum_{i=1}^n \alpha_i \mathbf{x}_i\)</span>. This means that we can make a prediction for <span class="arithmatex">\(\mathbf{x}\)</span> by computing
+$$
+\langle\boldsymbol{\theta}, \mathbf{x}\rangle=\sum_{i=1}^n \alpha_i\left\langle\mathbf{x}, \mathbf{x}_i\right\rangle .
+$$
+It also means that we can replace all appearances of <span class="arithmatex">\(\langle\boldsymbol{\theta}, \mathbf{x}\rangle\)</span> with <span class="arithmatex">\(\sum_{i=1}^n \alpha_i\left\langle\mathbf{x}, \mathbf{x}_i\right\rangle\)</span> and minimize over the coefficients <span class="arithmatex">\(\left\{\alpha_i\right\}\)</span>, instead of minimizing over the coefficient vector <span class="arithmatex">\(\boldsymbol{\theta}\)</span>. Thus, the entire algorithm (training and prediction) can be written in terms of inner products of feature vectors.</p>
+<p>This is useful for learning non-linear decision boundaries in classification, or in general work with transformed features. Recall that in our previous discussion on regression we were fitting a (higher-order) polynomial instead of a linear function. To do so, we took our original features and transformed them. For example, for a feature vector <span class="arithmatex">\(\mathbf{x}\)</span> with a single feature, we could map it to
+$$
+\phi(\mathbf{x})=\left[1, x, x^2, x^3\right]^T,
+$$
+and then apply our learning algorithms to the transformed feature vector. The function <span class="arithmatex">\(\phi\)</span> mapping the original feature space to a higher dimensional feature space is called a feature map.</p>
+<p>Rather than applying our learning method (SVMs, logistic regression, etc) to the original feature vector space, we can first transform the features with a feature map <span class="arithmatex">\(\phi: \mathbb{R}^d \rightarrow \mathbb{R}^k\)</span>. Instead of applying the algorithm to the original training set, we instead apply it to the set <span class="arithmatex">\(\left\{\left(\phi\left(\mathbf{x}_i\right), y_i\right)\right\}_{i=1}^n\)</span>. <mark>This idea is in general applicable to learning algorithms that can be written in terms of inner products of the feature vectors.</mark> We then simply replace all those inner products by inner products between the feature maps <span class="arithmatex">\(\left\langle\phi(\mathbf{x}), \phi\left(\mathbf{x}^{\prime}\right)\right\rangle\)</span>. We associate a kernel with a feature map <span class="arithmatex">\(\phi\)</span>, defined as
+$$
+K\left(\mathbf{x}, \mathbf{x}^{\prime}\right)=\left\langle\phi(\mathbf{x}), \phi\left(\mathbf{x}^{\prime}\right)\right\rangle .
+$$
+Recall that the regularized empirical loss, associated with the transformed features is, for <span class="arithmatex">\(r(\boldsymbol{\theta})=\)</span> <span class="arithmatex">\(\frac{\lambda}{2}\|\boldsymbol{\theta}\|_2:\)</span></p>
+<p>$$
+J(\boldsymbol{\theta})=\frac{1}{n} \sum_{i=1}^n \operatorname{loss}\left(\left\langle\boldsymbol{\theta}, \phi\left(\mathbf{x}_i\right)\right\rangle, y_i\right)+\frac{\lambda}{2}|\boldsymbol{\theta}|_2^2 .
+$$
+Using the representer theorem, we get</p>
+<div class="arithmatex">\[
+\begin{aligned}
+J(\boldsymbol{\alpha}) &amp;=\frac{1}{n} \sum_{i=1}^n \operatorname{loss}\left(\left\langle\boldsymbol{\theta}, \phi\left(\mathbf{x}_i\right)\right\rangle, y_i\right)+\frac{\lambda}{2}\|\boldsymbol{\theta}\|_2^2 \\
+&amp;=\frac{1}{n} \sum_{i=1}^n \operatorname{loss}\left(\left\langle\sum_{j=1}^n \alpha_j \phi\left(\mathbf{x}_j\right), \phi\left(\mathbf{x}_i\right)\right\rangle, y_i\right)+\frac{\lambda}{2}\left\|\sum_{i=1}^n \alpha_i \phi\left(\mathbf{x}_i\right)\right\|_2^2 \\
+&amp;=\frac{1}{n} \sum_{i=1}^n \operatorname{loss}\left(\sum_{j=1}^n \alpha_j K\left(\mathbf{x}_j, \mathbf{x}_i\right), y_i\right)+\frac{\lambda}{2} \sum_{i, j} \alpha_i \alpha_j K\left(\mathbf{x}_i, \mathbf{x}_j\right) .
+\end{aligned}
+\]</div>
+<p>Thus, the entire loss function only depends on the feature vectors through the kernel <span class="arithmatex">\(K\left(\mathbf{x}_i, \mathbf{x}_j\right), i, j=\)</span> <span class="arithmatex">\(1, \ldots, n\)</span>.</p>
+<p>We can now obtain the optimal coefficients by minimizing the empirical risk <span class="arithmatex">\(J(\boldsymbol{\alpha})\)</span> over the coefficients <span class="arithmatex">\(\boldsymbol{\alpha}\)</span>, for example with gradient descent. Note that to minimize the risk, we only require the values of the kernel <span class="arithmatex">\(K\left(\mathbf{x}_i, \mathbf{x}_j\right)\)</span> for all pairs of feature vectors <span class="arithmatex">\(i, j\)</span>.</p>
+<p>Given the resulting coefficients <span class="arithmatex">\(\hat{\boldsymbol{\alpha}}\)</span>, we can make a prediction again only based on kernel computations. Specifically, a prediction is made by computing <span class="arithmatex">\(\hat{\boldsymbol{\theta}}^T \mathbf{x}\)</span> (for regression, the prediction is <span class="arithmatex">\(\hat{\boldsymbol{\theta}}^T \mathbf{x}\)</span>, and for classification it is 1 if <span class="arithmatex">\(\hat{\boldsymbol{\theta}}^T \mathbf{x}&gt;0\)</span>, and <span class="arithmatex">\(-1\)</span> else). Again we do that based on kernel evaluations only, specifically we compute
+$$
+\hat{\boldsymbol{\theta}}^T \mathbf{x}=\sum_{i=1}^n \alpha_i K\left(\mathbf{x}_i, \mathbf{x}\right)
+$$</p>
+<p>The idea of transforming the features with a feature map, and not applying the algorithm explicitly to the higher-dimensional features, but instead replacing all inner products between features with inner products between the transformed features, is often referred to as the "kernel trick".</p>
+<p>The concept of a kernel is important, since we typically do not use the feature map explicitly, instead we work with the kernel, which can often be computed much more efficiently than transforming the original features and computing the inner product <span class="arithmatex">\(\left\langle\phi(\mathbf{x}), \phi\left(\mathbf{x}^{\prime}\right)\right\rangle\)</span> directly. Let us consider two examples.</p>
+<ul>
+<li>Polynomial kernel. Consider the feature map <span class="arithmatex">\(\phi: \mathbb{R}^d \rightarrow \mathbb{R}^{d^2}\)</span>, defined as
+$$
+\phi(\mathbf{x})=\left[x_1 x_1, x_1 x_2, \ldots, x_1 x_d, x_2 x_1, \ldots, x_2 x_d, \ldots, x_d x_d\right]^T .
+$$
+With this definition, we have that
+$$
+\begin{aligned}
+K\left(\mathbf{x}, \mathbf{x}^{\prime}\right) &amp;=\sum_{i, j=1}^d x_i x_j x_i^{\prime} x_j^{\prime} \
+&amp;=\left(\sum_{i=1}^d x_i x_i^{\prime}\right)\left(\sum_{j=1}^d x_j x_j^{\prime}\right) \
+&amp;=\left(\left\langle\mathbf{x}, \mathbf{x}^{\prime}\right\rangle\right)^2
+\end{aligned}
+$$
+Note that direct computation of the inner product <span class="arithmatex">\(\left\langle\phi(\mathbf{x}), \phi\left(\mathbf{x}^{\prime}\right)\right\rangle\)</span> has computational complexity <span class="arithmatex">\(O\left(d^2\right)\)</span>, whereas computing <span class="arithmatex">\(K\left(\mathbf{x}, \mathbf{x}^{\prime}\right)\)</span> via the equation above only has computational complexity <span class="arithmatex">\(O(d)\)</span>.
+A related kernel is
+$$
+K\left(\mathbf{x}, \mathbf{x}^{\prime}\right)=\left(\left\langle\mathbf{x}, \mathbf{x}^{\prime}\right\rangle+c\right)^2 .
+$$
+This kernel contains linear and quadratic features, and <span class="arithmatex">\(c\)</span> weights the linear contributions.</li>
+<li>Gaussian kernel. Another popular kernel is the Gaussian kernel:
+$$
+K\left(\mathbf{x}, \mathbf{x}^{\prime}\right)=e^{-\frac{\left|\mathbf{x}-\mathbf{x}^{\prime}\right|_2^2}{2 \sigma^2}} .
+$$
+By Taylor's expansion
+$$
+e^x=1+x+\ldots+\frac{1}{k !} x^k, \ldots,
+$$
+we see that <span class="arithmatex">\(e^{-\frac{\left\|\mathbf{x}-\mathbf{x}^{\prime}\right\|_2^2}{2 \sigma^2}}\)</span> is a kernel associated with an infinite set of features corresponding to the polynomial terms.</li>
+</ul>
+<p>Another way to think about kernels is to view them as similarity measures. In that view, large values of <span class="arithmatex">\(K\left(\mathbf{x}, \mathbf{x}^{\prime}\right)\)</span> correspond to similar features, and small values to different features.</p>
+<p>Suppose we come up with a kernel, based on some intuition of the data. We next discuss a condition on a kernel to have a feature map associated with it. In the following, we say a kernel is valid if there exists a function <span class="arithmatex">\(\phi\)</span> such that <span class="arithmatex">\(K\left(\mathbf{x}, \mathbf{x}^{\prime}\right)=\left\langle\phi(\mathbf{x}), \phi\left(\mathbf{x}^{\prime}\right)\right\rangle\)</span>, for all <span class="arithmatex">\(\mathbf{x}, \mathbf{x}^{\prime}\)</span>.</p>
+<p>Consider any <span class="arithmatex">\(n\)</span> points (not necessarily the training set) <span class="arithmatex">\(\mathbf{x}_1, \ldots, \mathbf{x}_n\)</span>, and let <span class="arithmatex">\(\mathbf{K}\)</span> be the <span class="arithmatex">\(n \times n\)</span> square matrix with entries
+$$
+[\mathbf{K}]<em>{i j}=K\left(\mathbf{x}_i, \mathbf{x}_j\right), i, j=1, \ldots, n .
+$$
+We call this the kernel matrix. If a kernel is valid, then the matrix <span class="arithmatex">\(\mathbf{K}\)</span> must be symmetric, due to
+$$
+[\mathbf{K}]</em>{i j}=K\left(\mathbf{x}<em>i, \mathbf{x}_j\right)=[\mathbf{K}]</em>{j i}
+$$
+Moreover, it is positive semidefinite, since for any <span class="arithmatex">\(\mathbf{z}\)</span>, we have that
+$$
+\begin{aligned}
+\mathbf{z}^T \mathbf{K z} &amp;=\mathbf{z}^T\left[\phi\left(\mathbf{x}_1\right), \ldots, \phi\left(\mathbf{x}_n\right)\right]^T\left[\phi\left(\mathbf{x}_1\right), \ldots, \phi\left(\mathbf{x}_n\right)\right] \mathbf{z} \
+&amp;=\left|\left[\phi\left(\mathbf{x}_1\right), \ldots, \phi\left(\mathbf{x}_n\right)\right] \mathbf{z}\right|_2^2 \
+&amp; \geq 0
+\end{aligned}
+$$
+The following theorem, due to Mercer, states that positive definiteness of <span class="arithmatex">\(\mathbf{K}\)</span> is necessary for <span class="arithmatex">\(K\)</span> to be a valid kernel.</p>
+<p><strong>Theorem 2</strong> (Mercer). The kernel <span class="arithmatex">\(K: \mathbb{R}^d \times \mathbb{R}^d \rightarrow \mathbb{R}\)</span> is valid, i.e., there exists a function <span class="arithmatex">\(\phi\)</span> such that <span class="arithmatex">\(K\left(\mathbf{x}, \mathbf{x}^{\prime}\right)=\left\langle\phi(\mathbf{x}), \phi\left(\mathbf{x}^{\prime}\right)\right\rangle\)</span>, for all <span class="arithmatex">\(\mathbf{x}, \mathbf{x}^{\prime}\)</span>, if and only if for any set of points <span class="arithmatex">\(\mathbf{x}_1, \ldots, \mathbf{x}_m, m&lt;\infty\)</span>, the associated kernel matrix <span class="arithmatex">\(\mathbf{K}\)</span> is symmetric and positive semidefinite.</p>
+<p><a href="https://www.wolai.com/leoxiang66/cHbbFV8g4WFU9SF9CQAfT1">Kernels &amp; Kernel Regression</a></p>
+<h2 id="support-vectors-machines-with-a-gaussian-kernel">Support vectors machines with a Gaussian kernel</h2>
+<p>In order to understand kernels better, let us consider a concrete example. Suppose we train a support vector machine with a Gaussian kernel
+$$
+K\left(\mathbf{x}, \mathbf{x}^{\prime}\right)=e^{-\gamma\left|\mathbf{x}-\mathbf{x}^{\prime}\right|_2^2}, \quad \mathbf{x}, \mathbf{x}^{\prime} \in \mathbb{R}^d,
+$$
+where <span class="arithmatex">\(\gamma&gt;0\)</span> is a parameter of the kernel. If <span class="arithmatex">\(\gamma\)</span> is very large, then a support vector machine with a Gaussian kernel implements a nearest neighbor classifier, i.e., a classifier that classifies an example <span class="arithmatex">\(\mathrm{x}\)</span> as belonging to the same class as the closest point in the training set, i.e.,
+$$
+y=y_i, i \in \arg \min _i\left|\mathbf{x}-\mathbf{x}_i\right|_2^2 .
+$$
+To see this empirically, consider the numerical example at: <a href="https://scikit-learn.org/stable/auto_examples/exercises/plot_iris_exercise.html">https://scikit-learn.org/stable/auto_examples/exercises/plot_iris_exercise.html</a>, and observe how the decision boundary changes as you make <span class="arithmatex">\(\gamma\)</span> larger (for example, compare <span class="arithmatex">\(\gamma=1\)</span> to <span class="arithmatex">\(\gamma=100)\)</span>.</p>
+<p>In the following, we will verify this observation directly and using duality. We consider support vector machines with <span class="arithmatex">\(b=0\)</span>, for simplicity.</p>
+<p>Reasoning without duality: Let <span class="arithmatex">\(\phi\)</span> be a feature map, and suppose we apply SVMs to features transformed with the feature map. Recall that SVMs fits a model by solving the following empirical risk minimization problem:</p>
+<div class="arithmatex">\[
+\hat{\boldsymbol{\theta}}=\arg \min _{\boldsymbol{\theta}} \frac{1}{n} \sum_{i=1}^n \max \left(1-y_i\left(\left\langle\boldsymbol{\theta}, \phi\left(\mathbf{x}_i\right)\right\rangle\right), 0\right)+\frac{\lambda}{2}\|\boldsymbol{\theta}\|_2^2 .
+\]</div>
+<p>Once we trained the method, we classify a new example <span class="arithmatex">\(\mathbf{x}\)</span> as</p>
+<div class="arithmatex">\[
+\hat{y}(\mathbf{x})= \begin{cases}1, &amp; \langle\boldsymbol{\theta}, \phi(\mathbf{x})\rangle&gt;0 \\ -1, &amp; \text { else. }\end{cases}
+\]</div>
+<p>Let <span class="arithmatex">\(K\)</span> be a kernel with associated feature map <span class="arithmatex">\(\phi\)</span>. Since by the representer theorem the estimate <span class="arithmatex">\(\hat{\boldsymbol{\theta}}\)</span> defined in equation (2) obeys <span class="arithmatex">\(\hat{\boldsymbol{\theta}}=\sum_{i=1}^n \alpha_i \phi\left(\mathbf{x}_i\right)\)</span>, we can use this expression for <span class="arithmatex">\(\hat{\theta}\)</span> and minimize over the <span class="arithmatex">\(\alpha_i\)</span> 's instead, i.e., we fit a model by minimizing</p>
+<div class="arithmatex">\[
+\begin{aligned}
+J(\boldsymbol{\alpha}) &amp;=\frac{1}{n} \sum_{i=1}^n \max \left(1-y_i\left(\sum_{j=1}^n \alpha_j\left\langle\phi\left(\mathbf{x}_j\right), \phi\left(\mathbf{x}_i\right)\right\rangle\right), 0\right)+\frac{\lambda}{2} \sum_{i, j}^n \alpha_i \alpha_j\left\langle\phi\left(\mathbf{x}_j\right), \phi\left(\mathbf{x}_i\right)\right\rangle \\
+&amp;=\frac{1}{n} \sum_{i=1}^n \max \left(1-y_i\left(\sum_{j=1}^n \alpha_j K\left(\mathbf{x}_i, \mathbf{x}_j\right)\right), 0\right)+\frac{\lambda}{2} \sum_{i, j}^n \alpha_i \alpha_j K\left(\mathbf{x}_i, \mathbf{x}_j\right) \\
+&amp;=J(\alpha) .
+\end{aligned}
+\]</div>
+<p>Now, suppose that <span class="arithmatex">\(\gamma\)</span> is very large, say it tends to <span class="arithmatex">\(\infty\)</span>. Then <span class="arithmatex">\(K\left(\mathbf{x}_i, \mathbf{x}_i\right)=1\)</span> and <span class="arithmatex">\(K\left(\mathbf{x}_i, \mathbf{x}_j\right)=0\)</span> for <span class="arithmatex">\(\mathbf{x}_i \neq \mathbf{x}_j\)</span>. With this, the regularized empirical loss becomes (assuming that <span class="arithmatex">\(\mathbf{x}_i \neq \mathbf{x}_j\)</span> for <span class="arithmatex">\(j \neq i\)</span> ):</p>
+<div class="arithmatex">\[
+J(\boldsymbol{\alpha})=\frac{1}{n} \sum_{i=1}^n \max \left(1-y_i \alpha_i, 0\right)+\frac{\lambda}{2} \sum_{i=1}^n \alpha_i^2 K\left(\mathbf{x}_i, \mathbf{x}_i\right) .
+\]</div>
+<p>If <span class="arithmatex">\(\lambda\)</span> is large, a trivial solution is <span class="arithmatex">\(\alpha_i=0\)</span>. This is not an interesting regime, the regime of relevance is when <span class="arithmatex">\(\lambda\)</span> is relatively small and the first term, corresponding to the empirical loss dominates. Then, the optimal solution is <span class="arithmatex">\(y_i=\alpha_i\)</span>, which minimizes the empirical loss. With this choice of the <span class="arithmatex">\(\alpha_i\)</span> 's, an example <span class="arithmatex">\(\mathbf{x}\)</span> is classified as</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\hat{y} &amp;=\operatorname{sign}\left(\sum_{i=1}^n \alpha_i K\left(\mathbf{x}_i, \mathbf{x}\right)\right) . \\
+&amp;=\operatorname{sign}\left(\sum_{i=1}^n y_i K\left(\mathbf{x}_i, \mathbf{x}\right)\right) .
+\end{aligned}
+\]</div>
+<p>For large <span class="arithmatex">\(\gamma\)</span>, the closest point in the training set will have the largest impact in the sum above and thus the corresponding label dominates. Therefore, for large <span class="arithmatex">\(\gamma\)</span>, this classifier behaves as a nearest neighbor classifier.</p>
+<p><strong>Reasoning with duality</strong>: The following is extra material. The optimal <span class="arithmatex">\(\boldsymbol{\theta}\)</span> can be obtained as <span class="arithmatex">\(\boldsymbol{\theta}=\sum_{i=1}^n \alpha_i y_i \mathbf{x}_i\)</span> by solving the dual problem</p>
+<div class="arithmatex">\[
+\max _\alpha \sum_i \alpha_i-\frac{1}{2} \sum_{i, j} \alpha_i \alpha_j y_i y_j K\left(\mathbf{x}_i, \mathbf{x}_j\right) \text { subject to } \alpha_i \geq 0 \text {, and } \sum_i \alpha_i y_i=0 \text {. }
+\]</div>
+<p>Suppose that <span class="arithmatex">\(\gamma\)</span> is very large. Then, <span class="arithmatex">\(K\left(\mathbf{x}, \mathbf{x}^{\prime}\right) \approx 0\)</span> if <span class="arithmatex">\(\mathbf{x} \neq \mathbf{x}^{\prime}\)</span> and as a consequence, the optimization problem reduces to</p>
+<div class="arithmatex">\[
+\max _\alpha \sum_i \alpha_i-\frac{1}{2} \alpha_i^2 \text { subject to } \alpha_i \geq 0 \text {, and } \sum_i \alpha_i y_i=0 \text {. }
+\]</div>
+<p>Now also suppose for simplicity that half of the <span class="arithmatex">\(y_i\)</span> are equal to 1 and the other half are equal to <span class="arithmatex">\(-1\)</span>. Then the solution to the optimization problem above is <span class="arithmatex">\(\alpha_i=1\)</span> for all <span class="arithmatex">\(i\)</span>. In order to classify a new example <span class="arithmatex">\(\mathbf{x}\)</span>, what the method does is it computes the inner product</p>
+<div class="arithmatex">\[
+\langle\boldsymbol{\theta}, \mathbf{x}\rangle=\sum_{i=1}^n \alpha_i y_i K\left(\mathbf{x}_i, \mathbf{x}\right)=\sum_{i=1}^n y_i K\left(\mathbf{x}_i, \mathbf{x}\right)
+\]</div>
+<p>and checks whether this is larger than zero or not, and if it is, it predicts class one. Recall that we are considering a situation where <span class="arithmatex">\(\gamma\)</span> is really large. Then there is one term in the sum above that will dominate all the others, and that term is the term <span class="arithmatex">\(y_i K\left(\mathbf{x}_i, \mathbf{x}\right)\)</span> corresponding <span class="arithmatex">\(\mathbf{x}_i\)</span> that is closest to <span class="arithmatex">\(\mathbf{x}\)</span>. The SVM will then predict the label corresponding to the training example <span class="arithmatex">\(\mathbf{x}_i\)</span> that is closest to <span class="arithmatex">\(\mathbf{x}\)</span>. Thus, for the extreme case where <span class="arithmatex">\(\gamma \rightarrow \infty\)</span>, all an SVM with a Gaussian kernel is doing is predicting the label of the training point closest to <span class="arithmatex">\(\mathrm{x}\)</span>.</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../2.2%20Support%20Vector%20Machine/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Support vector machines" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Support vector machines
+            </div>
+          </div>
+        </a>
+      
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": [], "search": "../../../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d6c3db9e.min.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

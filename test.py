@@ -75,9 +75,23 @@
 #
 
 if __name__ == '__main__':
-    import os
-    os.system('wandb login ebef130f535503cf13f55f98bbaf85dc14c613f7')
-    # os.system('WANDB_PROJECT=amazon_sentiment_analysis')
-    os.environ['ABC'] = 'hgh'
-    os.system('echo $ABC')
+    from optimization import hyperparameter_tune
+
+    hyper_range = dict(
+        lr=[0.01, 0.1],
+        hd=[32, 64]
+    )
+
+
+    def train(hyper_config, run_name):
+        print('Config: ', hyper_config)
+        print('Run Name: ', run_name)
+
+
+    hyperparameter_tune(
+        hyper_range=hyper_range,
+        run_call=train,
+        API_key='pseudo key',
+        project_name='my project'
+    )
 

@@ -1,5 +1,6 @@
 from itertools import product
 import os
+import wandb
 
 def hyperparameter_tune(*,
                         hyper_range: dict,
@@ -47,9 +48,8 @@ def hyperparameter_tune(*,
     :return: return a list of hyper config run results
     '''
 
-    os.system(f'wandb login {API_key}')
-    os.environ['WANDB_PROJECT'] = project_name
-    print(f'''Succesfully set up the project name: {os.environ['WANDB_PROJECT']}''')
+    wandb.login(key=API_key)
+    wandb.init(project=project_name)
 
     results = []
     for conf in product(*hyper_range.values()):
@@ -63,6 +63,7 @@ def hyperparameter_tune(*,
     return results
 
 if __name__ == '__main__':
+
     hyper_range = dict(
         lr = [0.01,0.1],
         hd = [32,64]
@@ -76,6 +77,6 @@ if __name__ == '__main__':
     hyperparameter_tune(
         hyper_range=hyper_range,
         run_call=train,
-        API_key='pseudo key',
+        API_key='sdfs',
         project_name='my project'
     )

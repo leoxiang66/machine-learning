@@ -49,10 +49,10 @@ def hyperparameter_tune(*,
     '''
 
     wandb.login(key=API_key)
-    wandb.init(project=project_name)
-
     results = []
+
     for conf in product(*hyper_range.values()):
+        wandb.init(project=project_name)
         run_name = zip(hyper_range.keys(), conf)
         run_name = str(list(run_name))[1:-1]
         wandb.run.name = run_name
@@ -62,6 +62,7 @@ def hyperparameter_tune(*,
             hyper_config = conf,
             run_name = run_name,
         ))
+        wandb.finish()
     return results
 
 if __name__ == '__main__':
@@ -79,6 +80,6 @@ if __name__ == '__main__':
     hyperparameter_tune(
         hyper_range=hyper_range,
         run_call=train,
-        API_key='sdfs',
+        API_key='ebef130f535503cf13f55f98bbaf85dc14c613f7',
         project_name='my project'
     )

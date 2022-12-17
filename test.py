@@ -75,23 +75,39 @@
 #
 
 if __name__ == '__main__':
+    import json
     from optimization import hyperparameter_tune
 
+    with open("config.json", 'r', encoding='UTF-8') as f:
+        load_dict = json.load(f)
+
+    import numpy as np
+
     hyper_range = dict(
-        lr=[0.01, 0.1],
-        hd=[32, 64]
+        lr = [0.01,0.1],
+        hd = [32,64]
     )
 
-
-    def train(hyper_config, run_name):
-        print('Config: ', hyper_config)
-        print('Run Name: ', run_name)
+    def train(hyper_config,run_name):
+        print('Config: ',hyper_config)
+        print('Run Name: ',run_name)
+        epoch = 10
+        return dict(
+            train = dict(
+                accuracy = np.random.randn(epoch),
+                loss = np.random.randint(0,100,epoch)
+            ),
+            val = dict(
+                accuracy=np.random.randn(epoch),
+                loss=np.random.randint(0, 100, epoch)
+            )
+        )
 
 
     hyperparameter_tune(
         hyper_range=hyper_range,
         run_call=train,
-        API_key='pseudo key',
+        API_key=load_dict['key'],
         project_name='my project'
     )
 

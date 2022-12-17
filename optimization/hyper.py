@@ -50,14 +50,15 @@ def hyperparameter_tune(*,
     :return: return a list of hyper config run results
     '''
 
+
     if framework == 'Hugging Face':
-        return __hf__(API_key,project_name,run_call)
+        return __hf__(hyper_range,API_key,project_name,run_call)
     else:
         raise NotImplementedError('Other frameworks will be supported in the future.')
 
 
 
-def __hf__(API_key,project_name,run_call):
+def __hf__(hyper_range,API_key,project_name,run_call):
     wandb.login(key=API_key)
     results = []
 
@@ -78,33 +79,3 @@ def __hf__(API_key,project_name,run_call):
 
     return results
 
-if __name__ == '__main__':
-    import numpy as np
-
-    hyper_range = dict(
-        lr = [0.01,0.1],
-        hd = [32,64]
-    )
-
-    def train(hyper_config,run_name):
-        print('Config: ',hyper_config)
-        print('Run Name: ',run_name)
-        epoch = 10
-        return dict(
-            train = dict(
-                accuracy = np.random.randn(epoch),
-                loss = np.random.randint(0,100,epoch)
-            ),
-            val = dict(
-                accuracy=np.random.randn(epoch),
-                loss=np.random.randint(0, 100, epoch)
-            )
-        )
-
-
-    hyperparameter_tune(
-        hyper_range=hyper_range,
-        run_call=train,
-        API_key='ebef130f535503cf13f55f98bbaf85dc14c613f7',
-        project_name='my project'
-    )

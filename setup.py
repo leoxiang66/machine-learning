@@ -8,14 +8,15 @@ requirements = [
     'numpy',
     'matplotlib',
     'scikit-learn',
-    'wandb'
+    'wandb',
+    'tensorboard'
 ]
 
 
 
 setup(
     name="ml_leoxiang66",
-    version="0.5.1",
+    version="0.5.2",
     author="Tao Xiang",
     author_email="tao.xiang@tum.de",
     description="A package of RL algorithms",

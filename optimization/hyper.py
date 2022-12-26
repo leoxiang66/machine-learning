@@ -1,5 +1,7 @@
 from itertools import product
 import wandb
+from torch.utils.tensorboard import SummaryWriter
+from pathlib import Path
 
 def hyperparameter_tune(*,
                         hyper_range: dict,
@@ -52,13 +54,13 @@ def hyperparameter_tune(*,
 
 
     if framework == 'Hugging Face':
-        return __hf__(hyper_range,API_key,project_name,run_call)
+        return wd__hf__(hyper_range, API_key, project_name, run_call)
     else:
         raise NotImplementedError('Other frameworks will be supported in the future.')
 
 
 
-def __hf__(hyper_range,API_key,project_name,run_call):
+def wd__hf__(hyper_range, API_key, project_name, run_call):
     wandb.login(key=API_key)
     results = []
 
@@ -78,4 +80,40 @@ def __hf__(hyper_range,API_key,project_name,run_call):
         wandb.finish()
 
     return results
+
+def tb_torch(
+            hyper_range: dict,
+            run_call: callable,
+            project_name: str,
+):
+    results = []
+
+    for conf in product(*hyper_range.values()):
+        run_name = zip(hyper_range.keys(), conf)
+        run_name = str(list(run_name))[1:-1]
+        path = Path(project_name).joinpath(run_name)
+        writer = SummaryWriter(log_dir=path.__str__())
+
+        result = run_call(
+            hyper_config=conf,
+            writer=writer,
+        )
+        results.append(result)
+
+    return results
+
+
+def hyperparameter_tune_tensorboard(*,
+                        hyper_range: dict,
+                        run_call: callable,
+                        project_name: str,
+                        framework: str
+                                ):
+    if framework == 'pytorch':
+        return tb_torch(hyper_range,run_call,project_name)
+    else:
+        raise NotImplementedError('Other frameworks will be supported in the future.')
+
+
+
 

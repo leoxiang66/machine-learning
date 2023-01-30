@@ -88,9 +88,8 @@ if __name__ == '__main__':
         hd = [32,64]
     )
 
-    def train(hyper_config,run_name):
+    def train(hyper_config):
         print('Config: ',hyper_config)
-        print('Run Name: ',run_name)
         epoch = 10
         return dict(
             train = dict(

@@ -48,7 +48,7 @@ def hyperparameter_tune(*,
     :param project_name: wandb project name
     :param API_key: user API key for wandb
     :param hyper_range: dict object with keys being the name of hyperparameter, values being a list of hyperparameter values to explore
-    :param run_call: callable object, should have 1 keyword arguments: "hyper_config". The first argument should be one hyperparameter configuration, e.g. a list of values; In this function call, the model should be trained on the given hyper config and return the result in dict.
+    :param run_call: callable object, should have 2 keyword arguments: "hyper_config". The first argument should be one hyperparameter configuration, e.g. a list of values; In this function call, the model should be trained on the given hyper config and return the result in dict.
     :return: return a list of hyper config run results
     '''
 
@@ -73,7 +73,6 @@ def wd__hf__(hyper_range, API_key, project_name, run_call):
 
         result = run_call(
             hyper_config=conf,
-            run_name=run_name,
         )
         results.append(result)
 

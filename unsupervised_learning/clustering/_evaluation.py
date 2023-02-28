@@ -7,7 +7,7 @@ def euclidean_distance(u, v):
     """
     return np.linalg.norm(u - v)
 
-def clustering_accuracy(gold_labels: ArrayLike,gold_centers, clustered_labels: ArrayLike,cluster_centers):
+def compute_clustering_accuracy(gold_labels: ArrayLike, gold_centers, clustered_labels: ArrayLike, cluster_centers):
     '''
     clusterd label -> cluster center -> nearest center == gold label?
     :param gold_labels:

@@ -16,7 +16,7 @@ requirements = [
 
 setup(
     name="ml_leoxiang66",
-    version="0.5.3",
+    version="0.6.0",
     author="Tao Xiang",
     author_email="tao.xiang@tum.de",
     description="A package of RL algorithms",

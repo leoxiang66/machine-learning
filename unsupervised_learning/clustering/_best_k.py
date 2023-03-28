@@ -1,7 +1,9 @@
+import numpy as np
 from sklearn.metrics import silhouette_score
 from ._clustering import BaseClustering
 from typing import Type
 from numpy import argmax
+from sklearn.mixture import GaussianMixture
 
 class BaseBestK:
     def __init__(self, modeltype: Type[BaseClustering], k_min:int =2, k_max: int = 10, random_state = 0):
@@ -28,4 +30,19 @@ class Silhouette(BaseBestK):
         return ks[argmax(sil)]
 
 
+class BIC(BaseBestK):
 
+    def get_best_k(self, X, y=None, sample_weight=None):
+        # 初始化BIC和最佳聚类数量
+        bic = []
+        best_n_components = 0
+
+        # 通过循环来计算不同聚类数量的BIC
+        for n_components in range(1, 11):
+            gmm = GaussianMixture(n_components=n_components)
+            gmm.fit(X)
+            bic.append(gmm.bic(X))
+
+        # 找到最小BIC对应的聚类数量
+        best_n_components = np.argmin(bic) + 1
+        return best_n_components

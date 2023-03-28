@@ -8,5 +8,5 @@ Silhouette
 )
 
 from ._evaluation import (
-compute_clustering_accuracy
+evaluate_clustering
 )
